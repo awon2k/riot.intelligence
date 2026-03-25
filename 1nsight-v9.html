@@ -38,32 +38,26 @@ body{font-family:var(--ff);background:var(--bg-0);color:var(--tx-1);line-height:
 @keyframes scaleIn{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
 
 /* ═══════════ NAV ═══════════ */
-.nav{width:80px;height:100vh;background:var(--bg-1);border-right:1px solid var(--border-0);display:flex;flex-direction:column;align-items:center;padding:16px 0;gap:4px;flex-shrink:0;z-index:50;position:relative}
-.nav::after{content:'';position:absolute;right:0;top:0;bottom:0;width:1px;background:linear-gradient(180deg,transparent 10%,var(--game-1)20 50%,transparent 90%);pointer-events:none;transition:background .5s}
-.nav-logo{width:50px;height:50px;border-radius:var(--rad-lg);display:flex;align-items:center;justify-content:center;margin-bottom:18px;background:var(--bg-2);border:1px solid var(--border-1);position:relative;overflow:hidden}
-.nav-logo span{font-family:var(--fd);font-weight:900;font-size:.65rem;letter-spacing:1.5px;color:var(--ac);z-index:1}
+.nav{width:80px;height:100vh;background:var(--bg-1);border-right:1px solid var(--border-0);display:flex;flex-direction:column;align-items:center;padding:16px 0;gap:3px;flex-shrink:0;z-index:50;position:relative}
+.nav::after{content:'';position:absolute;right:0;top:0;bottom:0;width:1px;background:linear-gradient(180deg,transparent 10%,rgba(255,255,255,.06) 50%,transparent 90%);pointer-events:none}
+.nav-logo{width:54px;height:40px;border-radius:var(--rad);display:flex;align-items:center;justify-content:center;margin-bottom:12px;background:var(--bg-2);border:1px solid var(--border-1);position:relative;overflow:hidden}
+.nav-logo span{font-family:var(--fd);font-weight:900;font-size:.6rem;letter-spacing:1px;color:var(--ac);z-index:1;white-space:nowrap}
 .nav-logo::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--ac)06,transparent 60%)}
-.nav-div{width:40px;height:1px;background:var(--border-1);margin:8px 0}
-.nav-lbl{font-size:.55rem;font-family:var(--fm);color:var(--tx-3);text-transform:uppercase;letter-spacing:1.5px;margin:8px 0 4px}
-.ni{width:54px;height:50px;border-radius:var(--rad);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;border:1px solid transparent;transition:all var(--tr);position:relative}
+.nav-div{width:40px;height:1px;background:var(--border-1);margin:6px 0}
+.nav-lbl{font-size:.5rem;font-family:var(--fm);color:var(--tx-3);text-transform:uppercase;letter-spacing:1.2px;margin:6px 0 2px}
+.ni{width:54px;height:46px;border-radius:var(--rad);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;border:1px solid transparent;transition:all var(--tr);position:relative}
 .ni:hover{background:var(--bg-3);border-color:var(--border-1)}
-.ni.on{background:var(--game-3);border-color:color-mix(in srgb,var(--game-1) 40%,transparent)}
-.ni.on::before{content:'';position:absolute;left:-1px;top:18%;bottom:18%;width:2.5px;background:var(--game-1);border-radius:0 2px 2px 0}
-.ni svg{width:22px;height:22px;stroke:var(--tx-2);fill:none;stroke-width:1.5;transition:stroke var(--tr)}
-.ni.on svg{stroke:var(--game-1)}
-.ni:hover svg{stroke:var(--tx-1)}
-.ni .ni-t{font-size:.6rem;font-family:var(--fm);color:var(--tx-2);letter-spacing:.3px;transition:color var(--tr);font-weight:500}
-.ni.on .ni-t{color:var(--game-1);font-weight:600}
-.ni.lk{opacity:.35}.ni.lk:hover{opacity:.5}
-.ni.team-nav svg{stroke:var(--blue)}.ni.team-nav.on svg{stroke:var(--blue)}
-.ni.team-nav.on{background:#38bdf814;border-color:#38bdf840}
-.ni.team-nav.on .ni-t{color:var(--blue)}
-.ni.team-nav.on::before{background:var(--blue)}
-.ni.wl-nav svg{stroke:var(--purple)}.ni.wl-nav.on svg{stroke:var(--purple)}
-.ni.wl-nav.on{background:#a78bfa14;border-color:#a78bfa40}
-.ni.wl-nav.on .ni-t{color:var(--blue)}
-.ni.wl-nav.on::before{background:var(--blue)}
+.ni.on{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.1)}
+.ni.on::before{content:'';position:absolute;left:-1px;top:20%;bottom:20%;width:2.5px;background:#fff;border-radius:0 2px 2px 0}
+.ni svg{width:20px;height:20px;stroke:rgba(255,255,255,.45);fill:none;stroke-width:1.5;transition:stroke var(--tr)}
+.ni.on svg{stroke:#fff}
+.ni:hover svg{stroke:rgba(255,255,255,.75)}
+.ni .ni-t{font-size:.55rem;font-family:var(--fm);color:rgba(255,255,255,.35);letter-spacing:.3px;transition:color var(--tr);font-weight:500}
+.ni.on .ni-t{color:#fff;font-weight:600}
+.ni:hover .ni-t{color:rgba(255,255,255,.6)}
+.ni.lk{opacity:.25}.ni.lk:hover{opacity:.4}
 .nav-sp{flex:1}
+/* Remove all per-section color overrides — everything is white now */
 
 /* ═══════════ MAIN ═══════════ */
 .main{flex:1;display:flex;flex-direction:column;overflow:hidden;position:relative;transition:margin-right .35s ease}
@@ -333,19 +327,19 @@ body.privacy-mode .blur-private{filter:blur(6px)!important;user-select:none;poin
 .org-card .org-league{font-size:.875rem;font-family:var(--fm);color:var(--tx-3)}
 
 /* Team Dashboard */
-.team-dash{animation:fadeIn .4s ease}
+.team-dash{animation:fadeIn .4s ease;max-width:960px}
 .team-header{display:flex;align-items:center;gap:20px;margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid var(--border-0)}
 .team-logo-lg{width:64px;height:64px;border-radius:50%;background:var(--bg-3);border:2px solid var(--blue);display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:1rem;font-weight:800;color:var(--blue)}
 .team-info h2{font-family:var(--fd);font-size:1.3rem;font-weight:700;color:var(--tx-1)}
 .team-info p{font-size:.875rem;color:var(--tx-3);font-family:var(--fm)}
-.team-tabs{display:flex;gap:0;margin-bottom:20px;border-bottom:1px solid var(--border-0)}
+.team-tabs{display:flex;gap:0;margin-bottom:20px;border-bottom:1px solid var(--border-0);max-width:960px}
 .team-tab{padding:10px 20px;font-size:.875rem;font-weight:600;color:var(--tx-3);cursor:pointer;border-bottom:2px solid transparent;transition:all var(--tr)}
 .team-tab:hover{color:var(--tx-2)}
 .team-tab.on{color:var(--blue);border-bottom-color:var(--blue)}
-.team-content{display:none;animation:fadeIn .3s ease}.team-content.active{display:block}
+.team-content{display:none;animation:fadeIn .3s ease;max-width:960px}.team-content.active{display:block}
 
 /* Roster Visual */
-.roster-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px}
+.roster-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px;max-width:960px}
 .roster-card{background:var(--bg-2);border:1px solid var(--border-0);border-radius:var(--rad-lg);padding:20px;text-align:center;position:relative;overflow:hidden;transition:all var(--tr);cursor:pointer}
 .roster-card:hover{border-color:var(--blue);background:var(--bg-3)}
 .roster-card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--blue)40,transparent)}
@@ -357,7 +351,7 @@ body.privacy-mode .blur-private{filter:blur(6px)!important;user-select:none;poin
 .roster-contract{font-size:.875rem;color:var(--tx-3);font-family:var(--fm);margin-top:4px}
 
 /* Team Stats Overview */
-.team-overview-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.team-overview-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;max-width:960px}
 
 /* Toast */
 .toasts{position:fixed;top:16px;right:16px;z-index:700;display:flex;flex-direction:column;gap:8px}
@@ -443,26 +437,11 @@ body.privacy-mode .blur-private{filter:blur(6px)!important;user-select:none;poin
 .freshness-dot.stale{background:var(--r-med)}
 .freshness-dot.old{background:var(--r-crit)}
 
-/* Home nav */
-.ni.home-nav svg{stroke:var(--ac)}.ni.home-nav.on svg{stroke:var(--ac)}
-.ni.home-nav.on{background:var(--ac-dim);border-color:var(--ac)40}
-.ni.home-nav.on .ni-t{color:var(--ac)}
-.ni.home-nav.on::before{background:var(--ac)}
-
-/* Alert nav */
-.ni.alert-nav svg{stroke:var(--tx-2)}
-.ni.alert-nav.on svg{stroke:var(--r-high)}
-.ni.alert-nav.on{background:#fb923c0a;border-color:#fb923c40}
-.ni.alert-nav.on .ni-t{color:var(--r-high)}
-.ni.alert-nav.on::before{background:var(--r-high)}
+/* Nav active overrides removed — all standardized to white */
 .alert-badge{position:absolute;top:4px;right:4px;min-width:18px;height:18px;border-radius:9px;background:var(--r-crit);color:#fff;font-size:.875rem;font-weight:800;font-family:var(--fm);display:flex;align-items:center;justify-content:center;padding:0 4px;line-height:1;display:none}
 .alert-badge.has-alerts{display:flex}
 
-/* Settings nav */
-.ni.settings-nav svg{stroke:var(--tx-3)}
-.ni.settings-nav.on svg{stroke:var(--tx-1)}
-.ni.settings-nav.on{background:var(--bg-3);border-color:var(--border-2)}
-.ni.settings-nav.on .ni-t{color:var(--tx-1)}
+/* Alert badge */
 
 /* ═══════════ ALERTS PAGE ═══════════ */
 .alerts-page{padding:28px;overflow-y:auto;flex:1;position:relative;z-index:1}
@@ -647,24 +626,22 @@ body.privacy-mode .blur-private{filter:blur(6px)!important;user-select:none;poin
 <nav class="nav">
   <div class="nav-logo"><span>1NSIGHT</span></div>
   <div class="nav-div"></div>
-  <div class="ni home-nav on" id="nav-home" onclick="showFeed()" title="Activity"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span class="ni-t">Feed</span></div>
+  <div class="nav-lbl">Hub</div>
+  <div class="ni" id="nav-team" onclick="showTeamPage()" title="My Org"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg><span class="ni-t">My Org</span></div>
+  <div class="ni" id="nav-orgs" onclick="showOrgsPage()" title="Organizations"><svg viewBox="0 0 24 24"><path d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M8 10v11M12 10v11M16 10v11M20 10v11"/></svg><span class="ni-t">Orgs</span></div>
   <div class="nav-div"></div>
-  <div class="nav-lbl">Games</div>
-  <div class="ni on" id="nav-lol" onclick="switchGame('lol')" title="League of Legends"><img src="league_icon.png" style="width:26px;height:26px;border-radius:4px;object-fit:contain;flex-shrink:0"><span class="ni-t">LoL</span></div>
-  <div class="ni" id="nav-val" onclick="switchGame('val')" title="VALORANT"><img src="valorant_icon.png" style="width:26px;height:26px;border-radius:4px;object-fit:contain;flex-shrink:0"><span class="ni-t">VAL</span></div>
+  <div class="nav-lbl">Market</div>
+  <div class="ni" id="nav-lol" onclick="switchGame('lol')" title="League of Legends"><img src="https://awon2k.github.io/riot.intelligence/league_icon.png" style="width:20px;height:20px;border-radius:3px;object-fit:contain"><span class="ni-t">LoL</span></div>
+  <div class="ni" id="nav-val" onclick="switchGame('val')" title="VALORANT"><img src="https://awon2k.github.io/riot.intelligence/valorant_icon.png" style="width:20px;height:20px;border-radius:3px;object-fit:contain"><span class="ni-t">VAL</span></div>
   <div class="ni lk" onclick="toast('CS2 — coming soon','info')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg><span class="ni-t">CS2</span></div>
   <div class="nav-div"></div>
-  <div class="nav-lbl">Hub</div>
-  <div class="ni team-nav" id="nav-team" onclick="showTeamPage()" title="My Org"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg><span class="ni-t">My Org</span></div>
-  <div class="ni" id="nav-orgs" onclick="showOrgsPage()" title="Organizations"><svg viewBox="0 0 24 24"><path d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M8 10v11M12 10v11M16 10v11M20 10v11"/></svg><span class="ni-t">Orgs</span></div>
-  <div class="ni wl-nav" id="nav-wl" onclick="showWLHub()" title="Watchlists"><svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg><span class="ni-t">Lists</span></div>
-  <div class="ni lk" onclick="toast('Confidential Deals — coming soon. Double-blind interest matching for anonymous transfer discussions.','info')" title="Deals (Coming Soon)"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><span class="ni-t">Deals</span></div>
-  <div class="ni lk" onclick="toast('Market Heat — Premium','info')"><svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg><span class="ni-t">Heat</span></div>
-  <div class="ni lk" onclick="toast('Agent Portal — soon','info')"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="8.5" cy="7" r="4"/><path d="M20 8v6M23 11h-6"/></svg><span class="ni-t">Agents</span></div>
+  <div class="nav-lbl">Intel</div>
+  <div class="ni" id="nav-home" onclick="showFeed()" title="Activity Feed"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span class="ni-t">Feed</span></div>
+  <div class="ni" id="nav-wl" onclick="showWLHub()" title="Watchlists"><svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg><span class="ni-t">Lists</span></div>
   <div class="nav-sp"></div>
-  <div class="ni alert-nav" id="nav-alerts" onclick="showAlerts()" title="Alerts"><svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg><span class="ni-t">Alerts</span><div class="alert-badge" id="alert-badge">2</div></div>
-  <div class="ni settings-nav" id="nav-settings" onclick="showSettings()" title="Settings"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg><span class="ni-t">Settings</span></div>
-  <div class="ni" id="privacy-toggle" onclick="togglePrivacy()" title="Toggle privacy blur" style="margin-top:4px"><svg viewBox="0 0 24 24" style="stroke:var(--tx-3)"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></div>
+  <div class="ni" id="nav-alerts" onclick="showAlerts()" title="Alerts"><svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg><span class="ni-t">Alerts</span><div class="alert-badge" id="alert-badge">2</div></div>
+  <div class="ni" id="nav-settings" onclick="showSettings()" title="Settings"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg><span class="ni-t">Settings</span></div>
+  <div class="ni" id="privacy-toggle" onclick="togglePrivacy()" title="Toggle privacy blur" style="margin-top:2px"><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></div>
 </nav>
 
 <div class="main" id="main-area">
@@ -834,6 +811,8 @@ const ORGS={lol:[
   {id:'tl',name:'Team Liquid',abbr:'TL',league:'LTA',region:'Americas',players:['impact-tl','umti-tl','apa-tl','yeon-tl','corejj-tl']},
   {id:'drx-lol',name:'Kiwoom DRX',abbr:'KRX',league:'LCK',region:'Korea',players:['kingen-drx','jiwoo-drx','bulldog-drx','teddy-drx','andil-drx']},
   {id:'fq',name:'FlyQuest',abbr:'FLY',league:'LTA',region:'Americas',players:['bwipo-fq','inspired-fq','quad-fq','massu-fq','busio-fq']},
+  {id:'heretics-lol',name:'Team Heretics',abbr:'TH',league:'LEC',region:'EMEA',players:['wunder-th','sheo-th','serin-th','ice-th','trymbi-th']},
+  {id:'edg-lol',name:'EDward Gaming',abbr:'EDG',league:'LPL',region:'China',players:['ale-edg','jiejie-edg','scout-edg','leave-edg','meiko-edg']},
 ],val:[
   {id:'sen',name:'Sentinels',abbr:'SEN',league:'VCT Americas',region:'Americas',players:['tenz-sen','zekken-sen','sacy-sen','johnqt-sen','n4rrate-sen']},
   {id:'fnc-val',name:'Fnatic',abbr:'FNC',league:'VCT EMEA',region:'EMEA',players:['derke-fnc','alfajer-fnc','leo-fnc','chronicle-fnc','boaster-fnc']},
@@ -843,9 +822,9 @@ const ORGS={lol:[
   {id:'eg',name:'Evil Geniuses',abbr:'EG',league:'VCT Americas',region:'Americas',players:['demon1-eg','jawgemo-eg','nature-eg','supamen-eg','reformed-eg']},
   {id:'100t',name:'100 Thieves',abbr:'100T',league:'VCT Americas',region:'Americas',players:['asuna-100t','boostio-100t','ethan-100t','bang-100t','bdog-100t']},
   {id:'prx',name:'Paper Rex',abbr:'PRX',league:'VCT Pacific',region:'Pacific',players:['forsaken-prx','jinggg-prx','d4v41-prx','monyet-prx','mindfreak-prx']},
-  {id:'heretics',name:'Team Heretics',abbr:'TH',league:'VCT EMEA',region:'EMEA',players:['benjy-heretics','woot-heretics','riens-heretics','boo-heretics','lowel-heretics','wunder-th','sheo-th','serin-th','ice-th','trymbi-th']},
+  {id:'heretics',name:'Team Heretics',abbr:'TH',league:'VCT EMEA',region:'EMEA',players:['benjy-heretics','woot-heretics','riens-heretics','boo-heretics','lowel-heretics']},
   {id:'lev',name:'Leviatan',abbr:'LEV',league:'VCT Americas',region:'Americas',players:['aspas-lev','mazino-lev','less-lev','tuyz-lev','cauanzin-lev']},
-  {id:'edg',name:'EDward Gaming',abbr:'EDG',league:'VCT Pacific',region:'Pacific',players:['zmjjkk-edg','nobody-edg','chichoo-edg','smoggy-edg','haodong-edg','ale-edg','jiejie-edg','scout-edg','leave-edg','meiko-edg']},
+  {id:'edg',name:'EDward Gaming',abbr:'EDG',league:'VCT Pacific',region:'Pacific',players:['zmjjkk-edg','nobody-edg','chichoo-edg','smoggy-edg','haodong-edg']},
   {id:'drx-val',name:'DRX',abbr:'DRX',league:'VCT Pacific',region:'Pacific',players:['stax-drxv','rb-drxv','mako-drxv','flashback-drxv','beyn-drxv']},
   {id:'furia',name:'FURIA',abbr:'FUR',league:'VCT Americas',region:'Americas',players:['dgzin-furia','mwzera-furia','khalil-furia','havoc-furia','nozwerr-furia']},
   {id:'tl-val',name:'Team Liquid',abbr:'TL',league:'VCT EMEA',region:'EMEA',players:['jamppi-tlv','nats-tlv','sayf-tlv','adex-tlv','dimasick-tlv']}
@@ -867,8 +846,9 @@ const SPONSORS={
   '100t':[{brand:'Lexus',cat:'Automotive',since:'2021'},{brand:'Guayaki',cat:'Beverage',since:'2022'},{brand:'Totino\'s',cat:'FMCG',since:'2023'}],
   'blg':[{brand:'Bilibili',cat:'Platform',since:'2021'}],
   'hle':[{brand:'Hanwha Life',cat:'Insurance',since:'2018'},{brand:'LG',cat:'Electronics',since:'2023'}],
-  'navi':[{brand:'Logitech',cat:'Peripherals',since:'2022'},{brand:'GG.BET',cat:'Betting',since:'2023'},{brand:'Puma',cat:'Apparel',since:'2022'}],
-  'tl':[{brand:'Honda',cat:'Automotive',since:'2019'},{brand:'Monster Energy',cat:'Beverage',since:'2021'},{brand:'Alienware',cat:'Hardware',since:'2017'},{brand:'Coinbase',cat:'Crypto',since:'2022'}],
+  'navi':[{brand:'Logitech G',cat:'Peripherals',since:'2022'},{brand:'GG.BET',cat:'Betting',since:'2023'},{brand:'Puma',cat:'Apparel',since:'2022'},{brand:'AGON by AOC',cat:'Monitors',since:'2023'}],
+  'tl':[{brand:'Honda',cat:'Automotive',since:'2019'},{brand:'Monster Energy',cat:'Beverage',since:'2021'},{brand:'Alienware',cat:'Hardware',since:'2017'},{brand:'Coinbase',cat:'Crypto',since:'2022'},{brand:'Twitch',cat:'Streaming',since:'2023'}],
+  'tl-val':[{brand:'Honda',cat:'Automotive',since:'2019'},{brand:'Monster Energy',cat:'Beverage',since:'2021'},{brand:'Alienware',cat:'Hardware',since:'2017'}],
   'prx':[{brand:'Secretlab',cat:'Furniture',since:'2022'},{brand:'Samsung',cat:'Electronics',since:'2024'}],
   'heretics':[{brand:'McDonald\'s Spain',cat:'FMCG',since:'2023'},{brand:'Movistar',cat:'Telecom',since:'2023'}],
   'lev':[{brand:'Betano',cat:'Betting',since:'2023'}],
@@ -876,20 +856,7 @@ const SPONSORS={
   'drx-lol':[{brand:'Kiwoom Securities',cat:'Finance',since:'2026'}],
   'drx-val':[{brand:'Kiwoom Securities',cat:'Finance',since:'2026'}],
   'fq':[{brand:'Bud Light',cat:'Beverage',since:'2023'}],
-  'edg':[{brand:'EDward Gaming',cat:'Platform',since:'2021'}],
-  'tl-val':[{brand:'Honda',cat:'Automotive',since:'2019'},{brand:'Monster Energy',cat:'Beverage',since:'2021'},{brand:'Alienware',cat:'Hardware',since:'2017'}],
-  'hle':[{brand:'Hanwha Life',cat:'Insurance',since:'2018'},{brand:'LG',cat:'Electronics',since:'2023'}],
-  'navi':[{brand:'Logitech G',cat:'Peripherals',since:'2022'},{brand:'Puma',cat:'Apparel',since:'2022'},{brand:'AGON by AOC',cat:'Monitors',since:'2023'}],
-  'tl':[{brand:'Honda',cat:'Automotive',since:'2019'},{brand:'Monster Energy',cat:'Beverage',since:'2021'},{brand:'Alienware',cat:'Hardware',since:'2017'},{brand:'Twitch',cat:'Streaming',since:'2023'}],
-  'tl-val':[{brand:'Honda',cat:'Automotive',since:'2019'},{brand:'Alienware',cat:'Hardware',since:'2017'}],
-  'prx':[{brand:'Secretlab',cat:'Furniture',since:'2022'},{brand:'Samsung',cat:'Electronics',since:'2024'}],
-  'heretics':[{brand:'Movistar',cat:'Telecom',since:'2023'}],
-  'lev':[{brand:'Betano',cat:'Betting',since:'2023'}],
-  'furia':[{brand:'Lenovo',cat:'Hardware',since:'2022'},{brand:'Red Bull',cat:'Beverage',since:'2023'}],
-  'drx-lol':[{brand:'Kiwoom Securities',cat:'Finance',since:'2026'}],
-  'drx-val':[{brand:'Kiwoom Securities',cat:'Finance',since:'2026'}],
-  'fq':[{brand:'Bud Light',cat:'Beverage',since:'2023'}],
-  'edg':[]
+  'edg':[{brand:'EDward Gaming',cat:'Platform',since:'2021'}]
 };
 
 const ORG_FINANCIALS={
@@ -1086,26 +1053,14 @@ const ORG_SOCIALS={
   'eg':{web:'https://evilgeniuses.gg',tw:'https://x.com/EvilGeniuses',yt:'https://youtube.com/@EvilGeniuses'},
   '100t':{web:'https://100thieves.com',tw:'https://x.com/100Thieves',yt:'https://youtube.com/@100Thieves',ig:'https://instagram.com/100thieves'},
   'blg':{web:'https://www.bilibiligaming.com',tw:'https://x.com/BLG_Official',yt:'https://youtube.com/@BilibiliGaming'},
-  'hle':{tw:'https://x.com/HLEofficial',yt:'https://youtube.com/@HLE_official'},
-  'navi':{web:'https://navi.gg',tw:'https://x.com/natusvincere',yt:'https://youtube.com/@NAVIgg'},
-  'tl':{web:'https://teamliquid.com',tw:'https://x.com/TeamLiquid',yt:'https://youtube.com/@teamliquid',ig:'https://instagram.com/teamliquid'},
-  'prx':{web:'https://pprx.team',tw:'https://x.com/pprxteam',yt:'https://youtube.com/@PaperRex'},
-  'heretics':{web:'https://teamheretics.com',tw:'https://x.com/TeamHeretics',yt:'https://youtube.com/@TeamHeretics',ig:'https://instagram.com/teamheretics'},
-  'lev':{web:'https://leviatan.gg',tw:'https://x.com/leviatangg',ig:'https://instagram.com/leviatangg'},
-  'furia':{web:'https://furia.gg',tw:'https://x.com/FURIA',yt:'https://youtube.com/@FURIAgg',ig:'https://instagram.com/furiagg'},
-  'drx-lol':{web:'https://drx.gg',tw:'https://x.com/DRXGlobal',yt:'https://youtube.com/@DRXGlobal'},
-  'drx-val':{web:'https://drx.gg',tw:'https://x.com/DRXGlobal',yt:'https://youtube.com/@DRXGlobal'},
-  'fq':{web:'https://flyquest.gg',tw:'https://x.com/FlyQuest',yt:'https://youtube.com/@FlyQuest',ig:'https://instagram.com/flyquest'},
-  'edg':{web:'https://www.edward.gg',tw:'https://x.com/EDGesports'},
-  'tl-val':{web:'https://teamliquid.com',tw:'https://x.com/TeamLiquid',yt:'https://youtube.com/@teamliquid',ig:'https://instagram.com/teamliquid'},
   'hle':{web:'https://hle.kr',tw:'https://x.com/HLEofficial',yt:'https://youtube.com/@HLE_official'},
   'navi':{web:'https://navi.gg',tw:'https://x.com/natusvincere',yt:'https://youtube.com/@NAVIgg',ig:'https://instagram.com/naborhood'},
-  'tl':{web:'https://teamliquid.com',tw:'https://x.com/TeamLiquid'},
+  'tl':{web:'https://teamliquid.com',tw:'https://x.com/TeamLiquid',yt:'https://youtube.com/@teamliquid',ig:'https://instagram.com/teamliquid'},
   'tl-val':{web:'https://teamliquid.com',tw:'https://x.com/TeamLiquid',yt:'https://youtube.com/@teamliquid',ig:'https://instagram.com/teamliquid'},
   'prx':{web:'https://pprx.team',tw:'https://x.com/pprxteam',yt:'https://youtube.com/@PaperRex',ig:'https://instagram.com/pprxteam'},
   'heretics':{web:'https://teamheretics.com',tw:'https://x.com/TeamHeretics',yt:'https://youtube.com/@TeamHeretics',ig:'https://instagram.com/teamheretics'},
   'lev':{web:'https://leviatan.gg',tw:'https://x.com/leviatangg',ig:'https://instagram.com/leviatangg'},
-  'furia':{web:'https://furia.gg',tw:'https://x.com/FURIA'},
+  'furia':{web:'https://furia.gg',tw:'https://x.com/FURIA',yt:'https://youtube.com/@FURIAgg',ig:'https://instagram.com/furiagg'},
   'drx-lol':{web:'https://drx.gg',tw:'https://x.com/DRXGlobal',yt:'https://youtube.com/@DRXGlobal'},
   'drx-val':{web:'https://drx.gg',tw:'https://x.com/DRXGlobal',yt:'https://youtube.com/@DRXGlobal'},
   'fq':{web:'https://flyquest.gg',tw:'https://x.com/FlyQuest',yt:'https://youtube.com/@FlyQuest',ig:'https://instagram.com/flyquest'},
@@ -3099,8 +3054,10 @@ function togglePrivacy(){
 function saveScoutTags(){localStorage.setItem('1n_scout',JSON.stringify(S.scoutTags))}
 function getScoutTags(id){return S.scoutTags[id]||[]}
 
-const PRESET_STRENGTHS=['Mechanical skill','Game sense','Leadership/IGL','Clutch factor','Consistency','Versatile champion pool','Lane dominance','Team fighting','Communication','Experience','Young talent','Coachable','Fluent English','Bilingual','Strong work ethic'];
-const PRESET_WEAKNESSES=['Inconsistent','Small champion pool','Poor laning','Tilts under pressure','Injury prone','Motivation concerns','Language barrier','Import slot','High salary demands','Peaked','Attitude issues','Low experience','Needs translator','Limited English','Homesick risk'];
+const PRESET_STRENGTHS_LOL=['Mechanical skill','Game sense','Leadership/IGL','Clutch factor','Consistency','Versatile champion pool','Lane dominance','Team fighting','Strong side player','Weak side player','Roaming support','Objective control','Split push specialist','Engage timing','Communication','Experience','Young talent','Coachable','Fluent English','Bilingual','Strong work ethic'];
+const PRESET_STRENGTHS_VAL=['Mechanical skill','Game sense','Leadership/IGL','Clutch factor','Consistency','Versatile agent pool','Op player','Strong pistol rounds','Entry fragging','Site anchor','Lurk specialist','Post-plant specialist','Util usage','Communication','Experience','Young talent','Coachable','Fluent English','Bilingual','Strong work ethic'];
+const PRESET_WEAKNESSES_LOL=['Inconsistent','Small champion pool','Poor laning','Tilts under pressure','Injury prone','Motivation concerns','Language barrier','Import slot','High salary demands','Peaked','Attitude issues','Low experience','Needs translator','Limited English','Homesick risk','Weak side collapse','Poor vision control','Greedy pathing'];
+const PRESET_WEAKNESSES_VAL=['Inconsistent','Limited agent pool','Poor pistol rounds','Tilts under pressure','Injury prone','Motivation concerns','Language barrier','Import slot','High salary demands','Peaked','Attitude issues','Low experience','Needs translator','Limited English','Homesick risk','Over-aggressive','Poor util economy','Whiffs under pressure'];
 
 function addScoutTag(id,type){
   const sel=document.getElementById('scout-preset');
@@ -3116,9 +3073,10 @@ function addScoutTag(id,type){
 function updateScoutPresets(){
   const type=document.getElementById('scout-type-sel').value;
   const sel=document.getElementById('scout-preset');
+  const game=S.openId?getPlayerGame(S.openId):'lol';
   let opts='<option value="">Presets...</option>';
-  if(type==='strength')opts+=PRESET_STRENGTHS.map(s=>'<option value="'+s+'">'+s+'</option>').join('');
-  else if(type==='weakness')opts+=PRESET_WEAKNESSES.map(s=>'<option value="'+s+'">'+s+'</option>').join('');
+  if(type==='strength')opts+=(game==='lol'?PRESET_STRENGTHS_LOL:PRESET_STRENGTHS_VAL).map(s=>'<option value="'+s+'">'+s+'</option>').join('');
+  else if(type==='weakness')opts+=(game==='lol'?PRESET_WEAKNESSES_LOL:PRESET_WEAKNESSES_VAL).map(s=>'<option value="'+s+'">'+s+'</option>').join('');
   sel.innerHTML=opts;
 }
 
@@ -3150,6 +3108,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   r.style.setProperty('--game-1',c.colors[0]);r.style.setProperty('--game-3',c.colors[1]);r.style.setProperty('--game-glow',c.colors[2]);
   // Show feed as homepage
   updateAlertBadge();
+  document.getElementById('nav-home').classList.add('on');
   renderFeed();
 });
 </script>
