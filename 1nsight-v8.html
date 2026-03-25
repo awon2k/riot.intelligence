@@ -382,11 +382,11 @@ body.privacy-mode .blur-private{filter:blur(6px)!important;user-select:none;poin
 .wl-hub-card-stats{display:flex;gap:14px;font-size:.875rem;color:var(--tx-3);font-family:var(--fm)}
 
 /* ═══════════ COLUMN CUSTOMIZER ═══════════ */
-.col-config{position:relative;display:inline-block}
+.col-config{position:relative;display:inline-block;z-index:100}
 .col-config-btn{padding:8px 14px;border-radius:var(--rad);font-family:var(--ff);font-size:.875rem;font-weight:600;border:1px solid var(--border-1);background:var(--bg-3);color:var(--tx-2);cursor:pointer;transition:all var(--tr);display:inline-flex;align-items:center;gap:6px}
 .col-config-btn:hover{border-color:var(--border-2);color:var(--tx-1)}
 .col-config-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.5}
-.col-dropdown{display:none;position:absolute;top:100%;right:0;margin-top:6px;background:var(--bg-2);border:1px solid var(--border-2);border-radius:var(--rad-lg);padding:14px 16px;min-width:220px;z-index:50;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.col-dropdown{display:none;position:absolute;top:100%;right:0;margin-top:6px;background:var(--bg-2);border:1px solid var(--border-2);border-radius:var(--rad-lg);padding:14px 16px;min-width:220px;z-index:200;box-shadow:0 12px 40px rgba(0,0,0,.5)}
 .col-dropdown.open{display:block;animation:fadeIn .15s ease}
 .col-dropdown-title{font-size:.875rem;font-family:var(--fm);color:var(--tx-3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px}
 .col-opt{display:flex;align-items:center;gap:8px;padding:6px 0;cursor:pointer;font-size:.875rem;color:var(--tx-2);transition:color var(--tr)}
@@ -634,8 +634,8 @@ body.privacy-mode .blur-private{filter:blur(6px)!important;user-select:none;poin
   <div class="ni home-nav on" id="nav-home" onclick="showFeed()" title="Activity"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span class="ni-t">Activity</span></div>
   <div class="nav-div"></div>
   <div class="nav-lbl">Games</div>
-  <div class="ni on" id="nav-lol" onclick="switchGame('lol')" title="League of Legends"><img src="league_icon.png" style="width:20px;height:20px;border-radius:4px;object-fit:contain;flex-shrink:0"><span class="ni-t">LoL</span></div>
-  <div class="ni" id="nav-val" onclick="switchGame('val')" title="VALORANT"><img src="valorant_icon.png" style="width:20px;height:20px;border-radius:4px;object-fit:contain;flex-shrink:0"><span class="ni-t">VAL</span></div>
+  <div class="ni on" id="nav-lol" onclick="switchGame('lol')" title="League of Legends"><img src="league_icon.png" style="width:26px;height:26px;border-radius:4px;object-fit:contain;flex-shrink:0"><span class="ni-t">LoL</span></div>
+  <div class="ni" id="nav-val" onclick="switchGame('val')" title="VALORANT"><img src="valorant_icon.png" style="width:26px;height:26px;border-radius:4px;object-fit:contain;flex-shrink:0"><span class="ni-t">VAL</span></div>
   <div class="ni lk" onclick="toast('CS2 — coming soon','info')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg><span class="ni-t">CS2</span></div>
   <div class="nav-div"></div>
   <div class="nav-lbl">Hub</div>
