@@ -2264,6 +2264,8 @@ function renderTeamDashboard(el){
       <div class="team-tab" onclick="switchTeamTab('roster',this)">Roster</div>
       <div class="team-tab" onclick="switchTeamTab('contracts',this)">Contracts</div>
       <div class="team-tab" onclick="switchTeamTab('sponsors',this)">Sponsors</div>
+      <div class="team-tab" onclick="switchTeamTab('intel',this)">Intel</div>
+      <div class="team-tab" onclick="switchTeamTab('orgprofile',this)">Org Profile</div>
       <div class="team-tab" onclick="switchTeamTab('contact',this)">Contact</div>
       <div class="team-tab" onclick="switchTeamTab('scout',this)">Scout</div>
       <div class="team-tab" onclick="switchTeamTab('scenario',this)">Scenarios</div>
@@ -2358,30 +2360,39 @@ function renderTeamDashboard(el){
           <div style="margin-top:8px;font-family:var(--fm);font-size:.7rem;color:var(--tx-3)">${spons.length} partners across ${sponsCats.length} categories · <span style="cursor:pointer;color:var(--blue);text-decoration:underline" onclick="switchTeamTab('sponsors',document.querySelector('.team-tab:nth-child(4)'))">View details →</span></div>
         </div>`:''}
         
-        ${(()=>{
-          const fin=ORG_FINANCIALS[org.id]||{};
-          let h='';
-          if(fin.prizeMoney||fin.results){
-            h+=`<div class="tile" style="margin-bottom:14px"><div class="tile-l">COMPETITIVE RECORD</div>
-              <div style="display:flex;gap:20px;flex-wrap:wrap;margin:10px 0;font-family:var(--fm);font-size:.85rem">
-                ${fin.prizeMoney?`<div><div style="font-size:.65rem;color:var(--tx-3);text-transform:uppercase">Prize Money</div><div style="font-weight:700;color:var(--ac);font-size:1.1rem">${fin.prizeMoney}</div></div>`:''}
-                ${fin.peakViewers?`<div><div style="font-size:.65rem;color:var(--tx-3);text-transform:uppercase">Peak Viewers</div><div style="font-weight:700;font-size:1.1rem">${fin.peakViewers}</div></div>`:''}
-              </div>
-              ${fin.results?`<div style="margin-top:8px"><div style="font-size:.7rem;color:var(--tx-3);text-transform:uppercase;margin-bottom:6px">Recent Results</div>
-              ${fin.results.map(r=>`<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border-0);font-size:.8rem"><span style="color:var(--tx-2)">${r.event}</span><span style="font-weight:700;color:${r.place.includes('1st')?'var(--ac)':r.place.includes('2nd')?'var(--blue)':'var(--tx-1)'}">${r.place}</span></div>`).join('')}</div>`:''}
-            </div>`;
-          }
-          if(fin.staff&&fin.staff.length){
-            h+=`<div class="tile"><div class="tile-l">COACHING STAFF</div>
-              <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px">
-                ${fin.staff.map(s=>`<div style="background:var(--bg-3);border:1px solid var(--border-0);border-radius:var(--rad);padding:10px 14px"><div style="font-weight:700;font-size:.85rem">${s.name}</div><div style="font-size:.7rem;color:var(--tx-3)">${s.role}</div></div>`).join('')}
-              </div>
-            </div>`;
-          }
-          return h;
-        })()}`;
+`;
       })()}
     </div>
+
+    <!-- INTEL -->
+    <div class="team-content" id="tt-intel">
+      ${(()=>{
+        const fin=ORG_FINANCIALS[org.id]||{};
+        let h='';
+        if(fin.prizeMoney||fin.results){
+          h+=`<div class="tile" style="margin-bottom:14px"><div class="tile-l">COMPETITIVE RECORD</div><div style="display:flex;gap:20px;flex-wrap:wrap;margin:10px 0;font-family:var(--fm);font-size:.85rem">${fin.prizeMoney?`<div><div style="font-size:.65rem;color:var(--tx-3);text-transform:uppercase">Prize Money</div><div style="font-weight:700;color:var(--ac);font-size:1.1rem">${fin.prizeMoney}</div></div>`:''}${fin.peakViewers?`<div><div style="font-size:.65rem;color:var(--tx-3);text-transform:uppercase">Peak Viewers</div><div style="font-weight:700;font-size:1.1rem">${fin.peakViewers}</div></div>`:''}</div>${fin.results?`<div style="margin-top:8px">${fin.results.map(r=>`<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border-0);font-size:.8rem"><span style="color:var(--tx-2)">${r.event}</span><span style="font-weight:700;color:${r.place.includes('1st')?'var(--ac)':r.place.includes('2nd')?'var(--blue)':'var(--tx-1)'}">${r.place}</span></div>`).join('')}</div>`:''}</div>`;
+        }
+        if(fin.staff&&fin.staff.length){
+          h+=`<div class="tile" style="margin-bottom:14px"><div class="tile-l">COACHING STAFF</div><div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px">${fin.staff.map(s=>`<div style="background:var(--bg-3);border:1px solid var(--border-0);border-radius:var(--rad);padding:10px 14px"><div style="font-weight:700;font-size:.85rem">${s.name}</div><div style="font-size:.7rem;color:var(--tx-3)">${s.role}</div></div>`).join('')}</div></div>`;
+        }
+        if(fin.creators){
+          h+=`<div class="tile"><div class="tile-l">CONTENT & BRAND REACH</div><div style="font-size:.85rem;margin-top:8px;color:var(--tx-2)">${fin.creators}</div>${fin.socialMetrics?`<div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:10px;font-size:.85rem">${fin.socialMetrics.twitter?`<div><span style="color:var(--tx-3);font-size:.65rem">X</span><div style="font-weight:700">${fin.socialMetrics.twitter}</div></div>`:''}${fin.socialMetrics.youtube?`<div><span style="color:var(--tx-3);font-size:.65rem">YT</span><div style="font-weight:700">${fin.socialMetrics.youtube}</div></div>`:''}${fin.socialMetrics.instagram?`<div><span style="color:var(--tx-3);font-size:.65rem">IG</span><div style="font-weight:700">${fin.socialMetrics.instagram}</div></div>`:''}${fin.socialMetrics.tiktok?`<div><span style="color:var(--tx-3);font-size:.65rem">TT</span><div style="font-weight:700">${fin.socialMetrics.tiktok}</div></div>`:''}</div>`:''}</div>`;
+        }
+        return h||'<div style="color:var(--tx-3)">No intel data available.</div>';
+      })()}
+    </div>
+
+    <!-- ORG PROFILE -->
+    <div class="team-content" id="tt-orgprofile">
+      ${(()=>{
+        const fin=ORG_FINANCIALS[org.id]||{};
+        const orgSoc=ORG_SOCIALS[org.id]||{};
+        return `<div class="tile" style="margin-bottom:14px"><div class="tile-l">ORGANIZATION</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;font-size:.85rem"><div><span style="color:var(--tx-3);font-size:.65rem;text-transform:uppercase">HQ / Facility</span><div>${fin.facility||fin.hq||'—'}</div></div><div><span style="color:var(--tx-3);font-size:.65rem;text-transform:uppercase">Founded</span><div>${fin.founded||'—'}</div></div><div><span style="color:var(--tx-3);font-size:.65rem;text-transform:uppercase">CEO</span><div>${fin.ceo||'—'}</div></div><div><span style="color:var(--tx-3);font-size:.65rem;text-transform:uppercase">Website</span><div>${orgSoc.web?'<a href="'+orgSoc.web+'" target="_blank" style="color:var(--ac)">'+orgSoc.web.replace('https://','')+'</a>':'—'}</div></div></div></div>
+        ${fin.investors?`<div class="tile" style="margin-bottom:14px"><div class="tile-l">OWNERSHIP & INVESTORS</div><div style="font-size:.85rem;margin-top:8px">${fin.investors}</div></div>`:''}
+        ${fin.valuation?`<div class="tile"><div class="tile-l">VALUATION</div><div style="font-size:1.1rem;font-weight:700;margin-top:8px;color:var(--ac)">${fin.valuation}</div></div>`:''}`;
+      })()}
+    </div>
+
     <!-- ROSTER -->
     <div class="team-content" id="tt-roster">
       ${(()=>{
