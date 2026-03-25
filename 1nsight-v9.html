@@ -38,32 +38,26 @@ body{font-family:var(--ff);background:var(--bg-0);color:var(--tx-1);line-height:
 @keyframes scaleIn{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
 
 /* ═══════════ NAV ═══════════ */
-.nav{width:80px;height:100vh;background:var(--bg-1);border-right:1px solid var(--border-0);display:flex;flex-direction:column;align-items:center;padding:16px 0;gap:4px;flex-shrink:0;z-index:50;position:relative}
-.nav::after{content:'';position:absolute;right:0;top:0;bottom:0;width:1px;background:linear-gradient(180deg,transparent 10%,var(--game-1)20 50%,transparent 90%);pointer-events:none;transition:background .5s}
-.nav-logo{width:50px;height:50px;border-radius:var(--rad-lg);display:flex;align-items:center;justify-content:center;margin-bottom:18px;background:var(--bg-2);border:1px solid var(--border-1);position:relative;overflow:hidden}
-.nav-logo span{font-family:var(--fd);font-weight:900;font-size:.65rem;letter-spacing:1.5px;color:var(--ac);z-index:1}
+.nav{width:80px;height:100vh;background:var(--bg-1);border-right:1px solid var(--border-0);display:flex;flex-direction:column;align-items:center;padding:16px 0;gap:3px;flex-shrink:0;z-index:50;position:relative}
+.nav::after{content:'';position:absolute;right:0;top:0;bottom:0;width:1px;background:linear-gradient(180deg,transparent 10%,rgba(255,255,255,.06) 50%,transparent 90%);pointer-events:none}
+.nav-logo{width:54px;height:40px;border-radius:var(--rad);display:flex;align-items:center;justify-content:center;margin-bottom:12px;background:var(--bg-2);border:1px solid var(--border-1);position:relative;overflow:hidden}
+.nav-logo span{font-family:var(--fd);font-weight:900;font-size:.55rem;letter-spacing:1px;color:var(--ac);z-index:1;white-space:nowrap}
 .nav-logo::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--ac)06,transparent 60%)}
-.nav-div{width:40px;height:1px;background:var(--border-1);margin:8px 0}
-.nav-lbl{font-size:.55rem;font-family:var(--fm);color:var(--tx-3);text-transform:uppercase;letter-spacing:1.5px;margin:8px 0 4px}
-.ni{width:54px;height:50px;border-radius:var(--rad);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;border:1px solid transparent;transition:all var(--tr);position:relative}
+.nav-div{width:40px;height:1px;background:var(--border-1);margin:6px 0}
+.nav-lbl{font-size:.5rem;font-family:var(--fm);color:var(--tx-3);text-transform:uppercase;letter-spacing:1.2px;margin:6px 0 2px}
+.ni{width:54px;height:44px;border-radius:var(--rad);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;border:1px solid transparent;transition:all var(--tr);position:relative}
 .ni:hover{background:var(--bg-3);border-color:var(--border-1)}
-.ni.on{background:var(--game-3);border-color:color-mix(in srgb,var(--game-1) 40%,transparent)}
-.ni.on::before{content:'';position:absolute;left:-1px;top:18%;bottom:18%;width:2.5px;background:var(--game-1);border-radius:0 2px 2px 0}
-.ni svg{width:22px;height:22px;stroke:var(--tx-2);fill:none;stroke-width:1.5;transition:stroke var(--tr)}
-.ni.on svg{stroke:var(--game-1)}
-.ni:hover svg{stroke:var(--tx-1)}
-.ni .ni-t{font-size:.6rem;font-family:var(--fm);color:var(--tx-2);letter-spacing:.3px;transition:color var(--tr);font-weight:500}
-.ni.on .ni-t{color:var(--game-1);font-weight:600}
-.ni.lk{opacity:.35}.ni.lk:hover{opacity:.5}
-.ni.team-nav svg{stroke:var(--blue)}.ni.team-nav.on svg{stroke:var(--blue)}
-.ni.team-nav.on{background:#38bdf814;border-color:#38bdf840}
-.ni.team-nav.on .ni-t{color:var(--blue)}
-.ni.team-nav.on::before{background:var(--blue)}
-.ni.wl-nav svg{stroke:var(--purple)}.ni.wl-nav.on svg{stroke:var(--purple)}
-.ni.wl-nav.on{background:#a78bfa14;border-color:#a78bfa40}
-.ni.wl-nav.on .ni-t{color:var(--blue)}
-.ni.wl-nav.on::before{background:var(--blue)}
+.ni.on{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.1)}
+.ni.on::before{content:'';position:absolute;left:-1px;top:20%;bottom:20%;width:2.5px;background:#fff;border-radius:0 2px 2px 0}
+.ni svg{width:18px;height:18px;stroke:rgba(255,255,255,.45);fill:none;stroke-width:1.5;transition:stroke var(--tr)}
+.ni.on svg{stroke:#fff}
+.ni:hover svg{stroke:rgba(255,255,255,.75)}
+.ni .ni-t{font-size:.5rem;font-family:var(--fm);color:rgba(255,255,255,.35);letter-spacing:.3px;transition:color var(--tr);font-weight:500}
+.ni.on .ni-t{color:#fff;font-weight:600}
+.ni:hover .ni-t{color:rgba(255,255,255,.6)}
+.ni.lk{opacity:.25}.ni.lk:hover{opacity:.4}
 .nav-sp{flex:1}
+/* Remove all per-section color overrides — everything is white now */
 
 /* ═══════════ MAIN ═══════════ */
 .main{flex:1;display:flex;flex-direction:column;overflow:hidden;position:relative;transition:margin-right .35s ease}
@@ -443,26 +437,11 @@ body.privacy-mode .blur-private{filter:blur(6px)!important;user-select:none;poin
 .freshness-dot.stale{background:var(--r-med)}
 .freshness-dot.old{background:var(--r-crit)}
 
-/* Home nav */
-.ni.home-nav svg{stroke:var(--ac)}.ni.home-nav.on svg{stroke:var(--ac)}
-.ni.home-nav.on{background:var(--ac-dim);border-color:var(--ac)40}
-.ni.home-nav.on .ni-t{color:var(--ac)}
-.ni.home-nav.on::before{background:var(--ac)}
-
-/* Alert nav */
-.ni.alert-nav svg{stroke:var(--tx-2)}
-.ni.alert-nav.on svg{stroke:var(--r-high)}
-.ni.alert-nav.on{background:#fb923c0a;border-color:#fb923c40}
-.ni.alert-nav.on .ni-t{color:var(--r-high)}
-.ni.alert-nav.on::before{background:var(--r-high)}
+/* Nav active overrides removed — all standardized to white */
 .alert-badge{position:absolute;top:4px;right:4px;min-width:18px;height:18px;border-radius:9px;background:var(--r-crit);color:#fff;font-size:.875rem;font-weight:800;font-family:var(--fm);display:flex;align-items:center;justify-content:center;padding:0 4px;line-height:1;display:none}
 .alert-badge.has-alerts{display:flex}
 
-/* Settings nav */
-.ni.settings-nav svg{stroke:var(--tx-3)}
-.ni.settings-nav.on svg{stroke:var(--tx-1)}
-.ni.settings-nav.on{background:var(--bg-3);border-color:var(--border-2)}
-.ni.settings-nav.on .ni-t{color:var(--tx-1)}
+/* Alert badge */
 
 /* ═══════════ ALERTS PAGE ═══════════ */
 .alerts-page{padding:28px;overflow-y:auto;flex:1;position:relative;z-index:1}
@@ -647,23 +626,22 @@ body.privacy-mode .blur-private{filter:blur(6px)!important;user-select:none;poin
 <nav class="nav">
   <div class="nav-logo"><span>1NSIGHT</span></div>
   <div class="nav-div"></div>
-  <div class="ni team-nav" id="nav-team" onclick="showTeamPage()" title="My Org"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg><span class="ni-t">My Org</span></div>
+  <div class="nav-lbl">Hub</div>
+  <div class="ni" id="nav-team" onclick="showTeamPage()" title="My Org"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg><span class="ni-t">My Org</span></div>
   <div class="ni" id="nav-orgs" onclick="showOrgsPage()" title="Organizations"><svg viewBox="0 0 24 24"><path d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M8 10v11M12 10v11M16 10v11M20 10v11"/></svg><span class="ni-t">Orgs</span></div>
   <div class="nav-div"></div>
-  <div class="nav-lbl">Games</div>
-  <div class="ni" id="nav-lol" onclick="switchGame('lol')" title="League of Legends"><img src="league_icon.png" style="width:26px;height:26px;border-radius:4px;object-fit:contain;flex-shrink:0"><span class="ni-t">LoL</span></div>
-  <div class="ni" id="nav-val" onclick="switchGame('val')" title="VALORANT"><img src="valorant_icon.png" style="width:26px;height:26px;border-radius:4px;object-fit:contain;flex-shrink:0"><span class="ni-t">VAL</span></div>
+  <div class="nav-lbl">Market</div>
+  <div class="ni" id="nav-lol" onclick="switchGame('lol')" title="League of Legends"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg><span class="ni-t">LoL</span></div>
+  <div class="ni" id="nav-val" onclick="switchGame('val')" title="VALORANT"><svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg><span class="ni-t">VAL</span></div>
   <div class="ni lk" onclick="toast('CS2 — coming soon','info')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg><span class="ni-t">CS2</span></div>
   <div class="nav-div"></div>
-  <div class="ni home-nav" id="nav-home" onclick="showFeed()" title="Activity"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span class="ni-t">Feed</span></div>
-  <div class="ni wl-nav" id="nav-wl" onclick="showWLHub()" title="Watchlists"><svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg><span class="ni-t">Lists</span></div>
-  <div class="ni lk" onclick="toast('Confidential Deals — coming soon. Double-blind interest matching for anonymous transfer discussions.','info')" title="Deals (Coming Soon)"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><span class="ni-t">Deals</span></div>
-  <div class="ni lk" onclick="toast('Market Heat — Premium','info')"><svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg><span class="ni-t">Heat</span></div>
-  <div class="ni lk" onclick="toast('Agent Portal — soon','info')"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="8.5" cy="7" r="4"/><path d="M20 8v6M23 11h-6"/></svg><span class="ni-t">Agents</span></div>
+  <div class="nav-lbl">Intel</div>
+  <div class="ni" id="nav-home" onclick="showFeed()" title="Activity Feed"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span class="ni-t">Feed</span></div>
+  <div class="ni" id="nav-wl" onclick="showWLHub()" title="Watchlists"><svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg><span class="ni-t">Lists</span></div>
   <div class="nav-sp"></div>
-  <div class="ni alert-nav" id="nav-alerts" onclick="showAlerts()" title="Alerts"><svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg><span class="ni-t">Alerts</span><div class="alert-badge" id="alert-badge">2</div></div>
-  <div class="ni settings-nav" id="nav-settings" onclick="showSettings()" title="Settings"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg><span class="ni-t">Settings</span></div>
-  <div class="ni" id="privacy-toggle" onclick="togglePrivacy()" title="Toggle privacy blur" style="margin-top:4px"><svg viewBox="0 0 24 24" style="stroke:var(--tx-3)"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></div>
+  <div class="ni" id="nav-alerts" onclick="showAlerts()" title="Alerts"><svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg><span class="ni-t">Alerts</span><div class="alert-badge" id="alert-badge">2</div></div>
+  <div class="ni" id="nav-settings" onclick="showSettings()" title="Settings"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg><span class="ni-t">Settings</span></div>
+  <div class="ni" id="privacy-toggle" onclick="togglePrivacy()" title="Toggle privacy blur" style="margin-top:2px"><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></div>
 </nav>
 
 <div class="main" id="main-area">
