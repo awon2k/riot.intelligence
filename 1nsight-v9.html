@@ -2281,20 +2281,15 @@ function renderTeamDashboard(el){
           </div>
         </div>
 
-        <!-- Roster snapshot — two-column table -->
-        <div class="tile" style="margin-bottom:12px">
-          <div class="tile-l">Roster snapshot</div>
-          <div style="display:grid;grid-template-columns:${lolP.length&&valP.length?'1fr 1fr':'1fr'};gap:0 20px;margin-top:8px">
-            ${lolP.length?`<div>
-              <div style="font-family:var(--fm);font-size:.65rem;color:var(--lol-1);font-weight:700;margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px">League of Legends</div>
-              ${lolP.map(p=>{const mo=moU(p.ce);const cc=cCol(mo);return`<div style="display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--border-0);font-size:.85rem;cursor:pointer" onclick="openPanel('${p.id}')"><span style="font-size:1rem;width:22px;text-align:center">${flag(p.co)}</span><span style="font-weight:700;min-width:85px;font-size:.85rem">${p.ign}</span><span style="font-family:var(--fm);font-size:.65rem;padding:2px 7px;border-radius:4px;background:var(--bg-3);border:1px solid var(--border-0);color:var(--tx-3)">${p.role}</span>${p.res==='Non-Resident'?'<span style="font-family:var(--fm);font-size:.55rem;padding:1px 5px;border-radius:3px;background:var(--r-high)12;color:var(--r-high)">IMP</span>':''}<span style="margin-left:auto;font-family:var(--fm);font-size:.8rem;color:${cc}">${mo<=0?'EXP':mo+'mo'}</span></div>`}).join('')}
-            </div>`:''}
-            ${valP.length?`<div>
-              <div style="font-family:var(--fm);font-size:.65rem;color:var(--val-1);font-weight:700;margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px">Valorant</div>
-              ${valP.map(p=>{const mo=moU(p.ce);const cc=cCol(mo);return`<div style="display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--border-0);font-size:.85rem;cursor:pointer" onclick="openPanel('${p.id}')"><span style="font-size:1rem;width:22px;text-align:center">${flag(p.co)}</span><span style="font-weight:700;min-width:85px;font-size:.85rem">${p.ign}</span><span style="font-family:var(--fm);font-size:.65rem;padding:2px 7px;border-radius:4px;background:var(--bg-3);border:1px solid var(--border-0);color:var(--tx-3)">${p.role}</span>${p.res==='Non-Resident'?'<span style="font-family:var(--fm);font-size:.55rem;padding:1px 5px;border-radius:3px;background:var(--r-high)12;color:var(--r-high)">IMP</span>':''}<span style="margin-left:auto;font-family:var(--fm);font-size:.8rem;color:${cc}">${mo<=0?'EXP':mo+'mo'}</span></div>`}).join('')}
-            </div>`:''}
-          </div>
-        </div>
+        <!-- Roster snapshots — one card per game -->
+        ${lolP.length?`<div class="tile" style="margin-bottom:12px">
+          <div class="tile-l" style="color:var(--lol-1)">LoL Roster</div>
+          ${lolP.map(p=>{const mo=moU(p.ce);const cc=cCol(mo);return`<div style="display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--border-0);font-size:.85rem;cursor:pointer" onclick="openPanel('${p.id}')"><span style="font-size:1rem;width:22px;text-align:center">${flag(p.co)}</span><span style="font-weight:700;min-width:85px;font-size:.85rem">${p.ign}</span><span style="font-family:var(--fm);font-size:.65rem;padding:2px 7px;border-radius:4px;background:var(--bg-3);border:1px solid var(--border-0);color:var(--tx-3)">${p.role}</span>${p.res==='Non-Resident'?'<span style="font-family:var(--fm);font-size:.55rem;padding:1px 5px;border-radius:3px;background:var(--r-high)12;color:var(--r-high)">IMP</span>':''}<span style="margin-left:auto;font-family:var(--fm);font-size:.8rem;color:${cc}">${mo<=0?'EXP':mo+'mo'}</span></div>`}).join('')}
+        </div>`:''}
+        ${valP.length?`<div class="tile" style="margin-bottom:12px">
+          <div class="tile-l" style="color:var(--val-1)">VAL Roster</div>
+          ${valP.map(p=>{const mo=moU(p.ce);const cc=cCol(mo);return`<div style="display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--border-0);font-size:.85rem;cursor:pointer" onclick="openPanel('${p.id}')"><span style="font-size:1rem;width:22px;text-align:center">${flag(p.co)}</span><span style="font-weight:700;min-width:85px;font-size:.85rem">${p.ign}</span><span style="font-family:var(--fm);font-size:.65rem;padding:2px 7px;border-radius:4px;background:var(--bg-3);border:1px solid var(--border-0);color:var(--tx-3)">${p.role}</span>${p.res==='Non-Resident'?'<span style="font-family:var(--fm);font-size:.55rem;padding:1px 5px;border-radius:3px;background:var(--r-high)12;color:var(--r-high)">IMP</span>':''}<span style="margin-left:auto;font-family:var(--fm);font-size:.8rem;color:${cc}">${mo<=0?'EXP':mo+'mo'}</span></div>`}).join('')}
+        </div>`:''}
 
         <!-- Sponsors chip bar -->
         ${spons.length?`<div class="tile">
