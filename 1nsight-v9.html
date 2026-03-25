@@ -834,6 +834,8 @@ const ORGS={lol:[
   {id:'tl',name:'Team Liquid',abbr:'TL',league:'LTA',region:'Americas',players:['impact-tl','umti-tl','apa-tl','yeon-tl','corejj-tl']},
   {id:'drx-lol',name:'Kiwoom DRX',abbr:'KRX',league:'LCK',region:'Korea',players:['kingen-drx','jiwoo-drx','bulldog-drx','teddy-drx','andil-drx']},
   {id:'fq',name:'FlyQuest',abbr:'FLY',league:'LTA',region:'Americas',players:['bwipo-fq','inspired-fq','quad-fq','massu-fq','busio-fq']},
+  {id:'heretics-lol',name:'Team Heretics',abbr:'TH',league:'LEC',region:'EMEA',players:['wunder-th','sheo-th','serin-th','ice-th','trymbi-th']},
+  {id:'edg-lol',name:'EDward Gaming',abbr:'EDG',league:'LPL',region:'China',players:['ale-edg','jiejie-edg','scout-edg','leave-edg','meiko-edg']},
 ],val:[
   {id:'sen',name:'Sentinels',abbr:'SEN',league:'VCT Americas',region:'Americas',players:['tenz-sen','zekken-sen','sacy-sen','johnqt-sen','n4rrate-sen']},
   {id:'fnc-val',name:'Fnatic',abbr:'FNC',league:'VCT EMEA',region:'EMEA',players:['derke-fnc','alfajer-fnc','leo-fnc','chronicle-fnc','boaster-fnc']},
@@ -843,9 +845,9 @@ const ORGS={lol:[
   {id:'eg',name:'Evil Geniuses',abbr:'EG',league:'VCT Americas',region:'Americas',players:['demon1-eg','jawgemo-eg','nature-eg','supamen-eg','reformed-eg']},
   {id:'100t',name:'100 Thieves',abbr:'100T',league:'VCT Americas',region:'Americas',players:['asuna-100t','boostio-100t','ethan-100t','bang-100t','bdog-100t']},
   {id:'prx',name:'Paper Rex',abbr:'PRX',league:'VCT Pacific',region:'Pacific',players:['forsaken-prx','jinggg-prx','d4v41-prx','monyet-prx','mindfreak-prx']},
-  {id:'heretics',name:'Team Heretics',abbr:'TH',league:'VCT EMEA',region:'EMEA',players:['benjy-heretics','woot-heretics','riens-heretics','boo-heretics','lowel-heretics','wunder-th','sheo-th','serin-th','ice-th','trymbi-th']},
+  {id:'heretics',name:'Team Heretics',abbr:'TH',league:'VCT EMEA',region:'EMEA',players:['benjy-heretics','woot-heretics','riens-heretics','boo-heretics','lowel-heretics']},
   {id:'lev',name:'Leviatan',abbr:'LEV',league:'VCT Americas',region:'Americas',players:['aspas-lev','mazino-lev','less-lev','tuyz-lev','cauanzin-lev']},
-  {id:'edg',name:'EDward Gaming',abbr:'EDG',league:'VCT Pacific',region:'Pacific',players:['zmjjkk-edg','nobody-edg','chichoo-edg','smoggy-edg','haodong-edg','ale-edg','jiejie-edg','scout-edg','leave-edg','meiko-edg']},
+  {id:'edg',name:'EDward Gaming',abbr:'EDG',league:'VCT Pacific',region:'Pacific',players:['zmjjkk-edg','nobody-edg','chichoo-edg','smoggy-edg','haodong-edg']},
   {id:'drx-val',name:'DRX',abbr:'DRX',league:'VCT Pacific',region:'Pacific',players:['stax-drxv','rb-drxv','mako-drxv','flashback-drxv','beyn-drxv']},
   {id:'furia',name:'FURIA',abbr:'FUR',league:'VCT Americas',region:'Americas',players:['dgzin-furia','mwzera-furia','khalil-furia','havoc-furia','nozwerr-furia']},
   {id:'tl-val',name:'Team Liquid',abbr:'TL',league:'VCT EMEA',region:'EMEA',players:['jamppi-tlv','nats-tlv','sayf-tlv','adex-tlv','dimasick-tlv']}
@@ -867,8 +869,9 @@ const SPONSORS={
   '100t':[{brand:'Lexus',cat:'Automotive',since:'2021'},{brand:'Guayaki',cat:'Beverage',since:'2022'},{brand:'Totino\'s',cat:'FMCG',since:'2023'}],
   'blg':[{brand:'Bilibili',cat:'Platform',since:'2021'}],
   'hle':[{brand:'Hanwha Life',cat:'Insurance',since:'2018'},{brand:'LG',cat:'Electronics',since:'2023'}],
-  'navi':[{brand:'Logitech',cat:'Peripherals',since:'2022'},{brand:'GG.BET',cat:'Betting',since:'2023'},{brand:'Puma',cat:'Apparel',since:'2022'}],
-  'tl':[{brand:'Honda',cat:'Automotive',since:'2019'},{brand:'Monster Energy',cat:'Beverage',since:'2021'},{brand:'Alienware',cat:'Hardware',since:'2017'},{brand:'Coinbase',cat:'Crypto',since:'2022'}],
+  'navi':[{brand:'Logitech G',cat:'Peripherals',since:'2022'},{brand:'GG.BET',cat:'Betting',since:'2023'},{brand:'Puma',cat:'Apparel',since:'2022'},{brand:'AGON by AOC',cat:'Monitors',since:'2023'}],
+  'tl':[{brand:'Honda',cat:'Automotive',since:'2019'},{brand:'Monster Energy',cat:'Beverage',since:'2021'},{brand:'Alienware',cat:'Hardware',since:'2017'},{brand:'Coinbase',cat:'Crypto',since:'2022'},{brand:'Twitch',cat:'Streaming',since:'2023'}],
+  'tl-val':[{brand:'Honda',cat:'Automotive',since:'2019'},{brand:'Monster Energy',cat:'Beverage',since:'2021'},{brand:'Alienware',cat:'Hardware',since:'2017'}],
   'prx':[{brand:'Secretlab',cat:'Furniture',since:'2022'},{brand:'Samsung',cat:'Electronics',since:'2024'}],
   'heretics':[{brand:'McDonald\'s Spain',cat:'FMCG',since:'2023'},{brand:'Movistar',cat:'Telecom',since:'2023'}],
   'lev':[{brand:'Betano',cat:'Betting',since:'2023'}],
@@ -876,20 +879,7 @@ const SPONSORS={
   'drx-lol':[{brand:'Kiwoom Securities',cat:'Finance',since:'2026'}],
   'drx-val':[{brand:'Kiwoom Securities',cat:'Finance',since:'2026'}],
   'fq':[{brand:'Bud Light',cat:'Beverage',since:'2023'}],
-  'edg':[{brand:'EDward Gaming',cat:'Platform',since:'2021'}],
-  'tl-val':[{brand:'Honda',cat:'Automotive',since:'2019'},{brand:'Monster Energy',cat:'Beverage',since:'2021'},{brand:'Alienware',cat:'Hardware',since:'2017'}],
-  'hle':[{brand:'Hanwha Life',cat:'Insurance',since:'2018'},{brand:'LG',cat:'Electronics',since:'2023'}],
-  'navi':[{brand:'Logitech G',cat:'Peripherals',since:'2022'},{brand:'Puma',cat:'Apparel',since:'2022'},{brand:'AGON by AOC',cat:'Monitors',since:'2023'}],
-  'tl':[{brand:'Honda',cat:'Automotive',since:'2019'},{brand:'Monster Energy',cat:'Beverage',since:'2021'},{brand:'Alienware',cat:'Hardware',since:'2017'},{brand:'Twitch',cat:'Streaming',since:'2023'}],
-  'tl-val':[{brand:'Honda',cat:'Automotive',since:'2019'},{brand:'Alienware',cat:'Hardware',since:'2017'}],
-  'prx':[{brand:'Secretlab',cat:'Furniture',since:'2022'},{brand:'Samsung',cat:'Electronics',since:'2024'}],
-  'heretics':[{brand:'Movistar',cat:'Telecom',since:'2023'}],
-  'lev':[{brand:'Betano',cat:'Betting',since:'2023'}],
-  'furia':[{brand:'Lenovo',cat:'Hardware',since:'2022'},{brand:'Red Bull',cat:'Beverage',since:'2023'}],
-  'drx-lol':[{brand:'Kiwoom Securities',cat:'Finance',since:'2026'}],
-  'drx-val':[{brand:'Kiwoom Securities',cat:'Finance',since:'2026'}],
-  'fq':[{brand:'Bud Light',cat:'Beverage',since:'2023'}],
-  'edg':[]
+  'edg':[{brand:'EDward Gaming',cat:'Platform',since:'2021'}]
 };
 
 const ORG_FINANCIALS={
@@ -1086,26 +1076,14 @@ const ORG_SOCIALS={
   'eg':{web:'https://evilgeniuses.gg',tw:'https://x.com/EvilGeniuses',yt:'https://youtube.com/@EvilGeniuses'},
   '100t':{web:'https://100thieves.com',tw:'https://x.com/100Thieves',yt:'https://youtube.com/@100Thieves',ig:'https://instagram.com/100thieves'},
   'blg':{web:'https://www.bilibiligaming.com',tw:'https://x.com/BLG_Official',yt:'https://youtube.com/@BilibiliGaming'},
-  'hle':{tw:'https://x.com/HLEofficial',yt:'https://youtube.com/@HLE_official'},
-  'navi':{web:'https://navi.gg',tw:'https://x.com/natusvincere',yt:'https://youtube.com/@NAVIgg'},
-  'tl':{web:'https://teamliquid.com',tw:'https://x.com/TeamLiquid',yt:'https://youtube.com/@teamliquid',ig:'https://instagram.com/teamliquid'},
-  'prx':{web:'https://pprx.team',tw:'https://x.com/pprxteam',yt:'https://youtube.com/@PaperRex'},
-  'heretics':{web:'https://teamheretics.com',tw:'https://x.com/TeamHeretics',yt:'https://youtube.com/@TeamHeretics',ig:'https://instagram.com/teamheretics'},
-  'lev':{web:'https://leviatan.gg',tw:'https://x.com/leviatangg',ig:'https://instagram.com/leviatangg'},
-  'furia':{web:'https://furia.gg',tw:'https://x.com/FURIA',yt:'https://youtube.com/@FURIAgg',ig:'https://instagram.com/furiagg'},
-  'drx-lol':{web:'https://drx.gg',tw:'https://x.com/DRXGlobal',yt:'https://youtube.com/@DRXGlobal'},
-  'drx-val':{web:'https://drx.gg',tw:'https://x.com/DRXGlobal',yt:'https://youtube.com/@DRXGlobal'},
-  'fq':{web:'https://flyquest.gg',tw:'https://x.com/FlyQuest',yt:'https://youtube.com/@FlyQuest',ig:'https://instagram.com/flyquest'},
-  'edg':{web:'https://www.edward.gg',tw:'https://x.com/EDGesports'},
-  'tl-val':{web:'https://teamliquid.com',tw:'https://x.com/TeamLiquid',yt:'https://youtube.com/@teamliquid',ig:'https://instagram.com/teamliquid'},
   'hle':{web:'https://hle.kr',tw:'https://x.com/HLEofficial',yt:'https://youtube.com/@HLE_official'},
   'navi':{web:'https://navi.gg',tw:'https://x.com/natusvincere',yt:'https://youtube.com/@NAVIgg',ig:'https://instagram.com/naborhood'},
-  'tl':{web:'https://teamliquid.com',tw:'https://x.com/TeamLiquid'},
+  'tl':{web:'https://teamliquid.com',tw:'https://x.com/TeamLiquid',yt:'https://youtube.com/@teamliquid',ig:'https://instagram.com/teamliquid'},
   'tl-val':{web:'https://teamliquid.com',tw:'https://x.com/TeamLiquid',yt:'https://youtube.com/@teamliquid',ig:'https://instagram.com/teamliquid'},
   'prx':{web:'https://pprx.team',tw:'https://x.com/pprxteam',yt:'https://youtube.com/@PaperRex',ig:'https://instagram.com/pprxteam'},
   'heretics':{web:'https://teamheretics.com',tw:'https://x.com/TeamHeretics',yt:'https://youtube.com/@TeamHeretics',ig:'https://instagram.com/teamheretics'},
   'lev':{web:'https://leviatan.gg',tw:'https://x.com/leviatangg',ig:'https://instagram.com/leviatangg'},
-  'furia':{web:'https://furia.gg',tw:'https://x.com/FURIA'},
+  'furia':{web:'https://furia.gg',tw:'https://x.com/FURIA',yt:'https://youtube.com/@FURIAgg',ig:'https://instagram.com/furiagg'},
   'drx-lol':{web:'https://drx.gg',tw:'https://x.com/DRXGlobal',yt:'https://youtube.com/@DRXGlobal'},
   'drx-val':{web:'https://drx.gg',tw:'https://x.com/DRXGlobal',yt:'https://youtube.com/@DRXGlobal'},
   'fq':{web:'https://flyquest.gg',tw:'https://x.com/FlyQuest',yt:'https://youtube.com/@FlyQuest',ig:'https://instagram.com/flyquest'},
@@ -3099,8 +3077,10 @@ function togglePrivacy(){
 function saveScoutTags(){localStorage.setItem('1n_scout',JSON.stringify(S.scoutTags))}
 function getScoutTags(id){return S.scoutTags[id]||[]}
 
-const PRESET_STRENGTHS=['Mechanical skill','Game sense','Leadership/IGL','Clutch factor','Consistency','Versatile champion pool','Lane dominance','Team fighting','Communication','Experience','Young talent','Coachable','Fluent English','Bilingual','Strong work ethic'];
-const PRESET_WEAKNESSES=['Inconsistent','Small champion pool','Poor laning','Tilts under pressure','Injury prone','Motivation concerns','Language barrier','Import slot','High salary demands','Peaked','Attitude issues','Low experience','Needs translator','Limited English','Homesick risk'];
+const PRESET_STRENGTHS_LOL=['Mechanical skill','Game sense','Leadership/IGL','Clutch factor','Consistency','Versatile champion pool','Lane dominance','Team fighting','Strong side player','Weak side player','Roaming support','Objective control','Split push specialist','Engage timing','Communication','Experience','Young talent','Coachable','Fluent English','Bilingual','Strong work ethic'];
+const PRESET_STRENGTHS_VAL=['Mechanical skill','Game sense','Leadership/IGL','Clutch factor','Consistency','Versatile agent pool','Op player','Strong pistol rounds','Entry fragging','Site anchor','Lurk specialist','Post-plant specialist','Util usage','Communication','Experience','Young talent','Coachable','Fluent English','Bilingual','Strong work ethic'];
+const PRESET_WEAKNESSES_LOL=['Inconsistent','Small champion pool','Poor laning','Tilts under pressure','Injury prone','Motivation concerns','Language barrier','Import slot','High salary demands','Peaked','Attitude issues','Low experience','Needs translator','Limited English','Homesick risk','Weak side collapse','Poor vision control','Greedy pathing'];
+const PRESET_WEAKNESSES_VAL=['Inconsistent','Limited agent pool','Poor pistol rounds','Tilts under pressure','Injury prone','Motivation concerns','Language barrier','Import slot','High salary demands','Peaked','Attitude issues','Low experience','Needs translator','Limited English','Homesick risk','Over-aggressive','Poor util economy','Whiffs under pressure'];
 
 function addScoutTag(id,type){
   const sel=document.getElementById('scout-preset');
@@ -3116,9 +3096,10 @@ function addScoutTag(id,type){
 function updateScoutPresets(){
   const type=document.getElementById('scout-type-sel').value;
   const sel=document.getElementById('scout-preset');
+  const game=S.openId?getPlayerGame(S.openId):'lol';
   let opts='<option value="">Presets...</option>';
-  if(type==='strength')opts+=PRESET_STRENGTHS.map(s=>'<option value="'+s+'">'+s+'</option>').join('');
-  else if(type==='weakness')opts+=PRESET_WEAKNESSES.map(s=>'<option value="'+s+'">'+s+'</option>').join('');
+  if(type==='strength')opts+=(game==='lol'?PRESET_STRENGTHS_LOL:PRESET_STRENGTHS_VAL).map(s=>'<option value="'+s+'">'+s+'</option>').join('');
+  else if(type==='weakness')opts+=(game==='lol'?PRESET_WEAKNESSES_LOL:PRESET_WEAKNESSES_VAL).map(s=>'<option value="'+s+'">'+s+'</option>').join('');
   sel.innerHTML=opts;
 }
 
