@@ -41,20 +41,20 @@ body{font-family:var(--ff);background:var(--bg-0);color:var(--tx-1);line-height:
 .nav{width:80px;height:100vh;background:var(--bg-1);border-right:1px solid var(--border-0);display:flex;flex-direction:column;align-items:center;padding:16px 0;gap:3px;flex-shrink:0;z-index:50;position:relative}
 .nav::after{content:'';position:absolute;right:0;top:0;bottom:0;width:1px;background:linear-gradient(180deg,transparent 10%,rgba(255,255,255,.06) 50%,transparent 90%);pointer-events:none}
 .nav-logo{width:54px;height:40px;border-radius:var(--rad);display:flex;align-items:center;justify-content:center;margin-bottom:12px;background:var(--bg-2);border:1px solid var(--border-1);position:relative;overflow:hidden}
-.nav-logo span{font-family:var(--fd);font-weight:900;font-size:.6rem;letter-spacing:1px;color:var(--ac);z-index:1;white-space:nowrap}
+.nav-logo span{font-family:var(--fd);font-weight:900;font-size:.65rem;letter-spacing:1px;color:var(--ac);z-index:1;white-space:nowrap}
 .nav-logo::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--ac)06,transparent 60%)}
 .nav-div{width:40px;height:1px;background:var(--border-1);margin:6px 0}
-.nav-lbl{font-size:.5rem;font-family:var(--fm);color:var(--tx-3);text-transform:uppercase;letter-spacing:1.2px;margin:6px 0 2px}
-.ni{width:54px;height:46px;border-radius:var(--rad);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;border:1px solid transparent;transition:all var(--tr);position:relative}
+.nav-lbl{font-size:.55rem;font-family:var(--fm);color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:1.2px;margin:6px 0 2px}
+.ni{width:56px;height:48px;border-radius:var(--rad);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;border:1px solid transparent;transition:all var(--tr);position:relative}
 .ni:hover{background:var(--bg-3);border-color:var(--border-1)}
 .ni.on{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.1)}
 .ni.on::before{content:'';position:absolute;left:-1px;top:20%;bottom:20%;width:2.5px;background:#fff;border-radius:0 2px 2px 0}
-.ni svg{width:20px;height:20px;stroke:rgba(255,255,255,.45);fill:none;stroke-width:1.5;transition:stroke var(--tr)}
+.ni svg{width:22px;height:22px;stroke:rgba(255,255,255,.55);fill:none;stroke-width:1.5;transition:stroke var(--tr)}
 .ni.on svg{stroke:#fff}
-.ni:hover svg{stroke:rgba(255,255,255,.75)}
-.ni .ni-t{font-size:.55rem;font-family:var(--fm);color:rgba(255,255,255,.35);letter-spacing:.3px;transition:color var(--tr);font-weight:500}
+.ni:hover svg{stroke:rgba(255,255,255,.85)}
+.ni .ni-t{font-size:.6rem;font-family:var(--fm);color:rgba(255,255,255,.45);letter-spacing:.3px;transition:color var(--tr);font-weight:500}
 .ni.on .ni-t{color:#fff;font-weight:600}
-.ni:hover .ni-t{color:rgba(255,255,255,.6)}
+.ni:hover .ni-t{color:rgba(255,255,255,.7)}
 .ni.lk{opacity:.25}.ni.lk:hover{opacity:.4}
 .nav-sp{flex:1}
 /* Remove all per-section color overrides — everything is white now */
@@ -66,7 +66,7 @@ body{font-family:var(--ff);background:var(--bg-0);color:var(--tx-1);line-height:
 .page{display:none;flex-direction:column;flex:1;overflow:hidden}.page.active{display:flex}
 
 /* Header */
-.hd{display:flex;align-items:center;justify-content:space-between;padding:16px 28px;border-bottom:1px solid var(--border-0);position:relative;z-index:10;gap:12px;flex-wrap:wrap}
+.hd{display:flex;align-items:center;justify-content:space-between;padding:16px 28px;border-bottom:1px solid var(--border-0);position:relative;z-index:10;gap:12px;flex-wrap:wrap;flex-shrink:0}
 .hd-l{display:flex;flex-direction:column;gap:2px}
 .hd-brand{font-family:var(--fd);font-size:.75rem;font-weight:700;letter-spacing:3px;color:var(--ac);opacity:.45}
 .hd-title{font-family:var(--fd);font-size:1.3rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;text-shadow:0 0 20px var(--game-glow)}
@@ -86,14 +86,14 @@ body{font-family:var(--ff);background:var(--bg-0);color:var(--tx-1);line-height:
 .tag{font-size:.875rem;font-family:var(--fm);color:var(--tx-3);padding:4px 10px;background:var(--bg-3);border:1px solid var(--border-0);border-radius:var(--rad)}
 
 /* Stats */
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:16px 28px;border-bottom:1px solid var(--border-0);position:relative;z-index:1}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:16px 28px;border-bottom:1px solid var(--border-0);position:relative;z-index:1;flex-shrink:0}
 .st{background:var(--bg-2);border:1px solid var(--border-0);border-radius:var(--rad);padding:14px 18px;position:relative;overflow:hidden}
 .st::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--game-1)20,transparent)}
 .st-l{font-size:.75rem;font-family:var(--fm);color:var(--tx-3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:6px}
 .st-v{font-size:1.5rem;font-weight:700;font-family:var(--fm)}
 
 /* Filters */
-.filters{display:flex;gap:8px;padding:14px 28px;border-bottom:1px solid var(--border-0);flex-wrap:wrap;align-items:center;position:relative;z-index:10}
+.filters{display:flex;gap:8px;padding:14px 28px;border-bottom:1px solid var(--border-0);flex-wrap:wrap;align-items:center;position:relative;z-index:10;flex-shrink:0}
 .fi,.fs{background:var(--bg-1);border:1px solid var(--border-0);border-radius:var(--rad);color:var(--tx-1);font-family:var(--ff);font-size:.875rem;padding:10px 14px;outline:none;transition:border-color var(--tr)}
 .fi:focus,.fs:focus{border-color:var(--game-1);box-shadow:0 0 0 2px var(--game-glow)}
 .fi{min-width:200px;flex:1;max-width:280px}
@@ -631,8 +631,8 @@ body.privacy-mode .blur-private{filter:blur(6px)!important;user-select:none;poin
   <div class="ni" id="nav-orgs" onclick="showOrgsPage()" title="Organizations"><svg viewBox="0 0 24 24"><path d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M8 10v11M12 10v11M16 10v11M20 10v11"/></svg><span class="ni-t">Orgs</span></div>
   <div class="nav-div"></div>
   <div class="nav-lbl">Market</div>
-  <div class="ni" id="nav-lol" onclick="switchGame('lol')" title="League of Legends"><img src="https://awon2k.github.io/riot.intelligence/league_icon.png" style="width:20px;height:20px;border-radius:3px;object-fit:contain"><span class="ni-t">LoL</span></div>
-  <div class="ni" id="nav-val" onclick="switchGame('val')" title="VALORANT"><img src="https://awon2k.github.io/riot.intelligence/valorant_icon.png" style="width:20px;height:20px;border-radius:3px;object-fit:contain"><span class="ni-t">VAL</span></div>
+  <div class="ni" id="nav-lol" onclick="switchGame('lol')" title="League of Legends"><img src="https://awon2k.github.io/riot.intelligence/league_icon.png" style="width:22px;height:22px;border-radius:3px;object-fit:contain"><span class="ni-t">LoL</span></div>
+  <div class="ni" id="nav-val" onclick="switchGame('val')" title="VALORANT"><img src="https://awon2k.github.io/riot.intelligence/valorant_icon.png" style="width:22px;height:22px;border-radius:3px;object-fit:contain"><span class="ni-t">VAL</span></div>
   <div class="ni lk" onclick="toast('CS2 — coming soon','info')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg><span class="ni-t">CS2</span></div>
   <div class="nav-div"></div>
   <div class="nav-lbl">Intel</div>
