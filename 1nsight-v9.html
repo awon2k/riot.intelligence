@@ -2232,89 +2232,76 @@ function renderTeamDashboard(el){
         const lolP=DL.filter(p=>p.team===org.name);
         const valP=DV.filter(p=>p.team===org.name);
         const allTracked=[...lolP,...valP];
-        const allImports=allTracked.filter(p=>p.res==='Non-Resident');
         const totalVal=allTracked.reduce((s,p)=>s+(getUVal(p.id)||0),0);
         const valuedCount=allTracked.filter(p=>getUVal(p.id)).length;
+        const avgVal=valuedCount?Math.round(totalVal/valuedCount):0;
         const spons=SPONSORS[org.id]||[];
         const sponsCats=[...new Set(spons.map(s=>s.cat))];
 
-        // Attention items
+        // Contract risk
         const expiring=allTracked.filter(p=>moU(p.ce)<=6&&moU(p.ce)>0);
         const expired=allTracked.filter(p=>moU(p.ce)<=0);
-        const lolRoles=org.game==='lol'?['Top','Jungle','Mid','ADC','Support']:[];
+        const monitor=allTracked.filter(p=>moU(p.ce)>6&&moU(p.ce)<=12);
+        const atRisk=expired.length+expiring.length;
+        const riskColor=atRisk>0?'var(--r-high)':'var(--r-low)';
+        const riskLabel=atRisk>0?atRisk+' at risk':'All clear';
+
+        // Role coverage
+        const lolRoles=['Top','Jungle','Mid','ADC','Support'];
         const valRoles=['Duelist','Initiator','Controller','Sentinel'];
         const lolCov=new Set(lolP.map(p=>p.role));
         const valCov=new Set(valP.map(p=>p.role));
         const lolMiss=lolP.length?lolRoles.filter(r=>!lolCov.has(r)):[];
         const valMiss=valP.length?valRoles.filter(r=>!valCov.has(r)):[];
-        const importPressure=allImports.length>=2;
-        const hasAttention=expiring.length||expired.length||lolMiss.length||valMiss.length||importPressure;
+        const hasAttention=expiring.length||expired.length||lolMiss.length||valMiss.length;
 
         return `
-        <!-- Headline stats -->
-        <div style="display:flex;gap:20px;flex-wrap:wrap;margin-bottom:20px;font-family:var(--fm);font-size:.8rem;color:var(--tx-3)">
-          <span><strong style="color:var(--ac);font-size:1.1rem">${allTracked.length}</strong> tracked players</span>
-          <span><strong style="color:var(--tx-1);font-size:1.1rem">${titles.length}</strong> game titles</span>
-          <span><strong style="color:var(--ac);font-size:1.1rem">${valuedCount?eur(totalVal):'—'}</strong> roster value</span>
-          <span><strong style="color:var(--tx-1);font-size:1.1rem">${spons.length}</strong> sponsors</span>
+        <!-- Top stat cards — 2x2 grid -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+          <div class="tile"><div class="tile-l">Tracked players</div><div class="tile-big" style="color:var(--ac)">${allTracked.length}</div><div class="tile-sub">${lolP.length} LoL · ${valP.length} VAL · ${titles.length} game titles</div></div>
+          <div class="tile"><div class="tile-l">Roster value</div><div class="tile-big" style="color:var(--ac)">${valuedCount?eur(totalVal):'—'}</div><div class="tile-sub">${valuedCount?valuedCount+'/'+allTracked.length+' valued · avg '+eur(avgVal):'No valuations set yet'}</div></div>
+          <div class="tile"><div class="tile-l">Contract risk</div><div class="tile-big" style="color:${riskColor}">${riskLabel}</div><div class="tile-sub">${expired.length?expired.length+' expired · ':''}${expiring.length?expiring.length+' expiring <6mo · ':''}${monitor.length?monitor.length+' monitor 6-12mo':''}${!atRisk&&!monitor.length?'No contracts need attention':''}</div></div>
+          <div class="tile"><div class="tile-l">Sponsors</div><div class="tile-big">${spons.length}</div><div class="tile-sub">${sponsCats.length} categories · ${spons.slice(0,3).map(s=>s.brand).join(', ')}${spons.length>3?'…':''}</div></div>
         </div>
 
-        <!-- Attention needed -->
-        <div class="tile" style="margin-bottom:14px">
-          <div class="tile-l">${hasAttention?'⚠ ATTENTION NEEDED':'✓ ALL CLEAR'}</div>
-          ${hasAttention?`<div style="display:flex;flex-direction:column;gap:8px;margin-top:8px">
-            ${expired.length?`<div style="display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--r-crit)10;border:1px solid var(--r-crit)30;border-radius:var(--rad)">
-              <span style="color:var(--r-crit);font-weight:700;font-size:.8rem">EXPIRED</span>
-              <span style="font-size:.8rem">${expired.map(p=>p.ign).join(', ')}</span>
-            </div>`:''}
-            ${expiring.length?`<div style="display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--r-high)10;border:1px solid var(--r-high)30;border-radius:var(--rad)">
-              <span style="color:var(--r-high);font-weight:700;font-size:.8rem">EXPIRING &lt;6mo</span>
-              <span style="font-size:.8rem">${expiring.map(p=>p.ign+' ('+moU(p.ce)+'mo)').join(', ')}</span>
-            </div>`:''}
-            ${lolMiss.length?`<div style="display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--r-med)10;border:1px solid var(--r-med)30;border-radius:var(--rad)">
-              <span style="color:var(--r-med);font-weight:700;font-size:.8rem">LoL ROLE GAP</span>
-              <span style="font-size:.8rem">${lolMiss.join(', ')}</span>
-            </div>`:''}
-            ${valMiss.length?`<div style="display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--r-med)10;border:1px solid var(--r-med)30;border-radius:var(--rad)">
-              <span style="color:var(--r-med);font-weight:700;font-size:.8rem">VAL ROLE GAP</span>
-              <span style="font-size:.8rem">${valMiss.join(', ')}</span>
-            </div>`:''}
-            ${importPressure?`<div style="display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--r-high)10;border:1px solid var(--r-high)30;border-radius:var(--rad)">
-              <span style="color:var(--r-high);font-weight:700;font-size:.8rem">IMPORT SLOTS</span>
-              <span style="font-size:.8rem">${allImports.length}/2 used (${allImports.map(p=>p.ign).join(', ')})</span>
-            </div>`:''}
-          </div>`:`<div style="color:var(--r-low);font-size:.85rem;margin-top:6px">Full role coverage, no urgent contract actions, import slots available.</div>`}
-        </div>
-
-        <!-- Unified roster -->
-        <div class="tile" style="margin-bottom:14px">
-          <div class="tile-l">ROSTER</div>
-          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;margin-top:10px">
-            ${allTracked.map(p=>{
-              const game=DL.find(x=>x.id===p.id)?'LoL':'VAL';
-              const gc=game==='LoL'?'var(--ac)':'var(--blue)';
-              return `<div style="background:var(--bg-3);border:1px solid var(--border-0);border-radius:var(--rad);padding:10px;cursor:pointer;text-align:center" onclick="openPanel('${p.id}')">
-                <div style="font-size:1.3rem">${flag(p.co)}</div>
-                <div style="font-weight:700;font-size:.85rem;margin:4px 0 2px">${p.ign}</div>
-                <div style="font-size:.7rem;color:var(--tx-3)">${p.role}</div>
-                <div style="margin-top:4px;display:flex;gap:4px;justify-content:center">
-                  <span style="font-family:var(--fm);font-size:.5rem;padding:1px 5px;border-radius:3px;background:${gc}15;color:${gc}">${game}</span>
-                  ${p.res==='Non-Resident'?'<span style="font-family:var(--fm);font-size:.5rem;padding:1px 5px;border-radius:3px;background:var(--r-high)15;color:var(--r-high)">IMP</span>':''}
-                </div>
-              </div>`;
-            }).join('')}
+        <!-- Middle row — Attention + Role Coverage -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+          <div class="tile">
+            <div class="tile-l">${hasAttention?'⚠ Attention needed':'✓ All clear'}</div>
+            ${hasAttention?`<div style="display:flex;flex-direction:column;gap:6px;margin-top:8px">
+              ${expired.length?`<div style="display:flex;align-items:center;gap:8px;padding:6px 10px;background:var(--r-crit)10;border:1px solid var(--r-crit)25;border-radius:var(--rad);font-size:.8rem"><span style="width:6px;height:6px;border-radius:50%;background:var(--r-crit);flex-shrink:0"></span><span style="color:var(--r-crit);font-weight:700;font-size:.7rem">EXPIRED</span><span>${expired.map(p=>p.ign).join(', ')}</span></div>`:''}
+              ${expiring.length?`<div style="display:flex;align-items:center;gap:8px;padding:6px 10px;background:var(--r-high)10;border:1px solid var(--r-high)25;border-radius:var(--rad);font-size:.8rem"><span style="width:6px;height:6px;border-radius:50%;background:var(--r-high);flex-shrink:0"></span><span style="color:var(--r-high);font-weight:700;font-size:.7rem">EXP &lt;6mo</span><span>${expiring.map(p=>p.ign+' ('+moU(p.ce)+'mo)').join(', ')}</span></div>`:''}
+              ${lolMiss.length?`<div style="display:flex;align-items:center;gap:8px;padding:6px 10px;background:var(--r-med)10;border:1px solid var(--r-med)25;border-radius:var(--rad);font-size:.8rem"><span style="width:6px;height:6px;border-radius:50%;background:var(--r-med);flex-shrink:0"></span><span style="color:var(--r-med);font-weight:700;font-size:.7rem">LoL GAP</span><span>${lolMiss.join(', ')}</span></div>`:''}
+              ${valMiss.length?`<div style="display:flex;align-items:center;gap:8px;padding:6px 10px;background:var(--r-med)10;border:1px solid var(--r-med)25;border-radius:var(--rad);font-size:.8rem"><span style="width:6px;height:6px;border-radius:50%;background:var(--r-med);flex-shrink:0"></span><span style="color:var(--r-med);font-weight:700;font-size:.7rem">VAL GAP</span><span>${valMiss.join(', ')}</span></div>`:''}
+            </div>`:`<div style="color:var(--r-low);font-size:.85rem;margin-top:6px">Full role coverage, no urgent contract actions.</div>`}
+          </div>
+          <div class="tile">
+            ${lolP.length?`<div class="tile-l">Role coverage — LoL</div><div style="display:flex;gap:5px;flex-wrap:wrap;margin-top:6px">${lolRoles.map(r=>{const has=lolCov.has(r);return`<span style="font-family:var(--fm);font-size:.7rem;padding:3px 8px;border-radius:4px;border:1px solid ${has?'var(--ac)30':'var(--r-crit)30'};color:${has?'var(--ac)':'var(--r-crit)'};background:${has?'var(--ac)08':'var(--r-crit)08'}">${r}${has?' ✓':' ✗'}</span>`}).join('')}</div>`:''}
+            ${valP.length?`<div class="tile-l" style="${lolP.length?'margin-top:12px':''}">Role coverage — VAL</div><div style="display:flex;gap:5px;flex-wrap:wrap;margin-top:6px">${valRoles.map(r=>{const has=valCov.has(r);return`<span style="font-family:var(--fm);font-size:.7rem;padding:3px 8px;border-radius:4px;border:1px solid ${has?'var(--ac)30':'var(--r-crit)30'};color:${has?'var(--ac)':'var(--r-crit)'};background:${has?'var(--ac)08':'var(--r-crit)08'}">${r}${has?' ✓':' ✗'}</span>`}).join('')}</div>`:''}
           </div>
         </div>
 
-        <!-- Sponsorship summary -->
+        <!-- Roster snapshot — two-column table -->
+        <div class="tile" style="margin-bottom:12px">
+          <div class="tile-l">Roster snapshot</div>
+          <div style="display:grid;grid-template-columns:${lolP.length&&valP.length?'1fr 1fr':'1fr'};gap:0 20px;margin-top:8px">
+            ${lolP.length?`<div>
+              <div style="font-family:var(--fm);font-size:.65rem;color:var(--lol-1);font-weight:700;margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px">League of Legends</div>
+              ${lolP.map(p=>{const mo=moU(p.ce);const cc=cCol(mo);return`<div style="display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--border-0);font-size:.85rem;cursor:pointer" onclick="openPanel('${p.id}')"><span style="font-size:1rem;width:22px;text-align:center">${flag(p.co)}</span><span style="font-weight:700;min-width:85px;font-size:.85rem">${p.ign}</span><span style="font-family:var(--fm);font-size:.65rem;padding:2px 7px;border-radius:4px;background:var(--bg-3);border:1px solid var(--border-0);color:var(--tx-3)">${p.role}</span>${p.res==='Non-Resident'?'<span style="font-family:var(--fm);font-size:.55rem;padding:1px 5px;border-radius:3px;background:var(--r-high)12;color:var(--r-high)">IMP</span>':''}<span style="margin-left:auto;font-family:var(--fm);font-size:.8rem;color:${cc}">${mo<=0?'EXP':mo+'mo'}</span></div>`}).join('')}
+            </div>`:''}
+            ${valP.length?`<div>
+              <div style="font-family:var(--fm);font-size:.65rem;color:var(--val-1);font-weight:700;margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px">Valorant</div>
+              ${valP.map(p=>{const mo=moU(p.ce);const cc=cCol(mo);return`<div style="display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--border-0);font-size:.85rem;cursor:pointer" onclick="openPanel('${p.id}')"><span style="font-size:1rem;width:22px;text-align:center">${flag(p.co)}</span><span style="font-weight:700;min-width:85px;font-size:.85rem">${p.ign}</span><span style="font-family:var(--fm);font-size:.65rem;padding:2px 7px;border-radius:4px;background:var(--bg-3);border:1px solid var(--border-0);color:var(--tx-3)">${p.role}</span>${p.res==='Non-Resident'?'<span style="font-family:var(--fm);font-size:.55rem;padding:1px 5px;border-radius:3px;background:var(--r-high)12;color:var(--r-high)">IMP</span>':''}<span style="margin-left:auto;font-family:var(--fm);font-size:.8rem;color:${cc}">${mo<=0?'EXP':mo+'mo'}</span></div>`}).join('')}
+            </div>`:''}
+          </div>
+        </div>
+
+        <!-- Sponsors chip bar -->
         ${spons.length?`<div class="tile">
-          <div class="tile-l">SPONSORS</div>
-          <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px">
-            ${spons.map(sp=>`<span style="background:var(--bg-3);border:1px solid var(--border-0);border-radius:var(--rad);padding:6px 12px;font-size:.8rem;font-weight:600">${sp.brand}</span>`).join('')}
-          </div>
+          <div class="tile-l">Sponsors</div>
+          <div style="display:flex;flex-wrap:wrap;gap:5px;margin-top:8px">${spons.map(sp=>`<span style="background:var(--bg-3);border:1px solid var(--border-0);border-radius:var(--rad);padding:5px 11px;font-size:.8rem;font-weight:600">${sp.brand}</span>`).join('')}</div>
           <div style="margin-top:8px;font-family:var(--fm);font-size:.7rem;color:var(--tx-3)">${spons.length} partners across ${sponsCats.length} categories · <span style="cursor:pointer;color:var(--blue);text-decoration:underline" onclick="switchTeamTab('sponsors',document.querySelector('.team-tab:nth-child(4)'))">View details →</span></div>
         </div>`:''}
-        
 `;
       })()}
     </div>
