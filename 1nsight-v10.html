@@ -63,13 +63,14 @@ body{font-family:var(--ff);background:var(--bg-0);color:var(--tx-1);line-height:
 .page{display:none;flex-direction:column;flex:1;overflow:hidden}.page.active{display:flex}
 
 /* Header */
-.hd{display:flex;align-items:center;justify-content:space-between;padding:16px 28px;border-bottom:1px solid var(--border-0);position:relative;z-index:10;gap:12px;flex-wrap:wrap;flex-shrink:0}
-.hd-l{display:flex;flex-direction:column;gap:2px}
-.hd-brand{height:22px;display:flex;align-items:center;opacity:.7}
-.hd-brand img{height:22px;object-fit:contain}
-.hd-title{font-family:var(--fd);font-size:1.3rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--tx-1)}
-.hd-sub{font-size:.75rem;font-family:var(--fm);color:var(--tx-3);margin-top:2px}
-.hd-r{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.hd{display:flex;align-items:center;padding:14px 28px;border-bottom:1px solid var(--border-0);position:relative;z-index:10;gap:12px;flex-shrink:0}
+.hd-l{display:flex;align-items:center;flex-shrink:0}
+.hd-brand{height:20px;display:flex;align-items:center;opacity:.6}
+.hd-brand img{height:20px;object-fit:contain}
+.hd-center{flex:1;text-align:center}
+.hd-title{font-family:var(--fd);font-size:1rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--tx-1)}
+.hd-sub{font-size:.65rem;font-family:var(--fm);color:var(--tx-3);margin-top:1px}
+.hd-r{display:flex;align-items:center;gap:8px;flex-wrap:wrap;flex-shrink:0}
 .btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:var(--rad);font-family:var(--ff);font-size:.75rem;font-weight:600;border:1px solid var(--border-1);background:var(--bg-3);color:var(--tx-2);cursor:pointer;transition:all var(--tr);white-space:nowrap}
 .btn:hover{border-color:var(--border-2);color:var(--tx-1);background:var(--bg-4)}
 .btn-ac{border-color:rgba(255,255,255,.15);color:var(--tx-1);background:rgba(255,255,255,.05)}
@@ -667,7 +668,7 @@ body.privacy-mode .blur-private{filter:blur(6px)!important;user-select:none;poin
   <div class="page" id="page-digest" style="padding:24px;overflow-y:auto"></div>
   <div class="page active" id="page-feed">
     <header class="hd">
-      <div class="hd-l"><div class="hd-brand"><img src="https://awon2k.github.io/riot.intelligence/1nsight-logo-transparent.png" alt="1NSIGHT"></div><div class="hd-title">ACTIVITY</div><div class="hd-sub">Data source changes & updates</div></div>
+      <div class="hd-l"><div class="hd-brand"><img src="https://awon2k.github.io/riot.intelligence/1nsight-logo-transparent.png" alt="1NSIGHT"></div></div><div class="hd-center"><div class="hd-title">ACTIVITY</div><div class="hd-sub">Data source changes & updates</div></div>
       <div class="hd-r">
         <div class="freshness-bar">
           <span><span class="freshness-dot fresh"></span> GCD: 14m ago</span>
@@ -711,7 +712,7 @@ body.privacy-mode .blur-private{filter:blur(6px)!important;user-select:none;poin
   <!-- MARKET PAGE -->
   <div class="page" id="page-market">
     <header class="hd">
-      <div class="hd-l"><div class="hd-brand"><img src="https://awon2k.github.io/riot.intelligence/1nsight-logo-transparent.png" alt="1NSIGHT"></div><div class="hd-title" id="hd-title">LEAGUE OF LEGENDS</div><div class="hd-sub" id="hd-sub">Transfer Intelligence · LEC · LCK · LPL · LCS</div></div>
+      <div class="hd-l"><div class="hd-brand"><img src="https://awon2k.github.io/riot.intelligence/1nsight-logo-transparent.png" alt="1NSIGHT"></div></div><div class="hd-center"><div class="hd-title" id="hd-title">LEAGUE OF LEGENDS</div><div class="hd-sub" id="hd-sub">Transfer Intelligence · LEC · LCK · LPL · LCS</div></div>
       <div class="hd-r"><span class="tag" id="sync-tag" title="Data syncs automatically"><span class="freshness-dot fresh"></span> Auto-syncing</span></div>
     </header>
     <div class="stats"><div class="st"><div class="st-l">Players Tracked</div><div class="st-v" id="s-total" style="color:var(--ac)">—</div></div><div class="st"><div class="st-l">Your High / Critical</div><div class="st-v" id="s-risk" style="color:var(--ac)">—</div></div><div class="st"><div class="st-l">Expiring &lt; 6 Months</div><div class="st-v" id="s-exp" style="color:var(--r-med)">—</div></div><div class="st"><div class="st-l">Avg Your Valuation</div><div class="st-v" id="s-val" style="color:var(--ac)">—</div></div></div>
@@ -733,7 +734,7 @@ body.privacy-mode .blur-private{filter:blur(6px)!important;user-select:none;poin
   <!-- MY TEAM PAGE -->
   <div class="page" id="page-team">
     <header class="hd">
-      <div class="hd-l"><div class="hd-brand"><img src="https://awon2k.github.io/riot.intelligence/1nsight-logo-transparent.png" alt="1NSIGHT"></div><div class="hd-title">MY ORG</div><div class="hd-sub">Organization Hub</div></div>
+      <div class="hd-l"><div class="hd-brand"><img src="https://awon2k.github.io/riot.intelligence/1nsight-logo-transparent.png" alt="1NSIGHT"></div></div><div class="hd-center"><div class="hd-title">MY ORG</div><div class="hd-sub">Organization Hub</div></div>
       <div class="hd-r"></div>
     </header>
     <div class="team-page" id="team-content"></div>
@@ -743,7 +744,7 @@ body.privacy-mode .blur-private{filter:blur(6px)!important;user-select:none;poin
   <div class="page" id="page-orgs" style="overflow-y:auto;padding:0"></div>
   <div class="page" id="page-wl">
     <header class="hd">
-      <div class="hd-l"><div class="hd-brand"><img src="https://awon2k.github.io/riot.intelligence/1nsight-logo-transparent.png" alt="1NSIGHT"></div><div class="hd-title">WATCHLISTS</div><div class="hd-sub">Scouting & Intelligence Hub</div></div>
+      <div class="hd-l"><div class="hd-brand"><img src="https://awon2k.github.io/riot.intelligence/1nsight-logo-transparent.png" alt="1NSIGHT"></div></div><div class="hd-center"><div class="hd-title">WATCHLISTS</div><div class="hd-sub">Scouting & Intelligence Hub</div></div>
       <div class="hd-r"><button class="btn btn-purple" onclick="createWL()">+ New Watchlist</button></div>
     </header>
     <div class="wl-hub" id="wl-hub-content"></div>
@@ -752,7 +753,7 @@ body.privacy-mode .blur-private{filter:blur(6px)!important;user-select:none;poin
   <!-- ALERTS PAGE -->
   <div class="page" id="page-alerts">
     <header class="hd">
-      <div class="hd-l"><div class="hd-brand"><img src="https://awon2k.github.io/riot.intelligence/1nsight-logo-transparent.png" alt="1NSIGHT"></div><div class="hd-title">ALERTS</div><div class="hd-sub">Notifications & alert subscriptions</div></div>
+      <div class="hd-l"><div class="hd-brand"><img src="https://awon2k.github.io/riot.intelligence/1nsight-logo-transparent.png" alt="1NSIGHT"></div></div><div class="hd-center"><div class="hd-title">ALERTS</div><div class="hd-sub">Notifications & alert subscriptions</div></div>
       <div class="hd-r"><button class="btn btn-w" onclick="markAllRead()">Mark all read</button></div>
     </header>
     <div class="alerts-page" id="alerts-content"></div>
@@ -761,7 +762,7 @@ body.privacy-mode .blur-private{filter:blur(6px)!important;user-select:none;poin
   <!-- SETTINGS PAGE -->
   <div class="page" id="page-settings">
     <header class="hd">
-      <div class="hd-l"><div class="hd-brand"><img src="https://awon2k.github.io/riot.intelligence/1nsight-logo-transparent.png" alt="1NSIGHT"></div><div class="hd-title" style="color:var(--tx-1)">SETTINGS</div><div class="hd-sub">Preferences & notifications</div></div>
+      <div class="hd-l"><div class="hd-brand"><img src="https://awon2k.github.io/riot.intelligence/1nsight-logo-transparent.png" alt="1NSIGHT"></div></div><div class="hd-center"><div class="hd-title" style="color:var(--tx-1)">SETTINGS</div><div class="hd-sub">Preferences & notifications</div></div>
     </header>
     <div class="settings-page" id="settings-content"></div>
   </div>
@@ -1107,7 +1108,7 @@ function renderOrgsPage(){
   
   page.innerHTML=`
     <header class="hd">
-      <div class="hd-l"><div class="hd-brand"><img src="https://awon2k.github.io/riot.intelligence/1nsight-logo-transparent.png" alt="1NSIGHT"></div><div class="hd-title">ORGANIZATIONS</div><div class="hd-sub">Competitor Intelligence</div></div>
+      <div class="hd-l"><div class="hd-brand"><img src="https://awon2k.github.io/riot.intelligence/1nsight-logo-transparent.png" alt="1NSIGHT"></div></div><div class="hd-center"><div class="hd-title">ORGANIZATIONS</div><div class="hd-sub">Competitor Intelligence</div></div>
     </header>
     <div style="padding:20px 28px">
       <div class="filters" style="border:none;padding:0;margin-bottom:16px">
@@ -1174,11 +1175,11 @@ function openOrgBreakdown(orgId,game){
   page.innerHTML=`
     <header class="hd">
       <div class="hd-l">
-        <button class="btn" onclick="renderOrgsPage()" style="margin-right:12px">&larr; Back</button>
+        <button class="btn" onclick="renderOrgsPage()" style="margin-right:8px">&larr; Back</button>
         <div class="hd-brand"><img src="https://awon2k.github.io/riot.intelligence/1nsight-logo-transparent.png" alt="1NSIGHT"></div>
-        <div class="hd-title">${org.name.toUpperCase()}</div>
       </div>
-      <div style="display:flex;gap:6px;align-items:center;margin-left:auto">${socialsHtml}</div>
+      <div class="hd-center"><div class="hd-title">${org.name.toUpperCase()}</div></div>
+      <div style="display:flex;gap:6px;align-items:center;flex-shrink:0">${socialsHtml}</div>
     </header>
     <div style="padding:20px 28px;overflow-y:auto">
       <div class="team-tabs">
