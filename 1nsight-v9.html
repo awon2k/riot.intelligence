@@ -1236,8 +1236,33 @@ function openOrgBreakdown(orgId,game){
 
       <!-- 4. SPONSORS -->
       <div class="org-tab-content" id="ot-sp" style="display:none">
-        ${spons.length?`<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px">${spons.map(sp=>`<div style="background:var(--bg-3);border:1px solid var(--border-0);border-radius:var(--rad-lg);padding:16px"><div style="font-weight:700;font-size:1rem;margin-bottom:6px">${sp.brand}</div><div style="display:flex;justify-content:space-between;font-family:var(--fm);font-size:.75rem;color:var(--tx-3)"><span style="background:var(--bg-4);padding:2px 8px;border-radius:4px">${sp.cat}</span><span>Since ${sp.since}</span></div></div>`).join('')}</div><div style="margin-top:12px;font-family:var(--fm);font-size:.75rem;color:var(--tx-3)">${spons.length} active partners</div>`:'<div style="color:var(--tx-3)">No sponsorship data.</div>'}
-        ${fin.jerseySponsors?`<div class="tile" style="margin-top:16px"><div class="tile-l">JERSEY BREAKDOWN</div><div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px">${Object.entries(fin.jerseySponsors).filter(([k,v])=>v&&v!=='\u2014').map(([pos,brand])=>`<div style="background:var(--bg-3);border:1px solid var(--border-0);border-radius:var(--rad);padding:10px 14px;text-align:center"><div style="font-size:.6rem;color:var(--tx-3);text-transform:uppercase">${pos}</div><div style="font-weight:700;font-size:.9rem;margin-top:2px">${brand}</div></div>`).join('')}</div></div>`:''}
+        ${(()=>{
+          const orgSpons=spons;
+          const cats=[...new Set(orgSpons.map(s=>s.cat))];
+          const now=new Date().getFullYear();
+          const longest=orgSpons.length?orgSpons.reduce((a,b)=>(parseInt(a.since)||now)<(parseInt(b.since)||now)?a:b):null;
+          const newest=orgSpons.length?orgSpons.reduce((a,b)=>(parseInt(a.since)||0)>(parseInt(b.since)||0)?a:b):null;
+          const longestYrs=longest?(now-parseInt(longest.since))+'yr':'—';
+          const jersey=fin.jerseySponsors||{};
+          const jerseyEntries=Object.entries(jersey).filter(([k,v])=>v&&v!=='—');
+          const catColors={'Beverage':'#38bdf8','Peripherals':'#a78bfa','Monitors':'#34d399','Finance':'#fbbf24','Furniture':'#6b7a94','Apparel':'#fb923c','Betting':'#f87171','Betting (CS2)':'#f87171','Betting (LoL)':'#f87171','Hardware':'#38bdf8','Electronics':'#a78bfa','FMCG':'#fb923c','Telecom':'#fbbf24','Automotive':'#34d399','Platform':'#6b7a94','Trading':'#fbbf24','Streaming':'#a78bfa','Tourism (Jersey)':'#fb923c','Fashion/Lead Partner':'#fb923c','Insurance':'#fbbf24','Crypto':'#a78bfa','AI/Tech':'#38bdf8','Retail':'#34d399','Other':'#6b7a94'};
+          const getInitials=(b)=>b.split(' ').map(w=>w[0]).join('').substring(0,3).toUpperCase();
+          const jerseyMap={};jerseyEntries.forEach(([pos,brand])=>{jerseyMap[brand]=pos;});
+          
+          let h=`<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px"><div class="tile"><div class="tile-l">Partners</div><div class="tile-big" style="color:var(--ac)">${orgSpons.length}</div><div class="tile-sub">Active</div></div><div class="tile"><div class="tile-l">Categories</div><div class="tile-big">${cats.length}</div><div class="tile-sub">${cats.slice(0,2).join(', ')}${cats.length>2?'…':''}</div></div><div class="tile"><div class="tile-l">Longest</div><div class="tile-big">${longestYrs}</div><div class="tile-sub">${longest?longest.brand:''}</div></div><div class="tile"><div class="tile-l">Newest</div><div class="tile-big">${newest?newest.since:'—'}</div><div class="tile-sub">${newest?newest.brand:''}</div></div></div>`;
+          
+          if(jerseyEntries.length){h+=`<div class="tile" style="margin-bottom:16px"><div class="tile-l">Jersey placement</div><div style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap">${jerseyEntries.map(([pos,brand])=>`<div style="background:var(--bg-3);border:1px solid var(--border-1);border-radius:var(--rad);padding:10px 16px;text-align:center;flex:1;min-width:90px"><div style="font-size:.55rem;font-family:var(--fm);color:var(--tx-3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px">${pos}</div><div style="font-weight:700;font-size:.85rem">${brand}</div></div>`).join('')}</div></div>`;}
+          
+          if(!orgSpons.length)return h+'<div style="color:var(--tx-3);font-size:.85rem">No sponsorship data available.</div>';
+          
+          h+=`<div class="tile-l">All partnerships</div><div class="roster-list">${orgSpons.map(sp=>{const dur=now-parseInt(sp.since||now);const durLabel=dur<=0?'NEW':dur+'yr';const jerseyPos=jerseyMap[sp.brand]||'';const cc=catColors[sp.cat]||'#6b7a94';return`<div class="rc"><div class="rc-photo" style="color:var(--tx-3);font-family:var(--fd);font-size:.7rem;font-weight:800">${getInitials(sp.brand)}</div><div class="rc-info"><div class="rc-r1"><span class="rc-ign" style="font-family:var(--ff)">${sp.brand}</span></div><div class="rc-r2" style="display:flex;align-items:center;gap:6px"><span class="rc-role" style="border-color:${cc}30;color:${cc}">${sp.cat}</span>${jerseyPos?'<span style="font-size:.7rem;color:var(--tx-3)">· Jersey: '+jerseyPos+'</span>':''}</div></div><div style="display:flex;align-items:center;gap:16px;flex-shrink:0"><div style="text-align:center"><div style="font-family:var(--fm);font-size:.85rem;font-weight:700;color:var(--tx-2)">${sp.since||'—'}</div><div style="font-size:.55rem;font-family:var(--fm);color:var(--tx-3);text-transform:uppercase;margin-top:1px">Since</div></div><div style="text-align:center"><div style="font-family:var(--fm);font-size:.85rem;font-weight:700;color:${dur<=0?'var(--ac)':'var(--tx-1)'}">${durLabel}</div><div style="font-size:.55rem;font-family:var(--fm);color:var(--tx-3);text-transform:uppercase;margin-top:1px">Duration</div></div></div></div>`;}).join('')}</div>`;
+          
+          // Category breakdown
+          const catCounts={};orgSpons.forEach(s=>{catCounts[s.cat]=(catCounts[s.cat]||0)+1;});
+          const catEntries=Object.entries(catCounts).sort((a,b)=>b[1]-a[1]);
+          h+=`<div style="margin-top:16px"><div class="tile-l">Category breakdown</div><div style="display:flex;height:6px;border-radius:3px;overflow:hidden;gap:1px;margin-top:8px">${catEntries.map(([cat,count])=>`<div style="flex:${count};height:100%;background:${catColors[cat]||'#6b7a94'}"></div>`).join('')}</div><div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;font-size:.7rem;color:var(--tx-3)">${catEntries.map(([cat,count])=>`<span style="display:flex;align-items:center;gap:4px"><span style="width:7px;height:7px;border-radius:2px;background:${catColors[cat]||'#6b7a94'}"></span>${cat} (${count})</span>`).join('')}</div></div>`;
+          return h;
+        })()}
       </div>
 
       <!-- 5. INTEL -->
@@ -2441,58 +2466,91 @@ function renderTeamDashboard(el){
     </div>
     <!-- SPONSORS -->
     <div class="team-content" id="tt-sponsors">
-      <div class="tile"><div class="tile-l" style="display:flex;justify-content:space-between;align-items:center">SPONSORSHIP PORTFOLIO <button class="btn btn-ac" onclick="toggleSponsorEdit()">Edit Information</button></div>
+      ${(()=>{
+        const spons=SPONSORS[org.id]||[];
+        const privSpons=JSON.parse(localStorage.getItem('1n_priv_sponsors_'+org.id)||'[]');
+        const allSpons=[...spons.map(s=>({...s,source:'public'})),...privSpons.map(s=>({...s,source:'private'}))];
+        const cats=[...new Set(allSpons.map(s=>s.cat))];
+        const now=new Date().getFullYear();
+        const longest=allSpons.length?allSpons.reduce((a,b)=>(parseInt(a.since)||now)<(parseInt(b.since)||now)?a:b):null;
+        const newest=allSpons.length?allSpons.reduce((a,b)=>(parseInt(a.since)||0)>(parseInt(b.since)||0)?a:b):null;
+        const longestYrs=longest?(now-parseInt(longest.since))+'yr':'—';
+        const fin=ORG_FINANCIALS[org.id]||{};
+        const jersey=fin.jerseySponsors||{};
+        const jerseyEntries=Object.entries(jersey).filter(([k,v])=>v&&v!=='—');
+        const catColors={'Beverage':'#38bdf8','Peripherals':'#a78bfa','Monitors':'#34d399','Finance':'#fbbf24','Furniture':'#6b7a94','Apparel':'#fb923c','Betting':'#f87171','Betting (CS2)':'#f87171','Betting (LoL)':'#f87171','Hardware':'#38bdf8','Electronics':'#a78bfa','FMCG':'#fb923c','Telecom':'#fbbf24','Automotive':'#34d399','Platform':'#6b7a94','Trading':'#fbbf24','Streaming':'#a78bfa','Tourism (Jersey)':'#fb923c','Fashion/Lead Partner':'#fb923c','Insurance':'#fbbf24','Crypto':'#a78bfa','AI/Tech':'#38bdf8','Retail':'#34d399','Other':'#6b7a94'};
+        const getInitials=(b)=>b.split(' ').map(w=>w[0]).join('').substring(0,3).toUpperCase();
         
-        <!-- Visibility notice -->
-        <div style="margin:10px 0;padding:10px 14px;background:var(--bg-3);border:1px solid var(--border-0);border-radius:var(--rad);display:flex;align-items:center;gap:10px;font-size:.75rem">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ac)" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
-          <div><span style="color:var(--tx-2)">Public data is sourced from official announcements and visible to all users.</span> <span style="color:var(--ac)">Private fields (deal value, renewal date, notes) are encrypted and visible only to your organization.</span></div>
+        // Check jersey placement for each sponsor
+        const jerseyMap={};
+        jerseyEntries.forEach(([pos,brand])=>{jerseyMap[brand]=pos;});
+        
+        let html=`
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px">
+          <div class="tile"><div class="tile-l">Partners</div><div class="tile-big" style="color:var(--ac)">${allSpons.length}</div><div class="tile-sub">Active sponsorships</div></div>
+          <div class="tile"><div class="tile-l">Categories</div><div class="tile-big">${cats.length}</div><div class="tile-sub">${cats.slice(0,2).join(', ')}${cats.length>2?'…':''}</div></div>
+          <div class="tile"><div class="tile-l">Longest</div><div class="tile-big">${longestYrs}</div><div class="tile-sub">${longest?longest.brand+' ('+longest.since+')':'—'}</div></div>
+          <div class="tile"><div class="tile-l">Newest</div><div class="tile-big">${newest?newest.since:'—'}</div><div class="tile-sub">${newest?newest.brand:'—'}</div></div>
         </div>
+
+        <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--bg-2);border:1px solid var(--border-0);border-radius:var(--rad);margin-bottom:16px;font-size:.75rem">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ac)" stroke-width="2" style="flex-shrink:0"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+          <span><span style="color:var(--tx-2)">Public data sourced from official announcements.</span> <span style="color:var(--ac)">Private fields are encrypted per-org.</span></span>
+        </div>`;
         
-        <div style="margin-top:14px">
-        ${(()=>{
-          const spons=SPONSORS[org.id]||[];
-          const privSpons=JSON.parse(localStorage.getItem('1n_priv_sponsors_'+org.id)||'[]');
-          const allSpons=[...spons.map(s=>({...s,source:'public'})),...privSpons.map(s=>({...s,source:'private'}))];
+        // Jersey placement
+        if(jerseyEntries.length){
+          html+=`<div class="tile" style="margin-bottom:16px"><div class="tile-l">Jersey placement</div><div style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap">${jerseyEntries.map(([pos,brand])=>`<div style="background:var(--bg-3);border:1px solid var(--border-1);border-radius:var(--rad);padding:10px 16px;text-align:center;flex:1;min-width:90px"><div style="font-size:.55rem;font-family:var(--fm);color:var(--tx-3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px">${pos}</div><div style="font-weight:700;font-size:.85rem">${brand}</div></div>`).join('')}</div></div>`;
+        }
+        
+        // Sponsor rows
+        html+=`<div class="tile-l">All partnerships</div><div style="display:flex;justify-content:flex-end;margin-bottom:10px"><button class="btn btn-ac" onclick="toggleSponsorEdit()">+ Add Private Deal</button></div>`;
+        
+        if(!allSpons.length){
+          html+='<div style="color:var(--tx-3);font-size:.85rem;padding:20px 0">No sponsorship data. Click "Add Private Deal" to start building your portfolio.</div>';
+        } else {
+          html+=`<div class="roster-list">${allSpons.map(sp=>{
+            const dur=now-parseInt(sp.since||now);
+            const durLabel=dur<=0?'NEW':dur+'yr';
+            const isPriv=sp.source==='private';
+            const jerseyPos=jerseyMap[sp.brand]||'';
+            const cc=catColors[sp.cat]||'#6b7a94';
+            return`<div class="rc" style="${isPriv?'border-color:var(--ac)15':''}">
+              <div class="rc-photo" style="${isPriv?'border-color:var(--ac)30;color:var(--ac)':'color:var(--tx-3)'};font-family:var(--fd);font-size:.7rem;font-weight:800">${getInitials(sp.brand)}</div>
+              <div class="rc-info">
+                <div class="rc-r1"><span class="rc-ign" style="font-family:var(--ff)">${sp.brand}</span><span class="rc-badge" style="background:${isPriv?'var(--ac)10':'var(--bg-4)'};color:${isPriv?'var(--ac)':'var(--tx-3)'}">${isPriv?'PRIVATE':'PUBLIC'}</span></div>
+                <div class="rc-r2" style="display:flex;align-items:center;gap:6px"><span class="rc-role" style="border-color:${cc}30;color:${cc}">${sp.cat}</span>${jerseyPos?'<span style="font-size:.7rem;color:var(--tx-3)">· Jersey: '+jerseyPos+'</span>':''}</div>
+                ${isPriv&&(sp.value||sp.renewal||sp.notes)?`<div class="blur-private" style="display:flex;gap:10px;margin-top:8px;flex-wrap:wrap">${sp.value?'<div style="background:var(--bg-3);border:1px solid var(--border-0);border-radius:6px;padding:5px 10px"><div style="font-size:.55rem;font-family:var(--fm);color:var(--tx-3);text-transform:uppercase">Value</div><div style="font-family:var(--fm);font-weight:700;color:var(--ac);font-size:.8rem;margin-top:1px">'+sp.value+'</div></div>':''}${sp.renewal?'<div style="background:var(--bg-3);border:1px solid var(--border-0);border-radius:6px;padding:5px 10px"><div style="font-size:.55rem;font-family:var(--fm);color:var(--tx-3);text-transform:uppercase">Renewal</div><div style="font-family:var(--fm);font-weight:700;color:var(--ac);font-size:.8rem;margin-top:1px">'+sp.renewal+'</div></div>':''}${sp.notes?'<div style="background:var(--bg-3);border:1px solid var(--border-0);border-radius:6px;padding:5px 10px;flex:1"><div style="font-size:.55rem;font-family:var(--fm);color:var(--tx-3);text-transform:uppercase">Notes</div><div style="font-size:.75rem;color:var(--tx-2);margin-top:1px">'+sp.notes+'</div></div>':''}</div>`:''}
+              </div>
+              <div style="display:flex;align-items:center;gap:16px;flex-shrink:0">
+                <div style="text-align:center"><div style="font-family:var(--fm);font-size:.85rem;font-weight:700;color:var(--tx-2)">${sp.since||'—'}</div><div style="font-size:.55rem;font-family:var(--fm);color:var(--tx-3);text-transform:uppercase;margin-top:1px">Since</div></div>
+                <div style="text-align:center"><div style="font-family:var(--fm);font-size:.85rem;font-weight:700;color:${dur<=0?'var(--ac)':'var(--tx-1)'}">${durLabel}</div><div style="font-size:.55rem;font-family:var(--fm);color:var(--tx-3);text-transform:uppercase;margin-top:1px">Duration</div></div>
+              </div>
+            </div>`;
+          }).join('')}</div>`;
           
-          if(!allSpons.length) return '<div style="color:var(--tx-3);font-size:.875rem">No sponsorship data available. Click "Edit Information" to add your deals.</div>';
-          return `<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px">${allSpons.map(sp=>`<div style="background:var(--bg-3);border:1px solid ${sp.source==='private'?'var(--ac)30':'var(--border-0)'};border-radius:var(--rad-lg);padding:16px;position:relative">
-            ${sp.source==='private'?'<div style="position:absolute;top:8px;right:8px;font-family:var(--fm);font-size:.55rem;padding:2px 6px;border-radius:4px;background:var(--ac)15;color:var(--ac)">PRIVATE</div>':'<div style="position:absolute;top:8px;right:8px;font-family:var(--fm);font-size:.55rem;padding:2px 6px;border-radius:4px;background:var(--bg-4);color:var(--tx-3)">PUBLIC</div>'}
-            <div style="font-weight:700;font-size:1rem;margin-bottom:6px">${sp.brand}</div>
-            <div style="display:flex;justify-content:space-between;font-family:var(--fm);font-size:.75rem;color:var(--tx-3)">
-              <span style="background:var(--bg-4);padding:2px 8px;border-radius:4px">${sp.cat}</span>
-              <span>Since ${sp.since}</span>
-            </div>
-            ${sp.value?'<div class="blur-private" style="margin-top:8px;font-family:var(--fm);font-size:.875rem;color:var(--ac)">'+sp.value+'</div>':''}
-            ${sp.renewal?'<div class="blur-private" style="margin-top:4px;font-family:var(--fm);font-size:.65rem;color:var(--tx-3)">Renewal: '+sp.renewal+'</div>':''}
-            ${sp.notes?'<div class="blur-private" style="margin-top:4px;font-size:.75rem;color:var(--tx-3);font-style:italic">'+sp.notes+'</div>':''}
-          </div>`).join('')}</div>
-          <div style="margin-top:16px;padding:14px;background:var(--bg-3);border:1px solid var(--border-0);border-radius:var(--rad-lg)">
-            <div style="font-family:var(--fm);font-size:.65rem;color:var(--tx-3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">Summary</div>
-            <div style="display:flex;gap:20px;font-size:.875rem;flex-wrap:wrap">
-              <span><strong>${allSpons.length}</strong> total partners</span>
-              <span><strong>${allSpons.filter(s=>s.source==='public').length}</strong> public</span>
-              <span style="color:var(--ac)"><strong>${allSpons.filter(s=>s.source==='private').length}</strong> private</span>
-              <span><strong>${[...new Set(allSpons.map(s=>s.cat))].length}</strong> categories</span>
-            </div>
-          </div>`;
-        })()}
-        </div>
-      </div>
+          // Category breakdown bar
+          const catCounts={};allSpons.forEach(s=>{const c=s.cat;catCounts[c]=(catCounts[c]||0)+1;});
+          const catEntries=Object.entries(catCounts).sort((a,b)=>b[1]-a[1]);
+          html+=`<div style="margin-top:16px"><div class="tile-l">Category breakdown</div><div style="display:flex;height:6px;border-radius:3px;overflow:hidden;gap:1px;margin-top:8px">${catEntries.map(([cat,count])=>`<div style="flex:${count};height:100%;background:${catColors[cat]||'#6b7a94'}" title="${cat} (${count})"></div>`).join('')}</div><div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;font-size:.7rem;color:var(--tx-3)">${catEntries.map(([cat,count])=>`<span style="display:flex;align-items:center;gap:4px"><span style="width:7px;height:7px;border-radius:2px;background:${catColors[cat]||'#6b7a94'}"></span>${cat} (${count})</span>`).join('')}</div></div>`;
+        }
+        
+        return html;
+      })()}
       
       <!-- Edit panel (hidden by default) -->
       <div class="tile" id="sponsor-edit-panel" style="display:none;margin-top:14px">
-        <div class="tile-l">ADD PRIVATE SPONSORSHIP</div>
+        <div class="tile-l">Add private sponsorship</div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px">
-          <input type="text" id="spon-brand" placeholder="Brand name" style="background:var(--bg-3);border:1px solid var(--border-1);border-radius:var(--rad);color:var(--tx-1);font-family:var(--ff);font-size:.875rem;padding:10px 14px;outline:none">
-          <select id="spon-cat" style="background:var(--bg-3);border:1px solid var(--border-1);border-radius:var(--rad);color:var(--tx-1);font-family:var(--ff);font-size:.875rem;padding:10px 14px">
+          <input type="text" id="spon-brand" placeholder="Brand name" style="background:var(--bg-3);border:1px solid var(--border-1);border-radius:var(--rad);color:var(--tx-1);font-family:var(--ff);font-size:.85rem;padding:10px 14px;outline:none">
+          <select id="spon-cat" style="background:var(--bg-3);border:1px solid var(--border-1);border-radius:var(--rad);color:var(--tx-1);font-family:var(--ff);font-size:.85rem;padding:10px 14px">
             <option value="">Category...</option>
             <option>Apparel</option><option>Automotive</option><option>Betting</option><option>Beverage</option><option>Electronics</option><option>FMCG</option><option>Finance</option><option>Furniture</option><option>Hardware</option><option>Insurance</option><option>Peripherals</option><option>Platform</option><option>Telecom</option><option>Other</option>
           </select>
-          <input type="text" id="spon-since" placeholder="Since (year)" style="background:var(--bg-3);border:1px solid var(--border-1);border-radius:var(--rad);color:var(--tx-1);font-family:var(--ff);font-size:.875rem;padding:10px 14px;outline:none">
-          <input type="text" id="spon-value" placeholder="Deal value (private)" style="background:var(--bg-3);border:1px solid var(--border-1);border-radius:var(--rad);color:var(--tx-1);font-family:var(--ff);font-size:.875rem;padding:10px 14px;outline:none">
-          <input type="text" id="spon-renewal" placeholder="Renewal date (private)" style="background:var(--bg-3);border:1px solid var(--border-1);border-radius:var(--rad);color:var(--tx-1);font-family:var(--ff);font-size:.875rem;padding:10px 14px;outline:none">
-          <input type="text" id="spon-notes" placeholder="Notes (private)" style="background:var(--bg-3);border:1px solid var(--border-1);border-radius:var(--rad);color:var(--tx-1);font-family:var(--ff);font-size:.875rem;padding:10px 14px;outline:none">
+          <input type="text" id="spon-since" placeholder="Since (year)" style="background:var(--bg-3);border:1px solid var(--border-1);border-radius:var(--rad);color:var(--tx-1);font-family:var(--ff);font-size:.85rem;padding:10px 14px;outline:none">
+          <input type="text" id="spon-value" placeholder="Deal value (private)" style="background:var(--bg-3);border:1px solid var(--border-1);border-radius:var(--rad);color:var(--tx-1);font-family:var(--ff);font-size:.85rem;padding:10px 14px;outline:none">
+          <input type="text" id="spon-renewal" placeholder="Renewal date (private)" style="background:var(--bg-3);border:1px solid var(--border-1);border-radius:var(--rad);color:var(--tx-1);font-family:var(--ff);font-size:.85rem;padding:10px 14px;outline:none">
+          <input type="text" id="spon-notes" placeholder="Notes (private)" style="background:var(--bg-3);border:1px solid var(--border-1);border-radius:var(--rad);color:var(--tx-1);font-family:var(--ff);font-size:.85rem;padding:10px 14px;outline:none">
         </div>
         <div style="display:flex;gap:8px;margin-top:10px">
           <button class="btn btn-ac" onclick="addPrivateSponsor()">Add Private Deal</button>
