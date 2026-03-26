@@ -288,6 +288,7 @@ body.privacy-mode .blur-private{filter:blur(6px)!important;user-select:none;poin
 .notes-saved.show{opacity:1}
 .pn-body{padding:18px 24px;display:flex;flex-direction:column;gap:14px;flex:1}
 .tile{background:var(--bg-2);border:1px solid var(--border-0);border-radius:var(--rad-lg);padding:18px;position:relative;overflow:hidden}
+.tile::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.03),transparent);pointer-events:none}
 .tile::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--game-1)12,transparent)}
 .tile-l{font-size:.75rem;font-family:var(--fm);font-weight:600;color:var(--tx-3);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
 .tile-big{font-size:1.5rem;font-weight:700;font-family:var(--fm)}
@@ -2946,8 +2947,8 @@ function renderTeamDashboard(el){
           let card=`<div class="tile" style="padding:0;overflow:hidden;margin-bottom:0">`;
           card+=`<div style="padding:8px 16px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--border-0);background:${cc}04"><span style="width:6px;height:6px;border-radius:50%;background:${cc};flex-shrink:0"></span><span style="font-size:.65rem;font-family:var(--fm);font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:${cc}">${urgLabel}</span></div>`;
           
-          card+=`<div style="padding:16px">`;
-          card+=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start">`;
+          card+=`<div style="padding:18px 20px">`;
+          card+=`<div style="display:grid;grid-template-columns:1.2fr 1fr;gap:20px;align-items:start">`;
           
           // LEFT — player
           card+=`<div>`;
