@@ -38,8 +38,13 @@ body{font-family:var(--ff);background:var(--bg-0);color:var(--tx-1);line-height:
 @keyframes scaleIn{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
 
 /* ═══════════ NAV ═══════════ */
-.nav{width:80px;height:100vh;background:var(--bg-1);border-right:1px solid var(--border-0);display:flex;flex-direction:column;align-items:center;padding:40px 0 16px;gap:3px;flex-shrink:0;z-index:50;position:relative}
+.nav{width:80px;height:100vh;background:var(--bg-1);border-right:1px solid var(--border-0);display:flex;flex-direction:column;align-items:center;padding:14px 0;flex-shrink:0;z-index:50;position:relative}
 .nav::after{content:'';position:absolute;right:0;top:0;bottom:0;width:1px;background:linear-gradient(180deg,transparent 10%,rgba(255,255,255,.06) 50%,transparent 90%);pointer-events:none}
+.nav-logo{width:64px;height:28px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-bottom:10px;opacity:.55;transition:opacity .15s}
+.nav-logo:hover{opacity:.85}
+.nav-logo img{width:64px;height:28px;object-fit:contain}
+.nav-center{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;width:100%}
+.nav-bottom{display:flex;flex-direction:column;align-items:center;gap:3px;padding-top:8px;border-top:1px solid var(--border-0);width:100%}
 .nav-div{width:40px;height:1px;background:var(--border-1);margin:6px 0}
 .nav-lbl{font-size:.65rem;font-family:var(--fm);color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:1.2px;margin:8px 0 4px}
 .ni{width:56px;height:48px;border-radius:var(--rad);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;border:1px solid transparent;transition:all var(--tr);position:relative}
@@ -53,7 +58,7 @@ body{font-family:var(--ff);background:var(--bg-0);color:var(--tx-1);line-height:
 .ni.on .ni-t{color:#fff;font-weight:600}
 .ni:hover .ni-t{color:rgba(255,255,255,.7)}
 .ni.lk{opacity:.25}.ni.lk:hover{opacity:.4}
-.nav-sp{flex:1}
+
 /* Remove all per-section color overrides — everything is white now */
 
 /* ═══════════ MAIN ═══════════ */
@@ -643,22 +648,25 @@ body.privacy-mode .blur-private{filter:blur(6px)!important;user-select:none;poin
 <body>
 
 <nav class="nav">
-  <div class="nav-lbl">Hub</div>
-  <div class="ni" id="nav-team" onclick="showTeamPage()" title="My Org"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg><span class="ni-t">My Org</span></div>
-  <div class="ni" id="nav-orgs" onclick="showOrgsPage()" title="Organizations"><svg viewBox="0 0 24 24"><path d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M8 10v11M12 10v11M16 10v11M20 10v11"/></svg><span class="ni-t">Orgs</span></div>
-  <div class="nav-div"></div>
-  <div class="nav-lbl">Market</div>
-  <div class="ni" id="nav-lol" onclick="switchGame('lol')" title="League of Legends"><img src="https://awon2k.github.io/riot.intelligence/league_icon.png" style="width:22px;height:22px;border-radius:3px;object-fit:contain"><span class="ni-t">LoL</span></div>
-  <div class="ni" id="nav-val" onclick="switchGame('val')" title="VALORANT"><img src="https://awon2k.github.io/riot.intelligence/valorant_icon.png" style="width:22px;height:22px;border-radius:3px;object-fit:contain"><span class="ni-t">VAL</span></div>
-  <div class="ni lk" onclick="toast('CS2 — coming soon','info')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg><span class="ni-t">CS2</span></div>
-  <div class="nav-div"></div>
-  <div class="nav-lbl">Intel</div>
-  <div class="ni" id="nav-home" onclick="showFeed()" title="Activity Feed"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span class="ni-t">Feed</span></div>
-  <div class="ni" id="nav-wl" onclick="showWLHub()" title="Watchlists"><svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg><span class="ni-t">Lists</span></div>
-  <div class="nav-sp"></div>
-  <div class="ni" id="nav-alerts" onclick="showAlerts()" title="Alerts"><svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg><span class="ni-t">Alerts</span><div class="alert-badge" id="alert-badge">2</div></div>
-  <div class="ni" id="nav-settings" onclick="showSettings()" title="Settings"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg><span class="ni-t">Settings</span></div>
-  <div class="ni" id="privacy-toggle" onclick="togglePrivacy()" title="Toggle privacy blur" style="margin-top:2px"><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></div>
+  <div class="nav-logo" onclick="togglePrivacy()" title="Toggle privacy blur" style="cursor:pointer"><img src="https://awon2k.github.io/riot.intelligence/1nsight-logo-transparent.png" alt="1NSIGHT"></div>
+  <div class="nav-center">
+    <div class="nav-lbl">Hub</div>
+    <div class="ni" id="nav-team" onclick="showTeamPage()" title="My Org"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg><span class="ni-t">My Org</span></div>
+    <div class="ni" id="nav-orgs" onclick="showOrgsPage()" title="Organizations"><svg viewBox="0 0 24 24"><path d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M8 10v11M12 10v11M16 10v11M20 10v11"/></svg><span class="ni-t">Orgs</span></div>
+    <div class="nav-div"></div>
+    <div class="nav-lbl">Market</div>
+    <div class="ni" id="nav-lol" onclick="switchGame('lol')" title="League of Legends"><img src="https://awon2k.github.io/riot.intelligence/league_icon.png" style="width:22px;height:22px;border-radius:3px;object-fit:contain"><span class="ni-t">LoL</span></div>
+    <div class="ni" id="nav-val" onclick="switchGame('val')" title="VALORANT"><img src="https://awon2k.github.io/riot.intelligence/valorant_icon.png" style="width:22px;height:22px;border-radius:3px;object-fit:contain"><span class="ni-t">VAL</span></div>
+    <div class="ni lk" onclick="toast('CS2 — coming soon','info')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg><span class="ni-t">CS2</span></div>
+    <div class="nav-div"></div>
+    <div class="nav-lbl">Intel</div>
+    <div class="ni" id="nav-home" onclick="showFeed()" title="Activity Feed"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span class="ni-t">Feed</span></div>
+    <div class="ni" id="nav-wl" onclick="showWLHub()" title="Watchlists"><svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg><span class="ni-t">Lists</span></div>
+  </div>
+  <div class="nav-bottom">
+    <div class="ni" id="nav-alerts" onclick="showAlerts()" title="Alerts"><svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg><span class="ni-t">Alerts</span><div class="alert-badge" id="alert-badge">2</div></div>
+    <div class="ni" id="nav-settings" onclick="showSettings()" title="Settings"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg><span class="ni-t">Settings</span></div>
+  </div>
 </nav>
 
 <div class="main" id="main-area">
