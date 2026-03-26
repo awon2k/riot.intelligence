@@ -1128,7 +1128,7 @@ function renderOrgsPage(){
   allOrgs.forEach(o=>{
     const players=(o.game==='lol'?DL:DV).filter(p=>p.team===o.name);
     const spons=SPONSORS[o.id]||[];
-    const deep=ORG_DEEP[o.id]||{};
+    const deep=ORG_FINANCIALS[o.id]||{};
     const sigs=[];
     let heat=0;
     // Expiring contracts
