@@ -1193,22 +1193,54 @@ function openOrgBreakdown(orgId,game){
 
       <!-- 1. OVERVIEW -->
       <div class="org-tab-content active" id="ot-ov">
-        <div style="display:flex;gap:20px;flex-wrap:wrap;margin-bottom:16px;font-family:var(--fm);font-size:.8rem;color:var(--tx-3)">
-          <span><strong style="color:var(--ac);font-size:1.1rem">${allTracked.length}</strong> tracked</span>
-          <span><strong style="color:var(--tx-1);font-size:1.1rem">${titles.length}</strong> titles</span>
-          <span><strong style="color:var(--tx-1);font-size:1.1rem">${avgKda}</strong> avg KDA</span>
-          <span><strong style="color:var(--tx-1);font-size:1.1rem">${avgWr}</strong> win rate</span>
-          <span><strong style="color:${allImports.length>=2?'var(--r-high)':'var(--tx-1)'};font-size:1.1rem">${allImports.length}/2</strong> imports</span>
-          <span><strong style="color:var(--tx-1);font-size:1.1rem">${spons.length}</strong> sponsors</span>
-        </div>
-        <div class="tile" style="margin-bottom:14px"><div class="tile-l">${hasAttention?'\u26A0 ATTENTION NEEDED':'\u2713 ALL CLEAR'}</div>
-          ${hasAttention?`<div style="display:flex;flex-direction:column;gap:8px;margin-top:8px">
-            ${expiring.length?`<div style="display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--r-high)10;border:1px solid var(--r-high)30;border-radius:var(--rad)"><span style="color:var(--r-high);font-weight:700;font-size:.8rem">EXPIRING &lt;6mo</span><span style="font-size:.8rem">${expiring.map(p=>p.ign+' ('+moU(p.ce)+'mo)').join(', ')}</span></div>`:''}
-            ${allImports.length>=2?`<div style="display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--r-high)10;border:1px solid var(--r-high)30;border-radius:var(--rad)"><span style="color:var(--r-high);font-weight:700;font-size:.8rem">IMPORT SLOTS</span><span style="font-size:.8rem">${allImports.length}/2 used (${allImports.map(p=>p.ign).join(', ')})</span></div>`:''}
-          </div>`:`<div style="color:var(--r-low);font-size:.85rem;margin-top:6px">No urgent contract actions, import slots available.</div>`}
-        </div>
-        <div class="tile" style="margin-bottom:14px"><div class="tile-l">ROSTER</div>${rosterSection(lolP,'League of Legends')}${rosterSection(valP,'Valorant')}${!lolP.length&&!valP.length?'<div style="color:var(--tx-3);font-size:.85rem;margin-top:8px">No tracked players.</div>':''}</div>
-        ${spons.length?`<div class="tile"><div class="tile-l">SPONSORS</div><div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px">${spons.map(sp=>`<span style="background:var(--bg-3);border:1px solid var(--border-0);border-radius:var(--rad);padding:6px 12px;font-size:.8rem;font-weight:600">${sp.brand}</span>`).join('')}</div><div style="margin-top:8px;font-family:var(--fm);font-size:.7rem;color:var(--tx-3)">${spons.length} active partners · <span style="cursor:pointer;color:var(--blue);text-decoration:underline" onclick="switchOrgTab('sp',document.querySelectorAll('.team-tab')[3])">View details \u2192</span></div></div>`:''}
+        ${(()=>{
+          const expired=allTracked.filter(p=>moU(p.ce)<=0);
+          const monitor=allTracked.filter(p=>moU(p.ce)>6&&moU(p.ce)<=12);
+          const atRisk=expired.length+expiring.length;
+          const riskColor=atRisk>0?'var(--r-high)':'var(--r-low)';
+          const riskLabel=atRisk>0?atRisk+' at risk':'All clear';
+          const totalVal=allTracked.reduce((s,p)=>s+(getUVal(p.id)||0),0);
+          const valuedCount=allTracked.filter(p=>getUVal(p.id)).length;
+          const avgVal=valuedCount?Math.round(totalVal/valuedCount):0;
+          const sponsCats=[...new Set(spons.map(s=>s.cat))];
+          const lolRoles=['Top','Jungle','Mid','ADC','Support'];
+          const valRoles=['Duelist','Initiator','Controller','Sentinel'];
+          const lolCov=new Set(lolP.map(p=>p.role));
+          const valCov=new Set(valP.map(p=>p.role));
+          const lolMiss=lolP.length?lolRoles.filter(r=>!lolCov.has(r)):[];
+          const valMiss=valP.length?valRoles.filter(r=>!valCov.has(r)):[];
+          const hasAttention=expiring.length||expired.length||lolMiss.length||valMiss.length;
+          
+          return `
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+            <div class="tile"><div class="tile-l">Tracked players</div><div class="tile-big" style="color:var(--ac)">${allTracked.length}</div><div class="tile-sub">${lolP.length} LoL · ${valP.length} VAL · ${titles.length} game titles</div></div>
+            <div class="tile"><div class="tile-l">Contract risk</div><div class="tile-big" style="color:${riskColor}">${riskLabel}</div><div class="tile-sub">${expired.length?expired.length+' expired · ':''}${expiring.length?expiring.length+' expiring <6mo · ':''}${monitor.length?monitor.length+' monitor':''}${!atRisk&&!monitor.length?'No contracts need attention':''}</div></div>
+            <div class="tile"><div class="tile-l">Avg performance</div><div class="tile-big">${avgKda} <span style="font-size:.7rem;color:var(--tx-3)">KDA</span></div><div class="tile-sub">${avgWr} win rate</div></div>
+            <div class="tile"><div class="tile-l">Sponsors</div><div class="tile-big">${spons.length}</div><div class="tile-sub">${sponsCats.length} categories · ${spons.slice(0,2).map(s=>s.brand).join(', ')}${spons.length>2?'…':''}</div></div>
+          </div>
+          
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+            <div class="tile">
+              <div class="tile-l">${hasAttention?'⚠ Attention needed':'✓ All clear'}</div>
+              ${hasAttention?`<div style="display:flex;flex-direction:column;gap:6px;margin-top:8px">
+                ${expired.length?`<div style="display:flex;align-items:center;gap:8px;padding:6px 10px;background:var(--r-crit)10;border:1px solid var(--r-crit)25;border-radius:var(--rad);font-size:.8rem"><span style="width:6px;height:6px;border-radius:50%;background:var(--r-crit);flex-shrink:0"></span><span style="color:var(--r-crit);font-weight:700;font-size:.7rem">EXPIRED</span><span>${expired.map(p=>p.ign).join(', ')}</span></div>`:''}
+                ${expiring.length?`<div style="display:flex;align-items:center;gap:8px;padding:6px 10px;background:var(--r-high)10;border:1px solid var(--r-high)25;border-radius:var(--rad);font-size:.8rem"><span style="width:6px;height:6px;border-radius:50%;background:var(--r-high);flex-shrink:0"></span><span style="color:var(--r-high);font-weight:700;font-size:.7rem">EXP &lt;6mo</span><span>${expiring.map(p=>p.ign+' ('+moU(p.ce)+'mo)').join(', ')}</span></div>`:''}
+                ${lolMiss.length?`<div style="display:flex;align-items:center;gap:8px;padding:6px 10px;background:var(--r-med)10;border:1px solid var(--r-med)25;border-radius:var(--rad);font-size:.8rem"><span style="width:6px;height:6px;border-radius:50%;background:var(--r-med);flex-shrink:0"></span><span style="color:var(--r-med);font-weight:700;font-size:.7rem">LoL GAP</span><span>${lolMiss.join(', ')}</span></div>`:''}
+                ${valMiss.length?`<div style="display:flex;align-items:center;gap:8px;padding:6px 10px;background:var(--r-med)10;border:1px solid var(--r-med)25;border-radius:var(--rad);font-size:.8rem"><span style="width:6px;height:6px;border-radius:50%;background:var(--r-med);flex-shrink:0"></span><span style="color:var(--r-med);font-weight:700;font-size:.7rem">VAL GAP</span><span>${valMiss.join(', ')}</span></div>`:''}
+              </div>`:`<div style="color:var(--r-low);font-size:.85rem;margin-top:6px">Full role coverage, no urgent contract actions.</div>`}
+            </div>
+            <div class="tile">
+              ${lolP.length?`<div class="tile-l">Role coverage — LoL</div><div style="display:flex;gap:5px;flex-wrap:wrap;margin-top:6px">${lolRoles.map(r=>{const has=lolCov.has(r);return`<span style="font-family:var(--fm);font-size:.7rem;padding:3px 8px;border-radius:4px;border:1px solid ${has?'var(--ac)30':'var(--r-crit)30'};color:${has?'var(--ac)':'var(--r-crit)'};background:${has?'var(--ac)08':'var(--r-crit)08'}">${r}${has?' ✓':' ✗'}</span>`}).join('')}</div>`:''}
+              ${valP.length?`<div class="tile-l" style="${lolP.length?'margin-top:12px':''}">Role coverage — VAL</div><div style="display:flex;gap:5px;flex-wrap:wrap;margin-top:6px">${valRoles.map(r=>{const has=valCov.has(r);return`<span style="font-family:var(--fm);font-size:.7rem;padding:3px 8px;border-radius:4px;border:1px solid ${has?'var(--ac)30':'var(--r-crit)30'};color:${has?'var(--ac)':'var(--r-crit)'};background:${has?'var(--ac)08':'var(--r-crit)08'}">${r}${has?' ✓':' ✗'}</span>`}).join('')}</div>`:''}
+            </div>
+          </div>
+          
+          ${lolP.length?`<div class="tile" style="margin-bottom:12px"><div class="tile-l">League of Legends Roster</div><div class="roster-list" style="gap:6px">${lolP.map(p=>{const mo=moU(p.ce);const cc=cCol(mo);return`<div class="rc" style="padding:10px 14px" onclick="openPanel('${p.id}')"><div class="rc-photo" style="width:36px;height:36px;font-size:1rem">${flag(p.co)}</div><div class="rc-info"><div class="rc-r1"><span class="rc-ign" style="font-size:.8rem">${p.ign}</span><span class="rc-role">${p.role}</span>${p.res==='Non-Resident'?'<span class="rc-badge rc-badge-imp">IMP</span>':''}</div></div><div class="rc-ct" style="min-width:50px"><div class="rc-ct-mo" style="color:${cc};font-size:.85rem">${mo<=0?'EXP':mo+'mo'}</div></div></div>`;}).join('')}</div></div>`:''}
+          ${valP.length?`<div class="tile" style="margin-bottom:12px"><div class="tile-l">Valorant Roster</div><div class="roster-list" style="gap:6px">${valP.map(p=>{const mo=moU(p.ce);const cc=cCol(mo);return`<div class="rc" style="padding:10px 14px" onclick="openPanel('${p.id}')"><div class="rc-photo" style="width:36px;height:36px;font-size:1rem">${flag(p.co)}</div><div class="rc-info"><div class="rc-r1"><span class="rc-ign" style="font-size:.8rem">${p.ign}</span><span class="rc-role">${p.role}</span>${p.res==='Non-Resident'?'<span class="rc-badge rc-badge-imp">IMP</span>':''}</div></div><div class="rc-ct" style="min-width:50px"><div class="rc-ct-mo" style="color:${cc};font-size:.85rem">${mo<=0?'EXP':mo+'mo'}</div></div></div>`;}).join('')}</div></div>`:''}
+          
+          ${spons.length?`<div class="tile"><div class="tile-l">Sponsors</div><div style="display:flex;flex-wrap:wrap;gap:5px;margin-top:8px">${spons.map(sp=>`<span style="background:var(--bg-3);border:1px solid var(--border-0);border-radius:var(--rad);padding:5px 11px;font-size:.8rem;font-weight:600">${sp.brand}</span>`).join('')}</div><div style="margin-top:8px;font-family:var(--fm);font-size:.7rem;color:var(--tx-3)">${spons.length} partners across ${sponsCats.length} categories · <span style="cursor:pointer;color:var(--blue);text-decoration:underline" onclick="switchOrgTab('sp',document.querySelectorAll('.team-tab')[3])">View details →</span></div></div>`:''}
+          `;
+        })()}
       </div>
 
       <!-- 2. ROSTER -->
