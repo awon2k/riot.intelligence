@@ -40,9 +40,6 @@ body{font-family:var(--ff);background:var(--bg-0);color:var(--tx-1);line-height:
 /* ═══════════ NAV ═══════════ */
 .nav{width:80px;height:100vh;background:var(--bg-1);border-right:1px solid var(--border-0);display:flex;flex-direction:column;align-items:center;padding:14px 0;flex-shrink:0;z-index:50;position:relative}
 .nav::after{content:'';position:absolute;right:0;top:0;bottom:0;width:1px;background:linear-gradient(180deg,transparent 10%,rgba(255,255,255,.06) 50%,transparent 90%);pointer-events:none}
-.nav-logo{width:64px;height:28px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-bottom:10px;opacity:.55;transition:opacity .15s}
-.nav-logo:hover{opacity:.85}
-.nav-logo img{width:64px;height:28px;object-fit:contain}
 .nav-center{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;width:100%}
 .nav-bottom{display:flex;flex-direction:column;align-items:center;gap:3px;padding-top:8px;border-top:1px solid var(--border-0);width:100%}
 .nav-div{width:40px;height:1px;background:var(--border-1);margin:6px 0}
@@ -648,7 +645,6 @@ body.privacy-mode .blur-private{filter:blur(6px)!important;user-select:none;poin
 <body>
 
 <nav class="nav">
-  <div class="nav-logo" onclick="togglePrivacy()" title="Toggle privacy blur" style="cursor:pointer"><img src="https://awon2k.github.io/riot.intelligence/1nsight-logo-transparent.png" alt="1NSIGHT"></div>
   <div class="nav-center">
     <div class="nav-lbl">Hub</div>
     <div class="ni" id="nav-team" onclick="showTeamPage()" title="My Org"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg><span class="ni-t">My Org</span></div>
@@ -674,7 +670,7 @@ body.privacy-mode .blur-private{filter:blur(6px)!important;user-select:none;poin
   <div class="page" id="page-digest" style="padding:24px;overflow-y:auto"></div>
   <div class="page active" id="page-feed">
     <header class="hd">
-      <div class="hd-l"><div class="hd-brand"><img src="https://awon2k.github.io/riot.intelligence/1nsight-logo-transparent.png" alt="1NSIGHT"></div></div><div class="hd-center"><div class="hd-title">ACTIVITY</div><div class="hd-sub">Data source changes & updates</div></div>
+      <div class="hd-l"><div class="hd-brand" onclick="togglePrivacy()" title="Toggle privacy blur" style="cursor:pointer"><img src="https://awon2k.github.io/riot.intelligence/1nsight-logo-transparent.png" alt="1NSIGHT"></div></div><div class="hd-center"><div class="hd-title">ACTIVITY</div><div class="hd-sub">Data source changes & updates</div></div>
       <div class="hd-r">
         <div class="freshness-bar">
           <span><span class="freshness-dot fresh"></span> GCD: 14m ago</span>
@@ -722,10 +718,10 @@ body.privacy-mode .blur-private{filter:blur(6px)!important;user-select:none;poin
   <!-- MARKET PAGE -->
   <div class="page" id="page-market">
     <header class="hd">
-      <div class="hd-l"><div class="hd-brand"><img src="https://awon2k.github.io/riot.intelligence/1nsight-logo-transparent.png" alt="1NSIGHT"></div></div><div class="hd-center"><div class="hd-title" id="hd-title">LEAGUE OF LEGENDS</div><div class="hd-sub" id="hd-sub">Transfer Intelligence · LEC · LCK · LPL · LCS</div></div>
+      <div class="hd-l"><div class="hd-brand" onclick="togglePrivacy()" title="Toggle privacy blur" style="cursor:pointer"><img src="https://awon2k.github.io/riot.intelligence/1nsight-logo-transparent.png" alt="1NSIGHT"></div></div><div class="hd-center"><div class="hd-title" id="hd-title">LEAGUE OF LEGENDS</div><div class="hd-sub" id="hd-sub">Transfer Intelligence · LEC · LCK · LPL · LCS</div></div>
       <div class="hd-r"><span class="tag" id="sync-tag" title="Data syncs automatically"><span class="freshness-dot fresh"></span> Auto-syncing</span></div>
     </header>
-    <div class="stats"><div class="st"><div class="st-l">Players Tracked</div><div class="st-v" id="s-total" style="color:var(--ac)">—</div></div><div class="st"><div class="st-l">Your High / Critical</div><div class="st-v" id="s-risk" style="color:var(--ac)">—</div></div><div class="st"><div class="st-l">Expiring &lt; 6 Months</div><div class="st-v" id="s-exp" style="color:var(--r-med)">—</div></div><div class="st"><div class="st-l">Avg Your Valuation</div><div class="st-v" id="s-val" style="color:var(--ac)">—</div></div></div>
+    <div class="stats"><div class="st"><div class="st-l">Players Tracked</div><div class="st-v" id="s-total">—</div></div><div class="st"><div class="st-l">Expiring &lt; 6 Months</div><div class="st-v" id="s-exp" style="color:var(--r-med)">—</div></div><div class="st"><div class="st-l">Free Agents &lt; 3mo</div><div class="st-v" id="s-fa" style="color:var(--r-high)">—</div></div><div class="st"><div class="st-l">Avg KDA</div><div class="st-v" id="s-kda">—</div></div></div>
     <div class="filters">
       <input type="text" class="fi" id="f-search" placeholder="Search player, team…" oninput="render()">
       <select class="fs" id="f-region" onchange="render()"><option value="">All Regions</option></select>
@@ -744,7 +740,7 @@ body.privacy-mode .blur-private{filter:blur(6px)!important;user-select:none;poin
   <!-- MY TEAM PAGE -->
   <div class="page" id="page-team">
     <header class="hd">
-      <div class="hd-l"><div class="hd-brand"><img src="https://awon2k.github.io/riot.intelligence/1nsight-logo-transparent.png" alt="1NSIGHT"></div></div><div class="hd-center"><div class="hd-title">MY ORG</div><div class="hd-sub">Organization Hub</div></div>
+      <div class="hd-l"><div class="hd-brand" onclick="togglePrivacy()" title="Toggle privacy blur" style="cursor:pointer"><img src="https://awon2k.github.io/riot.intelligence/1nsight-logo-transparent.png" alt="1NSIGHT"></div></div><div class="hd-center"><div class="hd-title">MY ORG</div><div class="hd-sub">Organization Hub</div></div>
       <div class="hd-r"></div>
     </header>
     <div class="team-page" id="team-content"></div>
@@ -754,7 +750,7 @@ body.privacy-mode .blur-private{filter:blur(6px)!important;user-select:none;poin
   <div class="page" id="page-orgs" style="overflow-y:auto;padding:0"></div>
   <div class="page" id="page-wl">
     <header class="hd">
-      <div class="hd-l"><div class="hd-brand"><img src="https://awon2k.github.io/riot.intelligence/1nsight-logo-transparent.png" alt="1NSIGHT"></div></div><div class="hd-center"><div class="hd-title">WATCHLISTS</div><div class="hd-sub">Scouting & Intelligence Hub</div></div>
+      <div class="hd-l"><div class="hd-brand" onclick="togglePrivacy()" title="Toggle privacy blur" style="cursor:pointer"><img src="https://awon2k.github.io/riot.intelligence/1nsight-logo-transparent.png" alt="1NSIGHT"></div></div><div class="hd-center"><div class="hd-title">WATCHLISTS</div><div class="hd-sub">Scouting & Intelligence Hub</div></div>
       <div class="hd-r"><button class="btn btn-purple" onclick="createWL()">+ New Watchlist</button></div>
     </header>
     <div class="wl-hub" id="wl-hub-content"></div>
@@ -763,7 +759,7 @@ body.privacy-mode .blur-private{filter:blur(6px)!important;user-select:none;poin
   <!-- ALERTS PAGE -->
   <div class="page" id="page-alerts">
     <header class="hd">
-      <div class="hd-l"><div class="hd-brand"><img src="https://awon2k.github.io/riot.intelligence/1nsight-logo-transparent.png" alt="1NSIGHT"></div></div><div class="hd-center"><div class="hd-title">ALERTS</div><div class="hd-sub">Notifications & alert subscriptions</div></div>
+      <div class="hd-l"><div class="hd-brand" onclick="togglePrivacy()" title="Toggle privacy blur" style="cursor:pointer"><img src="https://awon2k.github.io/riot.intelligence/1nsight-logo-transparent.png" alt="1NSIGHT"></div></div><div class="hd-center"><div class="hd-title">ALERTS</div><div class="hd-sub">Notifications & alert subscriptions</div></div>
       <div class="hd-r"><button class="btn btn-w" onclick="markAllRead()">Mark all read</button></div>
     </header>
     <div class="alerts-page" id="alerts-content"></div>
@@ -772,7 +768,7 @@ body.privacy-mode .blur-private{filter:blur(6px)!important;user-select:none;poin
   <!-- SETTINGS PAGE -->
   <div class="page" id="page-settings">
     <header class="hd">
-      <div class="hd-l"><div class="hd-brand"><img src="https://awon2k.github.io/riot.intelligence/1nsight-logo-transparent.png" alt="1NSIGHT"></div></div><div class="hd-center"><div class="hd-title" style="color:var(--tx-1)">SETTINGS</div><div class="hd-sub">Preferences & notifications</div></div>
+      <div class="hd-l"><div class="hd-brand" onclick="togglePrivacy()" title="Toggle privacy blur" style="cursor:pointer"><img src="https://awon2k.github.io/riot.intelligence/1nsight-logo-transparent.png" alt="1NSIGHT"></div></div><div class="hd-center"><div class="hd-title" style="color:var(--tx-1)">SETTINGS</div><div class="hd-sub">Preferences & notifications</div></div>
     </header>
     <div class="settings-page" id="settings-content"></div>
   </div>
@@ -1118,7 +1114,7 @@ function renderOrgsPage(){
   
   page.innerHTML=`
     <header class="hd">
-      <div class="hd-l"><div class="hd-brand"><img src="https://awon2k.github.io/riot.intelligence/1nsight-logo-transparent.png" alt="1NSIGHT"></div></div><div class="hd-center"><div class="hd-title">ORGANIZATIONS</div><div class="hd-sub">Competitor Intelligence</div></div>
+      <div class="hd-l"><div class="hd-brand" onclick="togglePrivacy()" title="Toggle privacy blur" style="cursor:pointer"><img src="https://awon2k.github.io/riot.intelligence/1nsight-logo-transparent.png" alt="1NSIGHT"></div></div><div class="hd-center"><div class="hd-title">ORGANIZATIONS</div><div class="hd-sub">Competitor Intelligence</div></div>
     </header>
     <div style="padding:20px 28px">
       <div class="filters" style="border:none;padding:0;margin-bottom:16px">
@@ -1186,7 +1182,7 @@ function openOrgBreakdown(orgId,game){
     <header class="hd">
       <div class="hd-l">
         <button class="btn" onclick="renderOrgsPage()" style="margin-right:8px">&larr; Back</button>
-        <div class="hd-brand"><img src="https://awon2k.github.io/riot.intelligence/1nsight-logo-transparent.png" alt="1NSIGHT"></div>
+        <div class="hd-brand" onclick="togglePrivacy()" title="Toggle privacy blur" style="cursor:pointer"><img src="https://awon2k.github.io/riot.intelligence/1nsight-logo-transparent.png" alt="1NSIGHT"></div>
       </div>
       <div class="hd-center"><div class="hd-title">${org.name.toUpperCase()}</div></div>
       <div style="display:flex;gap:6px;align-items:center;flex-shrink:0">${socialsHtml}</div>
@@ -1968,7 +1964,7 @@ function renderFeed(){
   }).join('');
 }
 function doSort(k){if(S.sortK===k)S.sortD=S.sortD==='asc'?'desc':'asc';else{S.sortK=k;S.sortD='desc';}document.querySelectorAll('thead th').forEach(th=>{const dk=th.dataset.k;if(dk)th.classList.toggle('sorted',dk===k)});render()}
-function updateStats(){const p=S.players;document.getElementById('s-total').textContent=p.length;document.getElementById('s-risk').textContent=p.filter(x=>getURisk(x.id)==='HIGH'||getURisk(x.id)==='CRITICAL').length;document.getElementById('s-exp').textContent=p.filter(x=>moU(x.ce)<=6).length;const valued=p.filter(x=>getUVal(x.id));document.getElementById('s-val').textContent=valued.length?eur(Math.round(valued.reduce((s,x)=>s+getUVal(x.id),0)/valued.length)):'—'}
+function updateStats(){const p=S.players;document.getElementById('s-total').textContent=p.length;document.getElementById('s-exp').textContent=p.filter(x=>moU(x.ce)<=6&&moU(x.ce)>0).length;document.getElementById('s-fa').textContent=p.filter(x=>moU(x.ce)<=3).length;const avgK=p.length?(p.reduce((s,x)=>s+(x.kda||0),0)/p.length).toFixed(1):'—';document.getElementById('s-kda').textContent=avgK}
 function findRole(role){
   const game=S.myTeam?S.myTeam.game:'lol';
   switchGame(game);
