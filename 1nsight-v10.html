@@ -413,7 +413,7 @@ body.privacy-mode .blur-private{filter:blur(6px)!important;user-select:none;poin
 .feed-filters{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap;align-items:center}
 .feed-chip{padding:6px 14px;border-radius:20px;font-size:.875rem;font-weight:600;font-family:var(--ff);border:1px solid var(--border-1);background:var(--bg-3);color:var(--tx-2);cursor:pointer;transition:all var(--tr)}
 .feed-chip:hover{border-color:var(--border-2);color:var(--tx-1)}
-.feed-chip.on{border-color:var(--ac);color:var(--ac);background:var(--ac-dim)}
+.feed-chip.on{border-color:rgba(255,255,255,.2);color:var(--tx-1);background:rgba(255,255,255,.06)}
 .feed-list{display:flex;flex-direction:column;gap:12px;max-width:820px;margin:0 auto}
 .feed-card{background:var(--bg-2);border:1px solid var(--border-0);border-radius:var(--rad-lg);padding:18px 22px;position:relative;overflow:hidden;transition:all var(--tr);cursor:pointer}
 .feed-card:hover{border-color:var(--border-2);background:var(--bg-3)}
@@ -421,10 +421,8 @@ body.privacy-mode .blur-private{filter:blur(6px)!important;user-select:none;poin
 .feed-card.type-contract::before{background:var(--ac)}
 .feed-card.type-roster::before{background:var(--blue)}
 .feed-card.type-stats::before{background:var(--game-1)}
-.feed-card .feed-body{max-height:0;overflow:hidden;opacity:0;transition:max-height .3s ease,opacity .3s ease,margin .3s ease;margin-top:0}
-.feed-card.expanded .feed-body{max-height:200px;opacity:1;margin-top:8px}
-.feed-card .feed-expand-hint{font-size:.75rem;color:var(--tx-3);margin-top:4px;transition:opacity .2s}
-.feed-card.expanded .feed-expand-hint{opacity:0;height:0;margin:0}
+.feed-card .feed-body{margin-top:6px}
+.feed-card .feed-expand-hint{display:none}
 .feed-card.type-social::before{background:var(--blue)}
 .feed-card.type-alert::before{background:var(--r-high)}
 .feed-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
@@ -447,7 +445,7 @@ body.privacy-mode .blur-private{filter:blur(6px)!important;user-select:none;poin
 /* Feed game tabs */
 .feed-game-tab{padding:12px 22px;font-size:.875rem;font-weight:600;color:var(--tx-3);cursor:pointer;border-bottom:2px solid transparent;transition:all var(--tr)}
 .feed-game-tab:hover{color:var(--tx-2)}
-.feed-game-tab.on{color:var(--ac);border-bottom-color:var(--ac)}
+.feed-game-tab.on{color:var(--tx-1);border-bottom-color:var(--tx-1)}
 
 /* Feed freshness status bar */
 .freshness-bar{display:flex;gap:12px;padding:12px 20px;border-bottom:1px solid var(--border-0);font-size:.875rem;font-family:var(--fm);color:var(--tx-3);align-items:center;flex-wrap:wrap}
@@ -677,8 +675,10 @@ body.privacy-mode .blur-private{filter:blur(6px)!important;user-select:none;poin
       </div>
     </header>
     <div class="feed-page">
+      <!-- Summary cards -->
+      <div id="feed-summary" style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px;max-width:820px;margin-left:auto;margin-right:auto"></div>
       <!-- Game Tabs -->
-      <div style="display:flex;gap:0;border-bottom:1px solid var(--border-0);margin-bottom:16px;max-width:820px;margin-left:auto;margin-right:auto">
+      <div style="display:flex;gap:0;border-bottom:1px solid var(--border-0);margin-bottom:14px;max-width:820px;margin-left:auto;margin-right:auto">
         <div class="feed-game-tab on" data-game="all" onclick="setFeedGame('all',this)">All</div>
         <div class="feed-game-tab" data-game="lol" onclick="setFeedGame('lol',this)">League of Legends</div>
         <div class="feed-game-tab" data-game="val" onclick="setFeedGame('val',this)">VALORANT</div>
@@ -687,22 +687,24 @@ body.privacy-mode .blur-private{filter:blur(6px)!important;user-select:none;poin
       <div class="feed-filters" id="feed-filters" style="max-width:820px;margin-left:auto;margin-right:auto">
         <div class="feed-chip on" onclick="toggleFeedFilter('all',this)">All</div>
         <div class="feed-chip" onclick="toggleFeedFilter('contract',this)">Contracts</div>
-        <div class="feed-chip" onclick="toggleFeedFilter('roster',this)">Roster Changes</div>
-        <div class="feed-chip" onclick="toggleFeedFilter('stats',this)">Stats Updates</div>
+        <div class="feed-chip" onclick="toggleFeedFilter('roster',this)">Roster changes</div>
+        <div class="feed-chip" onclick="toggleFeedFilter('stats',this)">Stats updates</div>
       </div>
       <!-- Feed -->
       <div class="feed-list" id="feed-list"></div>
       <!-- Social Teaser -->
-      <div id="social-teaser" style="margin-top:24px;max-width:820px;margin-left:auto;margin-right:auto">
-        <div style="background:var(--bg-2);border:1px solid var(--border-0);border-radius:var(--rad-lg);padding:20px;position:relative;overflow:hidden">
-          <div style="position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--purple)20,transparent)"></div>
-          <div style="font-family:var(--fd);font-size:.875rem;font-weight:700;letter-spacing:1px;color:var(--blue);margin-bottom:10px">SOCIAL INTELLIGENCE — COMING SOON</div>
-          <div style="font-size:.875rem;color:var(--tx-2);margin-bottom:14px;line-height:1.5">Track real-time transfer rumors and roster discussions from community sources. Automated monitoring of @ScanLeague, @ScanVCT, and competitive subreddits.</div>
-          <div style="display:flex;gap:10px;flex-wrap:wrap">
-            <div style="padding:10px 14px;background:var(--bg-3);border:1px solid var(--border-1);border-radius:var(--rad);font-size:.875rem;color:var(--tx-3);display:flex;align-items:center;gap:8px;opacity:.5"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--tx-3)" stroke-width="1.5"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/></svg> @ScanLeague</div>
-            <div style="padding:10px 14px;background:var(--bg-3);border:1px solid var(--border-1);border-radius:var(--rad);font-size:.875rem;color:var(--tx-3);display:flex;align-items:center;gap:8px;opacity:.5"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--tx-3)" stroke-width="1.5"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/></svg> @ScanVCT</div>
-            <div style="padding:10px 14px;background:var(--bg-3);border:1px solid var(--border-1);border-radius:var(--rad);font-size:.875rem;color:var(--tx-3);display:flex;align-items:center;gap:8px;opacity:.5"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--tx-3)" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M8 12h8M12 8v8"/></svg> r/ValorantCompetitive</div>
-            <div style="padding:10px 14px;background:var(--bg-3);border:1px solid var(--border-1);border-radius:var(--rad);font-size:.875rem;color:var(--tx-3);display:flex;align-items:center;gap:8px;opacity:.5"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--tx-3)" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M8 12h8M12 8v8"/></svg> r/leagueoflegends</div>
+      <div id="social-teaser" style="margin-top:20px;max-width:820px;margin-left:auto;margin-right:auto">
+        <div class="tile">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+            <div class="tile-l" style="margin-bottom:0">Social intelligence</div>
+            <div style="display:flex;align-items:center;gap:4px;font-size:.7rem;font-family:var(--fm);color:var(--tx-3)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--tx-3)" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg> Coming soon</div>
+          </div>
+          <div style="font-size:.85rem;color:var(--tx-2);line-height:1.5;margin-bottom:12px">Real-time transfer rumors and roster discussions from community sources.</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <div style="padding:8px 12px;background:var(--bg-3);border:1px solid var(--border-0);border-radius:var(--rad);font-size:.75rem;color:var(--tx-3);display:flex;align-items:center;gap:6px;opacity:.5"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--tx-3)" stroke-width="1.5"><path d="M4 4l6.5 8L4 20h2l5.5-6.8L16 20h4l-6.8-8.3L19.5 4H18l-5 6.2L9 4H4z"/></svg>@ScanLeague</div>
+            <div style="padding:8px 12px;background:var(--bg-3);border:1px solid var(--border-0);border-radius:var(--rad);font-size:.75rem;color:var(--tx-3);display:flex;align-items:center;gap:6px;opacity:.5"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--tx-3)" stroke-width="1.5"><path d="M4 4l6.5 8L4 20h2l5.5-6.8L16 20h4l-6.8-8.3L19.5 4H18l-5 6.2L9 4H4z"/></svg>@ScanVCT</div>
+            <div style="padding:8px 12px;background:var(--bg-3);border:1px solid var(--border-0);border-radius:var(--rad);font-size:.75rem;color:var(--tx-3);display:flex;align-items:center;gap:6px;opacity:.5"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--tx-3)" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M8 12h8M12 8v8"/></svg>r/ValorantCompetitive</div>
+            <div style="padding:8px 12px;background:var(--bg-3);border:1px solid var(--border-0);border-radius:var(--rad);font-size:.75rem;color:var(--tx-3);display:flex;align-items:center;gap:6px;opacity:.5"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--tx-3)" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M8 12h8M12 8v8"/></svg>r/leagueoflegends</div>
           </div>
         </div>
       </div>
@@ -1915,9 +1917,23 @@ function formatFeedTime(minutes){
 
 function renderFeed(){
   const list=document.getElementById('feed-list');
-  let events=[...DEMO_FEED];
+  const allEvents=[...DEMO_FEED];
+  let events=[...allEvents];
   if(feedGame!=='all')events=events.filter(e=>e.game===feedGame);
   if(feedFilter!=='all')events=events.filter(e=>e.type===feedFilter);
+  
+  // Summary cards
+  const today=allEvents.filter(e=>e.time<=1440);
+  const weekContracts=allEvents.filter(e=>e.type==='contract');
+  const weekRoster=allEvents.filter(e=>e.type==='roster');
+  const weekStats=allEvents.filter(e=>e.type==='stats');
+  const sumEl=document.getElementById('feed-summary');
+  if(sumEl)sumEl.innerHTML=`
+    <div class="tile"><div class="tile-l">Today</div><div class="tile-big">${today.length}</div><div class="tile-sub">New events</div></div>
+    <div class="tile"><div class="tile-l">Contracts</div><div class="tile-big" style="color:var(--ac)">${weekContracts.length}</div><div class="tile-sub">Updates this week</div></div>
+    <div class="tile"><div class="tile-l">Roster moves</div><div class="tile-big" style="color:var(--blue)">${weekRoster.length}</div><div class="tile-sub">This week</div></div>
+    <div class="tile"><div class="tile-l">Data refresh</div><div class="tile-big" style="color:var(--lol-1)">${weekStats.length}</div><div class="tile-sub">Stats updated</div></div>
+  `;
 
   if(!events.length){
     list.innerHTML='<div class="feed-empty">No activity matching these filters</div>';
@@ -1939,7 +1955,7 @@ function renderFeed(){
       <div class="feed-title">${e.title}</div>
       <div class="feed-expand-hint">Click to read more</div>
       <div class="feed-body">${e.body}</div>
-      <div class="feed-tags">${gameTag}<span class="feed-tag">${typeLabel}</span>${e.player?`<span class="feed-tag" style="color:var(--ac);border-color:var(--ac)20;cursor:pointer" onclick="event.stopPropagation();openPanel('${e.player}')">View player \u2192</span>`:''}</div>
+      <div class="feed-tags">${gameTag}<span class="feed-tag">${typeLabel}</span>${e.player?`<span class="feed-tag" style="color:var(--tx-2);border-color:rgba(255,255,255,.12);cursor:pointer" onclick="event.stopPropagation();openPanel('${e.player}')">View player \u2192</span>`:''}</div>
     </div>`;
   }).join('');
 }
