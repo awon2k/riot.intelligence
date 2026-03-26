@@ -74,13 +74,13 @@ body{font-family:var(--ff);background:var(--bg-0);color:var(--tx-1);line-height:
 .hd-r{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:var(--rad);font-family:var(--ff);font-size:.75rem;font-weight:600;border:1px solid var(--border-1);background:var(--bg-3);color:var(--tx-2);cursor:pointer;transition:all var(--tr);white-space:nowrap}
 .btn:hover{border-color:var(--border-2);color:var(--tx-1);background:var(--bg-4)}
-.btn-ac{border-color:var(--ac)40;color:var(--ac);background:var(--ac-dim)}
-.btn-ac:hover{background:var(--ac-lo)}
+.btn-ac{border-color:rgba(255,255,255,.15);color:var(--tx-1);background:rgba(255,255,255,.05)}
+.btn-ac:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.25)}
 .btn-w{border-color:var(--r-high)40;color:var(--r-high);background:#fb923c0a}
-.btn-blue{border-color:var(--blue)40;color:var(--blue);background:#38bdf80c}
-.btn-purple{border-color:var(--blue)40;color:var(--blue);background:#a78bfa0c}
-.btn-purple:hover{border-color:var(--blue);background:#a78bfa14}
-.btn-blue:hover{background:#38bdf820}
+.btn-blue{border-color:rgba(255,255,255,.12);color:var(--tx-2);background:rgba(255,255,255,.03)}
+.btn-purple{border-color:rgba(255,255,255,.12);color:var(--tx-2);background:rgba(255,255,255,.03)}
+.btn-purple:hover{border-color:rgba(255,255,255,.2);background:rgba(255,255,255,.06)}
+.btn-blue:hover{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.2)}
 .btn .sp{width:13px;height:13px;border:2px solid transparent;border-top-color:currentColor;border-radius:50%;animation:spin .6s linear infinite;display:none}
 .btn.ld .sp{display:inline-block}.btn.ld .ic{display:none}
 .tag{font-size:.875rem;font-family:var(--fm);color:var(--tx-3);padding:4px 10px;background:var(--bg-3);border:1px solid var(--border-0);border-radius:var(--rad)}
@@ -308,11 +308,11 @@ body.privacy-mode .blur-private{filter:blur(6px)!important;user-select:none;poin
 
 /* Onboarding / Org Selector */
 .onboard{max-width:800px;margin:0 auto;animation:fadeIn .4s ease}
-.onboard h2{font-family:var(--fd);font-size:1.3rem;font-weight:700;letter-spacing:1px;color:var(--blue);margin-bottom:8px}
+.onboard h2{font-family:var(--fd);font-size:1.3rem;font-weight:700;letter-spacing:1px;color:var(--tx-1);margin-bottom:8px}
 .onboard p{color:var(--tx-2);font-size:1rem;margin-bottom:24px}
 .onboard-options{display:flex;gap:14px;margin-bottom:32px}
 .onboard-opt{flex:1;padding:20px;background:var(--bg-2);border:1px solid var(--border-1);border-radius:var(--rad-lg);cursor:pointer;transition:all var(--tr);text-align:center}
-.onboard-opt:hover{border-color:var(--blue);background:var(--bg-3)}
+.onboard-opt:hover{border-color:var(--border-2);background:var(--bg-3)}
 .onboard-opt svg{width:32px;height:32px;stroke:var(--blue);fill:none;stroke-width:1.5;margin-bottom:10px}
 .onboard-opt h4{font-size:1rem;font-weight:700;margin-bottom:4px}
 .onboard-opt p{font-size:.875rem;color:var(--tx-3);margin-bottom:0}
@@ -329,13 +329,13 @@ body.privacy-mode .blur-private{filter:blur(6px)!important;user-select:none;poin
 /* Team Dashboard */
 .team-dash{animation:fadeIn .4s ease;max-width:960px;margin:0 auto}
 .team-header{display:flex;align-items:center;gap:20px;margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid var(--border-0)}
-.team-logo-lg{width:64px;height:64px;border-radius:50%;background:var(--bg-3);border:2px solid var(--blue);display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:1rem;font-weight:800;color:var(--blue)}
+.team-logo-lg{width:64px;height:64px;border-radius:50%;background:var(--bg-3);border:2px solid var(--border-2);display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:1rem;font-weight:800;color:var(--tx-1)}
 .team-info h2{font-family:var(--fd);font-size:1.3rem;font-weight:700;color:var(--tx-1)}
 .team-info p{font-size:.875rem;color:var(--tx-3);font-family:var(--fm)}
 .team-tabs{display:flex;gap:0;margin-bottom:20px;border-bottom:1px solid var(--border-0);max-width:960px;margin-left:auto;margin-right:auto}
 .team-tab{padding:10px 20px;font-size:.875rem;font-weight:600;color:var(--tx-3);cursor:pointer;border-bottom:2px solid transparent;transition:all var(--tr)}
 .team-tab:hover{color:var(--tx-2)}
-.team-tab.on{color:var(--blue);border-bottom-color:var(--blue)}
+.team-tab.on{color:var(--tx-1);border-bottom-color:var(--tx-1)}
 .team-content{display:none;animation:fadeIn .3s ease;max-width:960px;margin-left:auto;margin-right:auto}.team-content.active{display:block}
 .org-tab-content{max-width:960px;margin-left:auto;margin-right:auto;animation:fadeIn .3s ease}
 
@@ -736,7 +736,7 @@ body.privacy-mode .blur-private{filter:blur(6px)!important;user-select:none;poin
   <div class="page" id="page-team">
     <header class="hd">
       <div class="hd-l"><div class="hd-brand">1NSIGHT</div><div class="hd-title" style="color:var(--blue)">MY ORG</div><div class="hd-sub">Organization Hub</div></div>
-      <div class="hd-r"><button class="btn btn-blue" onclick="resetTeam()">Change Organization</button></div>
+      <div class="hd-r"></div>
     </header>
     <div class="team-page" id="team-content"></div>
   </div>
@@ -1241,7 +1241,7 @@ function openOrgBreakdown(orgId,game){
           ${lolP.length?`<div class="tile" style="margin-bottom:12px"><div class="tile-l">League of Legends Roster</div><div class="roster-list" style="gap:6px">${lolP.map(p=>{const mo=moU(p.ce);const cc=cCol(mo);return`<div class="rc" style="padding:10px 14px" onclick="openPanel('${p.id}')"><div class="rc-photo" style="width:36px;height:36px;font-size:1rem">${flag(p.co)}</div><div class="rc-info"><div class="rc-r1"><span class="rc-ign" style="font-size:.8rem">${p.ign}</span><span class="rc-role">${p.role}</span>${p.res==='Non-Resident'?'<span class="rc-badge rc-badge-imp">IMP</span>':''}</div></div><div class="rc-ct" style="min-width:50px"><div class="rc-ct-mo" style="color:${cc};font-size:.85rem">${mo<=0?'EXP':mo+'mo'}</div></div></div>`;}).join('')}</div></div>`:''}
           ${valP.length?`<div class="tile" style="margin-bottom:12px"><div class="tile-l">Valorant Roster</div><div class="roster-list" style="gap:6px">${valP.map(p=>{const mo=moU(p.ce);const cc=cCol(mo);return`<div class="rc" style="padding:10px 14px" onclick="openPanel('${p.id}')"><div class="rc-photo" style="width:36px;height:36px;font-size:1rem">${flag(p.co)}</div><div class="rc-info"><div class="rc-r1"><span class="rc-ign" style="font-size:.8rem">${p.ign}</span><span class="rc-role">${p.role}</span>${p.res==='Non-Resident'?'<span class="rc-badge rc-badge-imp">IMP</span>':''}</div></div><div class="rc-ct" style="min-width:50px"><div class="rc-ct-mo" style="color:${cc};font-size:.85rem">${mo<=0?'EXP':mo+'mo'}</div></div></div>`;}).join('')}</div></div>`:''}
           
-          ${spons.length?`<div class="tile"><div class="tile-l">Sponsors</div><div style="display:flex;flex-wrap:wrap;gap:5px;margin-top:8px">${spons.map(sp=>`<span style="background:var(--bg-3);border:1px solid var(--border-0);border-radius:var(--rad);padding:5px 11px;font-size:.8rem;font-weight:600">${sp.brand}</span>`).join('')}</div><div style="margin-top:8px;font-family:var(--fm);font-size:.7rem;color:var(--tx-3)">${spons.length} partners across ${sponsCats.length} categories · <span style="cursor:pointer;color:var(--blue);text-decoration:underline" onclick="switchOrgTab('sp',document.querySelectorAll('.team-tab')[3])">View details →</span></div></div>`:''}
+          ${spons.length?`<div class="tile"><div class="tile-l">Sponsors</div><div style="display:flex;flex-wrap:wrap;gap:5px;margin-top:8px">${spons.map(sp=>`<span style="background:var(--bg-3);border:1px solid var(--border-0);border-radius:var(--rad);padding:5px 11px;font-size:.8rem;font-weight:600">${sp.brand}</span>`).join('')}</div><div style="margin-top:8px;font-family:var(--fm);font-size:.7rem;color:var(--tx-3)">${spons.length} partners across ${sponsCats.length} categories · <span style="cursor:pointer;color:var(--tx-2);text-decoration:underline" onclick="switchOrgTab('sp',document.querySelectorAll('.team-tab')[3])">View details →</span></div></div>`:''}
           `;
         })()}
       </div>
@@ -2501,7 +2501,7 @@ function renderTeamDashboard(el){
         ${spons.length?`<div class="tile">
           <div class="tile-l">Sponsors</div>
           <div style="display:flex;flex-wrap:wrap;gap:5px;margin-top:8px">${spons.map(sp=>`<span style="background:var(--bg-3);border:1px solid var(--border-0);border-radius:var(--rad);padding:5px 11px;font-size:.8rem;font-weight:600">${sp.brand}</span>`).join('')}</div>
-          <div style="margin-top:8px;font-family:var(--fm);font-size:.7rem;color:var(--tx-3)">${spons.length} partners across ${sponsCats.length} categories · <span style="cursor:pointer;color:var(--blue);text-decoration:underline" onclick="switchTeamTab('sponsors',document.querySelector('.team-tab:nth-child(4)'))">View details →</span></div>
+          <div style="margin-top:8px;font-family:var(--fm);font-size:.7rem;color:var(--tx-3)">${spons.length} partners across ${sponsCats.length} categories · <span style="cursor:pointer;color:var(--tx-2);text-decoration:underline" onclick="switchTeamTab('sponsors',document.querySelector('.team-tab:nth-child(4)'))">View details →</span></div>
         </div>`:''}
 `;
       })()}
@@ -2967,7 +2967,7 @@ function renderTeamDashboard(el){
           card+=`<div class="tile-l">Quick actions</div>`;
           card+=`<div style="display:flex;flex-direction:column;gap:8px">`;
           card+=`<button class="btn btn-ac" style="width:100%;justify-content:center" onclick="scoutForRole('${need.role}','${org.game}','12','')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>Search ${need.role}s on market</button>`;
-          card+=`<button class="btn" style="width:100%;justify-content:center;background:var(--blue)08;border-color:var(--blue)20;color:var(--blue)" onclick="scoutTeammates('${need.role}','${org.game}')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>Find ex-teammates (${need.role})</button>`;
+          card+=`<button class="btn" style="width:100%;justify-content:center" onclick="scoutTeammates('${need.role}','${org.game}')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>Find ex-teammates (${need.role})</button>`;
           if(p)card+=`<button class="btn" style="width:100%;justify-content:center" onclick="openPanel('${p.id}')">Open player profile</button>`;
           card+=`</div></div>`;
           
@@ -3135,6 +3135,13 @@ function renderSettings(){
       <div class="settings-row">
         <div><div class="settings-row-label">Stats Updates</div><div class="settings-row-desc">Alert when new performance data is available for subscribed players</div></div>
         <div class="settings-toggle ${s.alertOnStats?'on':''}" onclick="toggleSetting('alertOnStats',this)"></div>
+      </div>
+    </div>
+    <div class="settings-section">
+      <div class="settings-section-title">YOUR ORGANIZATION</div>
+      <div class="settings-row">
+        <div><div class="settings-row-label">${S.myTeam?S.myTeam.name:'No organization selected'}</div><div class="settings-row-desc">${S.myTeam?'Your My Org hub is configured for this team. Changing this will reset your org-specific views.':'Select an organization to enable the My Org hub.'}</div></div>
+        <button class="btn" onclick="resetTeam()" style="flex-shrink:0">${S.myTeam?'Change':'Select'}</button>
       </div>
     </div>
     <div class="settings-section">
