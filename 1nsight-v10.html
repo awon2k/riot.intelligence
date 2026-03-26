@@ -2192,10 +2192,11 @@ function openPanel(id){
   if(sh.length)shH=`<div class="tile" style="margin-top:14px"><div class="tile-l">Shared History with Watchlist</div>${sh.map(s=>`<div class="shared-row"><span class="sh-players">${s.p2}</span> at <span class="sh-team">${s.team}</span> <span class="sh-dates">${s.from} \u2192 ${s.to}</span></div>`).join('')}</div>`;}
   document.getElementById('panel').innerHTML=`
     <div class="pn-hd"><div class="pn-top"><div class="pn-ident"><span class="pn-flag">${flag(p.co)}</span><div><div class="pn-ign">${p.ign}</div><div class="pn-real">${p.rn}</div></div></div><div style="display:flex;gap:6px;align-items:center"><button class="btn" onclick="findTeammates('${id}')" title="Find teammates">Teammates</button><button class="btn${isSub?' btn-ac':''}" onclick="togglePlayerAlert('${id}','${p.ign}',this)" title="${isSub?'Unsubscribe from alerts':'Subscribe to alerts'}" style="padding:6px 8px"><svg width="14" height="14" viewBox="0 0 24 24" fill="${isSub?'currentColor':'none'}" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg></button><button class="pn-close" onclick="closePanel()">\u2715</button></div></div><div class="pn-badges"><span class="badge" style="color:${c.colors[0]};background:${c.colors[1]};border:1px solid ${c.colors[0]}30">${pGame==='lol'?'LOL':'VAL'}</span><span class="badge b-role">${p.role}</span><span class="badge b-role">${p.reg}</span>${getImportLabel(p)}</div><div class="pn-meta"><span>${p.team}</span><span>Age ${p.age}</span><span>${p.co}</span></div>${socH}</div>
-    <div class="pn-tabs"><div class="pn-tab ${currentPanelTab==='overview'?'on':''}" onclick="switchPanelTab('overview',this)">Overview</div><div class="pn-tab ${currentPanelTab==='intel'?'on':''}" onclick="switchPanelTab('intel',this)">Intel</div><div class="pn-tab ${currentPanelTab==='scouting'?'on':''}" onclick="switchPanelTab('scouting',this)">Scouting</div><div class="pn-tab ${currentPanelTab==='history'?'on':''}" onclick="switchPanelTab('history',this)">History</div><div class="pn-tab ${currentPanelTab==='live'?'on':''}" onclick="switchPanelTab('live',this)">Live</div></div>
+    <div class="pn-tabs"><div class="pn-tab ${currentPanelTab==='overview'?'on':''}" onclick="switchPanelTab('overview',this)">Profile</div><div class="pn-tab ${currentPanelTab==='intel'?'on':''}" onclick="switchPanelTab('intel',this)">Evaluate</div><div class="pn-tab ${currentPanelTab==='scouting'?'on':''}" onclick="switchPanelTab('scouting',this)">Pipeline</div><div class="pn-tab ${currentPanelTab==='live'?'on':''}" onclick="switchPanelTab('live',this)">Live</div></div>
+    
+    <!-- PROFILE — public data, performance, contract, career -->
     <div class="pn-tab-content ${currentPanelTab==='overview'?'active':''}" id="pntab-overview">
       <div class="tile"><div class="tile-l">Performance Radar</div><div class="radar-wrap"><div id="radar-cv"></div><div class="radar-ctrls">${c.rStats.map((k,i)=>`<div class="rt${pR.includes(k)?' on':''}" data-s="${k}" onclick="tglR('${k}','${id}')">${c.rLabels[i]}</div>`).join('')}</div></div></div>
-      <div class="t2"><div class="tile"><div class="tile-l">Your Valuation</div><div class="blur-private"><div style="display:flex;align-items:center;gap:6px"><span style="color:var(--ac);font-size:.875rem;font-weight:700">\u20AC</span><input type="number" id="pn-val-input" value="${uv||''}" placeholder="Enter value\u2026" style="background:var(--bg-3);border:1px solid var(--border-1);border-radius:var(--rad);color:var(--ac);font-family:var(--fm);font-size:.875rem;font-weight:700;padding:10px 14px;width:100%;outline:none" onfocus="this.style.borderColor='var(--ac)'" onblur="this.style.borderColor='var(--border-1)';savePlayerVal('${id}')" onkeydown="if(event.key==='Enter'){this.blur()}"></div></div><div class="tile-sub">Private \u2014 only your org</div></div><div class="tile"><div class="tile-l">Your Risk Assessment</div><div class="blur-private"><select id="pn-risk-input" onchange="savePlayerRisk('${id}')" style="background:var(--bg-3);border:1px solid var(--border-1);border-radius:var(--rad);color:var(--tx-1);font-family:var(--ff);font-size:.875rem;font-weight:600;padding:10px 14px;width:100%;outline:none;cursor:pointer"><option value=""${!ur?' selected':''}>Not assessed</option><option value="LOW"${ur==='LOW'?' selected':''}>LOW</option><option value="MEDIUM"${ur==='MEDIUM'?' selected':''}>MEDIUM</option><option value="HIGH"${ur==='HIGH'?' selected':''}>HIGH</option><option value="CRITICAL"${ur==='CRITICAL'?' selected':''}>CRITICAL</option></select></div><div class="tile-sub">Transfer likelihood</div></div></div>
       ${(()=>{
         if(!S.myTeam)return'';
         const imp=wouldBeImport(p);
@@ -2205,48 +2206,6 @@ function openPanel(id){
         return'<div class="tile" style="border-color:'+color+'30"><div style="display:flex;align-items:center;gap:10px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="'+color+'" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg><div><div style="font-size:.875rem;font-weight:700;color:'+color+'">'+(slots.used>=slots.max?'No import slots available':'Uses import slot '+(slots.used+1)+'/'+slots.max)+'</div><div style="font-size:.75rem;color:var(--tx-3)">This player is a Non-Resident for your region</div></div></div></div>';
       })()}
       <div class="tile"><div class="tile-l">Contract</div><div style="display:flex;justify-content:space-between;align-items:center"><div><span style="font-size:1rem;color:var(--tx-2)">${p.team}</span><br><span style="font-family:var(--fm);font-size:.875rem">Expires ${p.ce}</span></div><div class="c-cell"><div class="bar-t" style="width:60px"><div class="bar-f" style="width:${Math.max(0,Math.min(100,mo/36*100))}%;background:${cc}"></div></div><span class="c-v" style="color:${cc}">${mo<=0?dayU(p.ce)+'d':mo+'mo'}</span></div></div></div>
-      <div class="t2"><div class="tile tile-locked"><div class="tile-l">Market Heat</div><div class="tile-big" style="color:var(--blue);filter:blur(6px)">7 orgs</div><div class="lk-ov"><div class="lk-i">\u2B21</div><div class="lk-t">Premium</div></div></div><div class="tile tile-locked"><div class="tile-l">Agent Signals</div><div class="tile-big" style="color:var(--blue);filter:blur(6px)">+340%</div><div class="lk-ov"><div class="lk-i">\u2B21</div><div class="lk-t">Agent Portal</div></div></div></div>
-      <div class="tile tile-locked" style="margin-top:10px"><div class="tile-l">Confidential Deals</div><div style="display:flex;align-items:center;gap:12px;filter:blur(5px)"><div class="tile-big" style="color:var(--r-low)">2 mutual</div><div style="font-size:.875rem;color:var(--tx-2)">interests detected</div></div><div class="lk-ov"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--ac)" stroke-width="1.5" style="margin-bottom:6px"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><div class="lk-t" style="color:var(--ac)">Signal Interest</div><div class="lk-s">Double-blind matching — coming soon</div></div></div>
-    </div>
-    <div class="pn-tab-content ${currentPanelTab==='intel'?'active':''}" id="pntab-intel">
-      <div style="padding-bottom:40px">
-      <div class="tile"><div class="tile-l">Watchlist</div><div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><select class="wl-select" id="pn-wl-sel">${wlO}</select><button class="wl-btn${isWatched(id)?' added':''}" onclick="toggleWLP('${id}')">${getWLsFor(id).length?'Remove':'Add'}</button><button class="wl-btn" onclick="createWL()">+ New</button><button class="wl-btn" onclick="renameWL()">Rename</button></div>${getWLsFor(id).length?`<div class="tile-sub" style="margin-top:8px">In: ${getWLsFor(id).join(', ')}</div>`:''}</div>
-      <div class="tile"><div class="tile-l">Agent / Contact</div><div class="blur-private"><input type="text" id="pn-agent-input" value="${getAgent(id)}" placeholder="Agent name, email, phone..." style="background:var(--bg-3);border:1px solid var(--border-1);border-radius:var(--rad);color:var(--tx-1);font-family:var(--ff);font-size:.875rem;padding:10px 14px;width:100%;outline:none" onblur="saveAgent('${id}',this.value)"></div></div>
-      <div class="tile"><div class="tile-l">Private Notes</div><div class="blur-private"><textarea class="notes-area" id="pn-notes" placeholder="Scouting notes, agent contacts, negotiation details\u2026" oninput="handleNoteInput('${id}')" style="min-height:120px">${getNote(id).replace(/</g,'&lt;')}</textarea></div><div class="notes-saved" id="notes-saved">Saved</div></div>
-      <div class="tile"><div class="tile-l">Negotiation Log</div>
-        <div class="blur-private">
-          <div id="nego-log-list">${renderNegoLog(id)}</div>
-          <div style="display:flex;gap:6px;margin-top:10px;align-items:flex-end">
-            <div style="flex:1"><select id="nego-type" class="fs" style="font-size:.75rem;padding:6px 8px;width:100%;margin-bottom:4px"><option value="call">Call</option><option value="meeting">Meeting</option><option value="email">Email</option><option value="offer">Offer</option><option value="note">Note</option></select><input type="text" id="nego-input" placeholder="Details..." style="background:var(--bg-3);border:1px solid var(--border-1);border-radius:var(--rad);color:var(--tx-1);font-family:var(--ff);font-size:.875rem;padding:8px 12px;width:100%;outline:none"></div>
-            <button class="btn btn-ac" onclick="addNegoEntry('${id}')">Log</button>
-          </div>
-        </div>
-      </div>
-      <div class="tile"><div class="tile-l">Coach Decision</div>
-        <div class="blur-private" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px">
-          <button class="btn${getCoachDecision(id)==='APPROVED'?' btn-ac':''}" onclick="setCoachDecision('${id}','APPROVED',this)" style="flex:1;justify-content:center">APPROVED</button>
-          <button class="btn${getCoachDecision(id)==='REVISIT'?' btn-blue':''}" onclick="setCoachDecision('${id}','REVISIT',this)" style="flex:1;justify-content:center">REVISIT</button>
-          <button class="btn${getCoachDecision(id)==='REJECTED'?' btn-w':''}" onclick="setCoachDecision('${id}','REJECTED',this)" style="flex:1;justify-content:center">REJECTED</button>
-        </div>
-        ${getCoachDecision(id)?'<div style="font-size:.75rem;color:var(--tx-3);margin-top:6px">Set '+getCoachDecisionDate(id)+'</div>':''}
-      </div>
-      </div>
-    </div>
-    <div class="pn-tab-content ${currentPanelTab==='scouting'?'active':''}" id="pntab-scouting">
-      <div class="tile"><div class="tile-l">Scouting Report</div>
-        <div class="blur-private">${renderScoutTags(id)}</div>
-        <div style="border-top:1px solid var(--border-0);margin-top:14px;padding-top:14px">
-          <div style="font-size:.75rem;color:var(--tx-3);margin-bottom:8px">Add tag</div>
-          <div class="scout-add">
-            <select id="scout-type-sel" style="min-width:100px" onchange="updateScoutPresets()"><option value="strength">Strength</option><option value="weakness">Weakness</option><option value="neutral">Note</option></select>
-            <select id="scout-preset"><option value="">Presets...</option><optgroup label="Strengths">${(pGame==='lol'?PRESET_STRENGTHS_LOL:PRESET_STRENGTHS_VAL).map(s=>'<option value="'+s+'">'+s+'</option>').join('')}</optgroup></select>
-            <input id="scout-custom" type="text" placeholder="Or type custom...">
-            <button class="btn btn-ac" onclick="addScoutTag('${id}',document.getElementById('scout-type-sel').value)">Add</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="pn-tab-content ${currentPanelTab==='history'?'active':''}" id="pntab-history">
       ${p.history?.length?`
         <div class="tile"><div class="tile-l">Career Timeline</div>
           ${p.history.map((h,idx)=>{
@@ -2255,7 +2214,6 @@ function openPanel(id){
             const hasStats=h.kda||h.win_rate;
             const hasTournaments=h.tournaments&&h.tournaments.length;
             const hasContracts=h.contracts&&h.contracts.length;
-            // Detect free agency gap
             let gapHtml='';
             if(idx>0){
               const prevEnd=p.history[idx-1].to;
@@ -2287,7 +2245,56 @@ function openPanel(id){
           </div>
         </div>`:'<div style="color:var(--tx-3);padding:20px 0">No transfer history available</div>'}
       ${shH}
+      <div class="t2"><div class="tile tile-locked"><div class="tile-l">Market Heat</div><div class="tile-big" style="color:var(--blue);filter:blur(6px)">7 orgs</div><div class="lk-ov"><div class="lk-i">\u2B21</div><div class="lk-t">Premium</div></div></div><div class="tile tile-locked"><div class="tile-l">Agent Signals</div><div class="tile-big" style="color:var(--blue);filter:blur(6px)">+340%</div><div class="lk-ov"><div class="lk-i">\u2B21</div><div class="lk-t">Agent Portal</div></div></div></div>
+      <div class="tile tile-locked" style="margin-top:10px"><div class="tile-l">Confidential Deals</div><div style="display:flex;align-items:center;gap:12px;filter:blur(5px)"><div class="tile-big" style="color:var(--r-low)">2 mutual</div><div style="font-size:.875rem;color:var(--tx-2)">interests detected</div></div><div class="lk-ov"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--ac)" stroke-width="1.5" style="margin-bottom:6px"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><div class="lk-t" style="color:var(--ac)">Signal Interest</div><div class="lk-s">Double-blind matching — coming soon</div></div></div>
     </div>
+    
+    <!-- EVALUATE — your private assessment -->
+    <div class="pn-tab-content ${currentPanelTab==='intel'?'active':''}" id="pntab-intel">
+      <div style="padding-bottom:40px">
+      <div class="t2"><div class="tile"><div class="tile-l">Your Valuation</div><div class="blur-private"><div style="display:flex;align-items:center;gap:6px"><span style="color:var(--ac);font-size:.875rem;font-weight:700">\u20AC</span><input type="number" id="pn-val-input" value="${uv||''}" placeholder="Enter value\u2026" style="background:var(--bg-3);border:1px solid var(--border-1);border-radius:var(--rad);color:var(--ac);font-family:var(--fm);font-size:.875rem;font-weight:700;padding:10px 14px;width:100%;outline:none" onfocus="this.style.borderColor='var(--ac)'" onblur="this.style.borderColor='var(--border-1)';savePlayerVal('${id}')" onkeydown="if(event.key==='Enter'){this.blur()}"></div></div><div class="tile-sub">Private — only your org</div></div><div class="tile"><div class="tile-l">Your Risk Assessment</div><div class="blur-private"><select id="pn-risk-input" onchange="savePlayerRisk('${id}')" style="background:var(--bg-3);border:1px solid var(--border-1);border-radius:var(--rad);color:var(--tx-1);font-family:var(--ff);font-size:.875rem;font-weight:600;padding:10px 14px;width:100%;outline:none;cursor:pointer"><option value=""${!ur?' selected':''}>Not assessed</option><option value="LOW"${ur==='LOW'?' selected':''}>LOW</option><option value="MEDIUM"${ur==='MEDIUM'?' selected':''}>MEDIUM</option><option value="HIGH"${ur==='HIGH'?' selected':''}>HIGH</option><option value="CRITICAL"${ur==='CRITICAL'?' selected':''}>CRITICAL</option></select></div><div class="tile-sub">Transfer likelihood</div></div></div>
+      <div class="tile"><div class="tile-l">Scouting Report</div>
+        <div class="blur-private">${renderScoutTags(id)}</div>
+        <div style="border-top:1px solid var(--border-0);margin-top:14px;padding-top:14px">
+          <div style="font-size:.75rem;color:var(--tx-3);margin-bottom:8px">Add tag</div>
+          <div class="scout-add">
+            <select id="scout-type-sel" style="min-width:100px" onchange="updateScoutPresets()"><option value="strength">Strength</option><option value="weakness">Weakness</option><option value="neutral">Note</option></select>
+            <select id="scout-preset"><option value="">Presets...</option><optgroup label="Strengths">${(pGame==='lol'?PRESET_STRENGTHS_LOL:PRESET_STRENGTHS_VAL).map(s=>'<option value="'+s+'">'+s+'</option>').join('')}</optgroup></select>
+            <input id="scout-custom" type="text" placeholder="Or type custom...">
+            <button class="btn btn-ac" onclick="addScoutTag('${id}',document.getElementById('scout-type-sel').value)">Add</button>
+          </div>
+        </div>
+      </div>
+      <div class="tile"><div class="tile-l">Coach Decision</div>
+        <div class="blur-private" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px">
+          <button class="btn${getCoachDecision(id)==='APPROVED'?' btn-ac':''}" onclick="setCoachDecision('${id}','APPROVED',this)" style="flex:1;justify-content:center">APPROVED</button>
+          <button class="btn${getCoachDecision(id)==='REVISIT'?' btn-blue':''}" onclick="setCoachDecision('${id}','REVISIT',this)" style="flex:1;justify-content:center">REVISIT</button>
+          <button class="btn${getCoachDecision(id)==='REJECTED'?' btn-w':''}" onclick="setCoachDecision('${id}','REJECTED',this)" style="flex:1;justify-content:center">REJECTED</button>
+        </div>
+        ${getCoachDecision(id)?'<div style="font-size:.75rem;color:var(--tx-3);margin-top:6px">Set '+getCoachDecisionDate(id)+'</div>':''}
+      </div>
+      </div>
+    </div>
+    
+    <!-- PIPELINE — deal tracking CRM -->
+    <div class="pn-tab-content ${currentPanelTab==='scouting'?'active':''}" id="pntab-scouting">
+      <div style="padding-bottom:40px">
+      <div class="tile"><div class="tile-l">Watchlist</div><div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><select class="wl-select" id="pn-wl-sel">${wlO}</select><button class="wl-btn${isWatched(id)?' added':''}" onclick="toggleWLP('${id}')">${getWLsFor(id).length?'Remove':'Add'}</button><button class="wl-btn" onclick="createWL()">+ New</button><button class="wl-btn" onclick="renameWL()">Rename</button></div>${getWLsFor(id).length?`<div class="tile-sub" style="margin-top:8px">In: ${getWLsFor(id).join(', ')}</div>`:''}</div>
+      <div class="tile"><div class="tile-l">Agent / Contact</div><div class="blur-private"><input type="text" id="pn-agent-input" value="${getAgent(id)}" placeholder="Agent name, email, phone..." style="background:var(--bg-3);border:1px solid var(--border-1);border-radius:var(--rad);color:var(--tx-1);font-family:var(--ff);font-size:.875rem;padding:10px 14px;width:100%;outline:none" onblur="saveAgent('${id}',this.value)"></div></div>
+      <div class="tile"><div class="tile-l">Private Notes</div><div class="blur-private"><textarea class="notes-area" id="pn-notes" placeholder="Scouting notes, agent contacts, negotiation details\u2026" oninput="handleNoteInput('${id}')" style="min-height:120px">${getNote(id).replace(/</g,'&lt;')}</textarea></div><div class="notes-saved" id="notes-saved">Saved</div></div>
+      <div class="tile"><div class="tile-l">Negotiation Log</div>
+        <div class="blur-private">
+          <div id="nego-log-list">${renderNegoLog(id)}</div>
+          <div style="display:flex;gap:6px;margin-top:10px;align-items:flex-end">
+            <div style="flex:1"><select id="nego-type" class="fs" style="font-size:.75rem;padding:6px 8px;width:100%;margin-bottom:4px"><option value="call">Call</option><option value="meeting">Meeting</option><option value="email">Email</option><option value="offer">Offer</option><option value="note">Note</option></select><input type="text" id="nego-input" placeholder="Details..." style="background:var(--bg-3);border:1px solid var(--border-1);border-radius:var(--rad);color:var(--tx-1);font-family:var(--ff);font-size:.875rem;padding:8px 12px;width:100%;outline:none"></div>
+            <button class="btn btn-ac" onclick="addNegoEntry('${id}')">Log</button>
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+    
+    <!-- LIVE — Twitch stream + notes -->
     <div class="pn-tab-content ${currentPanelTab==='live'?'active':''}" id="pntab-live">
       ${soc.twitch?`<div class="tile-l">TWITCH \u00B7 ${soc.twitch}</div><div class="live-embed"><iframe src="https://player.twitch.tv/?channel=${soc.twitch}&parent=${location.hostname}&muted=true" allowfullscreen></iframe></div><div class="tile"><div class="tile-l">Stream Notes</div><div class="tile-sub" style="margin-bottom:8px">Timestamped with current time. Match to VOD after stream ends.</div><div class="live-note-form"><input type="text" id="live-note-input" placeholder="Note what you see\u2026" onkeydown="if(event.key==='Enter')addLiveNote('${id}')"><button class="btn btn-ac" onclick="addLiveNote('${id}')">Add</button></div><div class="live-notes-list" id="live-notes-list">${getLiveNotes(id)}</div></div>`:`<div class="live-offline"><svg viewBox="0 0 24 24"><path d="M21 2H3v16h5v4l4-4h5l4-4V2zM11 11V7M16 11V7"/></svg><div style="font-size:1rem;font-weight:600;margin-bottom:4px">No Twitch channel linked</div><div style="font-size:.875rem;color:var(--tx-3)">Twitch data not available for this player</div></div>`}
     </div>`;
