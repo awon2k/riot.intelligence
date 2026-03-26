@@ -40,9 +40,9 @@ body{font-family:var(--ff);background:var(--bg-0);color:var(--tx-1);line-height:
 /* ═══════════ NAV ═══════════ */
 .nav{width:80px;height:100vh;background:var(--bg-1);border-right:1px solid var(--border-0);display:flex;flex-direction:column;align-items:center;padding:16px 0;gap:3px;flex-shrink:0;z-index:50;position:relative}
 .nav::after{content:'';position:absolute;right:0;top:0;bottom:0;width:1px;background:linear-gradient(180deg,transparent 10%,rgba(255,255,255,.06) 50%,transparent 90%);pointer-events:none}
-.nav-logo{width:54px;height:40px;border-radius:var(--rad);display:flex;align-items:center;justify-content:center;margin-bottom:12px;background:var(--bg-2);border:1px solid var(--border-1);position:relative;overflow:hidden}
-.nav-logo span{font-family:var(--fd);font-weight:900;font-size:.65rem;letter-spacing:1px;color:var(--ac);z-index:1;white-space:nowrap}
-.nav-logo::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--ac)06,transparent 60%)}
+.nav-logo{width:40px;height:40px;margin-bottom:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.nav-logo img{width:36px;height:36px;object-fit:contain;opacity:.85}
+.nav-logo:hover img{opacity:1}
 .nav-div{width:40px;height:1px;background:var(--border-1);margin:6px 0}
 .nav-lbl{font-size:.55rem;font-family:var(--fm);color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:1.2px;margin:6px 0 2px}
 .ni{width:56px;height:48px;border-radius:var(--rad);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;border:1px solid transparent;transition:all var(--tr);position:relative}
@@ -68,8 +68,8 @@ body{font-family:var(--ff);background:var(--bg-0);color:var(--tx-1);line-height:
 /* Header */
 .hd{display:flex;align-items:center;justify-content:space-between;padding:16px 28px;border-bottom:1px solid var(--border-0);position:relative;z-index:10;gap:12px;flex-wrap:wrap;flex-shrink:0}
 .hd-l{display:flex;flex-direction:column;gap:2px}
-.hd-brand{font-family:var(--fd);font-size:.75rem;font-weight:700;letter-spacing:3px;color:var(--ac);opacity:.45}
-.hd-title{font-family:var(--fd);font-size:1.3rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;text-shadow:0 0 20px var(--game-glow)}
+.hd-brand{font-family:var(--fd);font-size:.7rem;font-weight:700;letter-spacing:3px;color:rgba(255,255,255,.25)}
+.hd-title{font-family:var(--fd);font-size:1.3rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--tx-1)}
 .hd-sub{font-size:.75rem;font-family:var(--fm);color:var(--tx-3);margin-top:2px}
 .hd-r{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:var(--rad);font-family:var(--ff);font-size:.75rem;font-weight:600;border:1px solid var(--border-1);background:var(--bg-3);color:var(--tx-2);cursor:pointer;transition:all var(--tr);white-space:nowrap}
@@ -644,7 +644,7 @@ body.privacy-mode .blur-private{filter:blur(6px)!important;user-select:none;poin
 <body>
 
 <nav class="nav">
-  <div class="nav-logo"><span>1NSIGHT</span></div>
+  <div class="nav-logo"><img src="https://awon2k.github.io/riot.intelligence/1nsight-logo-transparent.png" alt="1NSIGHT"></div>
   <div class="nav-div"></div>
   <div class="nav-lbl">Hub</div>
   <div class="ni" id="nav-team" onclick="showTeamPage()" title="My Org"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg><span class="ni-t">My Org</span></div>
@@ -669,7 +669,7 @@ body.privacy-mode .blur-private{filter:blur(6px)!important;user-select:none;poin
   <div class="page" id="page-digest" style="padding:24px;overflow-y:auto"></div>
   <div class="page active" id="page-feed">
     <header class="hd">
-      <div class="hd-l"><div class="hd-brand">1NSIGHT</div><div class="hd-title" style="color:var(--ac)">ACTIVITY</div><div class="hd-sub">Data source changes & updates</div></div>
+      <div class="hd-l"><div class="hd-brand">1NSIGHT</div><div class="hd-title">ACTIVITY</div><div class="hd-sub">Data source changes & updates</div></div>
       <div class="hd-r">
         <div class="freshness-bar">
           <span><span class="freshness-dot fresh"></span> GCD: 14m ago</span>
@@ -713,7 +713,7 @@ body.privacy-mode .blur-private{filter:blur(6px)!important;user-select:none;poin
   <!-- MARKET PAGE -->
   <div class="page" id="page-market">
     <header class="hd">
-      <div class="hd-l"><div class="hd-brand">1NSIGHT</div><div class="hd-title" id="hd-title" style="color:var(--game-1)">LEAGUE OF LEGENDS</div><div class="hd-sub" id="hd-sub">Transfer Intelligence · LEC · LCK · LPL · LCS</div></div>
+      <div class="hd-l"><div class="hd-brand">1NSIGHT</div><div class="hd-title" id="hd-title">LEAGUE OF LEGENDS</div><div class="hd-sub" id="hd-sub">Transfer Intelligence · LEC · LCK · LPL · LCS</div></div>
       <div class="hd-r"><span class="tag" id="sync-tag" title="Data syncs automatically"><span class="freshness-dot fresh"></span> Auto-syncing</span></div>
     </header>
     <div class="stats"><div class="st"><div class="st-l">Players Tracked</div><div class="st-v" id="s-total" style="color:var(--ac)">—</div></div><div class="st"><div class="st-l">Your High / Critical</div><div class="st-v" id="s-risk" style="color:var(--ac)">—</div></div><div class="st"><div class="st-l">Expiring &lt; 6 Months</div><div class="st-v" id="s-exp" style="color:var(--r-med)">—</div></div><div class="st"><div class="st-l">Avg Your Valuation</div><div class="st-v" id="s-val" style="color:var(--ac)">—</div></div></div>
@@ -735,7 +735,7 @@ body.privacy-mode .blur-private{filter:blur(6px)!important;user-select:none;poin
   <!-- MY TEAM PAGE -->
   <div class="page" id="page-team">
     <header class="hd">
-      <div class="hd-l"><div class="hd-brand">1NSIGHT</div><div class="hd-title" style="color:var(--blue)">MY ORG</div><div class="hd-sub">Organization Hub</div></div>
+      <div class="hd-l"><div class="hd-brand">1NSIGHT</div><div class="hd-title">MY ORG</div><div class="hd-sub">Organization Hub</div></div>
       <div class="hd-r"></div>
     </header>
     <div class="team-page" id="team-content"></div>
@@ -745,7 +745,7 @@ body.privacy-mode .blur-private{filter:blur(6px)!important;user-select:none;poin
   <div class="page" id="page-orgs" style="overflow-y:auto;padding:0"></div>
   <div class="page" id="page-wl">
     <header class="hd">
-      <div class="hd-l"><div class="hd-brand">1NSIGHT</div><div class="hd-title" style="color:var(--blue)">WATCHLISTS</div><div class="hd-sub">Scouting & Intelligence Hub</div></div>
+      <div class="hd-l"><div class="hd-brand">1NSIGHT</div><div class="hd-title">WATCHLISTS</div><div class="hd-sub">Scouting & Intelligence Hub</div></div>
       <div class="hd-r"><button class="btn btn-purple" onclick="createWL()">+ New Watchlist</button></div>
     </header>
     <div class="wl-hub" id="wl-hub-content"></div>
@@ -754,7 +754,7 @@ body.privacy-mode .blur-private{filter:blur(6px)!important;user-select:none;poin
   <!-- ALERTS PAGE -->
   <div class="page" id="page-alerts">
     <header class="hd">
-      <div class="hd-l"><div class="hd-brand">1NSIGHT</div><div class="hd-title" style="color:var(--ac)">ALERTS</div><div class="hd-sub">Notifications & alert subscriptions</div></div>
+      <div class="hd-l"><div class="hd-brand">1NSIGHT</div><div class="hd-title">ALERTS</div><div class="hd-sub">Notifications & alert subscriptions</div></div>
       <div class="hd-r"><button class="btn btn-w" onclick="markAllRead()">Mark all read</button></div>
     </header>
     <div class="alerts-page" id="alerts-content"></div>
@@ -1846,7 +1846,7 @@ function switchGame(g){
   document.getElementById(g==='lol'?'nav-lol':'nav-val').classList.add('on');
   const c=G[g],r=document.documentElement;
   r.style.setProperty('--game-1',c.colors[0]);r.style.setProperty('--game-3',c.colors[1]);r.style.setProperty('--game-glow',c.colors[2]);
-  document.getElementById('hd-title').textContent=c.title;document.getElementById('hd-title').style.color='var(--game-1)';
+  document.getElementById('hd-title').textContent=c.title;
   document.getElementById('hd-sub').textContent=c.sub;
   document.getElementById('f-region').innerHTML='<option value="">All Regions</option>'+c.regions.map(r=>`<option>${r}</option>`).join('');
   document.getElementById('f-role').innerHTML='<option value="">All Roles</option>'+c.roles.map(r=>`<option>${r}</option>`).join('');
@@ -2925,8 +2925,6 @@ function renderTeamDashboard(el){
         const gapCount=needs.filter(n=>n.reason==='gap').length;
         
         let h='';
-        
-        // Summary cards
         h+=`<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px">`;
         h+=`<div class="tile"><div class="tile-l">Scouting needs</div><div class="tile-big" style="color:${needs.length?'var(--r-med)':'var(--r-low)'}">${needs.length}</div><div class="tile-sub">Positions to address</div></div>`;
         h+=`<div class="tile"><div class="tile-l">Expiring &lt;12mo</div><div class="tile-big" style="color:${expiring.length?'var(--r-high)':'var(--r-low)'}">${expiring.length}</div><div class="tile-sub">Contracts at risk</div></div>`;
@@ -2938,61 +2936,66 @@ function renderTeamDashboard(el){
           return h;
         }
         
+        h+=`<div style="display:flex;flex-direction:column;gap:12px">`;
         h+=needs.map(need=>{
           const p=need.player;
           const cc=p?cCol(need.mo):'var(--r-crit)';
           const urgLabel=need.reason==='gap'?'Role gap — no '+need.role+' on roster':need.mo<=6?'Urgent — '+need.mo+' months remaining':'Monitor — '+need.mo+' months remaining';
           const isLol=org.game==='lol';
           
-          let card=`<div class="tile" style="padding:0;overflow:hidden">`;
-          // Header
-          card+=`<div style="padding:10px 18px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--border-0);background:${cc}05"><span style="width:7px;height:7px;border-radius:50%;background:${cc};flex-shrink:0"></span><span style="font-size:.7rem;font-family:var(--fm);font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:${cc}">${urgLabel}</span></div>`;
+          let card=`<div class="tile" style="padding:0;overflow:hidden;margin-bottom:0">`;
+          card+=`<div style="padding:8px 16px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--border-0);background:${cc}04"><span style="width:6px;height:6px;border-radius:50%;background:${cc};flex-shrink:0"></span><span style="font-size:.65rem;font-family:var(--fm);font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:${cc}">${urgLabel}</span></div>`;
           
-          card+=`<div style="padding:18px">`;
-          // Two columns
-          card+=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">`;
+          card+=`<div style="padding:16px">`;
+          card+=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start">`;
           
-          // LEFT — player card
+          // LEFT — player
           card+=`<div>`;
-          card+=`<div class="tile-l">Current player</div>`;
+          card+=`<div class="tile-l" style="margin-bottom:8px">Current player</div>`;
           if(p){
-            card+=`<div style="display:flex;align-items:center;gap:14px"><div style="width:48px;height:48px;border-radius:10px;background:var(--bg-3);display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;border:2px solid ${cc}30">${flag(p.co)}</div><div style="flex:1;min-width:0"><div style="display:flex;align-items:center;gap:8px"><span style="font-family:var(--fd);font-weight:700;font-size:.95rem">${p.ign}</span><span style="font-family:var(--fm);font-size:.55rem;padding:2px 7px;border-radius:4px;background:var(--bg-3);border:1px solid var(--border-0);color:var(--tx-3)">${p.role}</span>${p.res==='Non-Resident'?'<span style="font-family:var(--fm);font-size:.5rem;padding:1px 5px;border-radius:3px;background:var(--r-high)10;color:var(--r-high)">IMP</span>':''}</div><div style="font-size:.75rem;color:var(--tx-3);margin-top:2px">${p.rn} · ${p.team}</div><div style="display:flex;gap:14px;margin-top:8px"><div style="text-align:center"><div style="font-family:var(--fm);font-size:.9rem;font-weight:700">${p.kda||'—'}</div><div style="font-size:.5rem;font-family:var(--fm);color:var(--tx-3);text-transform:uppercase;margin-top:1px">${isLol?'KDA':'K/D'}</div></div><div style="text-align:center"><div style="font-family:var(--fm);font-size:.9rem;font-weight:700;color:${(p.win_rate||0)>=55?'var(--r-low)':'var(--r-med)'}">${p.win_rate?p.win_rate+'%':'—'}</div><div style="font-size:.5rem;font-family:var(--fm);color:var(--tx-3);text-transform:uppercase;margin-top:1px">Win</div></div><div style="text-align:center"><div style="font-family:var(--fm);font-size:.9rem;font-weight:700;color:${cc}">${need.mo}mo</div><div style="font-size:.5rem;font-family:var(--fm);color:var(--tx-3);text-transform:uppercase;margin-top:1px">Left</div></div></div></div></div>`;
+            card+=`<div style="display:flex;align-items:center;gap:12px"><div style="width:44px;height:44px;border-radius:8px;background:var(--bg-3);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;border:1px solid ${cc}25">${flag(p.co)}</div><div style="flex:1;min-width:0"><div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap"><span style="font-family:var(--fd);font-weight:700;font-size:.85rem">${p.ign}</span><span style="font-family:var(--fm);font-size:.55rem;padding:2px 6px;border-radius:4px;background:var(--bg-3);border:1px solid var(--border-0);color:var(--tx-3)">${p.role}</span>${p.res==='Non-Resident'?'<span style="font-family:var(--fm);font-size:.5rem;padding:1px 5px;border-radius:3px;background:var(--r-high)10;color:var(--r-high)">IMP</span>':''}</div><div style="font-size:.7rem;color:var(--tx-3);margin-top:2px">${p.rn}</div><div style="display:flex;gap:12px;margin-top:6px"><div><span style="font-family:var(--fm);font-size:.8rem;font-weight:700">${p.kda||'—'}</span><span style="font-size:.5rem;font-family:var(--fm);color:var(--tx-3);margin-left:3px">${isLol?'KDA':'K/D'}</span></div><div><span style="font-family:var(--fm);font-size:.8rem;font-weight:700;color:${(p.win_rate||0)>=55?'var(--r-low)':'var(--r-med)'}">${p.win_rate?p.win_rate+'%':'—'}</span><span style="font-size:.5rem;font-family:var(--fm);color:var(--tx-3);margin-left:3px">Win</span></div><div><span style="font-family:var(--fm);font-size:.8rem;font-weight:700;color:${cc}">${need.mo}mo</span><span style="font-size:.5rem;font-family:var(--fm);color:var(--tx-3);margin-left:3px">left</span></div></div></div></div>`;
           } else {
-            card+=`<div style="display:flex;align-items:center;gap:14px"><div style="width:48px;height:48px;border-radius:10px;background:var(--bg-3);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;border:2px dashed var(--border-2);color:var(--tx-3)">?</div><div style="flex:1"><div style="font-family:var(--fd);font-weight:700;font-size:.95rem;color:var(--tx-3)">${need.role} needed</div><div style="font-size:.75rem;color:var(--tx-3);margin-top:2px">No player in this role on your roster</div></div></div>`;
+            card+=`<div style="display:flex;align-items:center;gap:12px"><div style="width:44px;height:44px;border-radius:8px;background:var(--bg-3);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;border:1px dashed var(--border-2);color:var(--tx-3)">?</div><div><div style="font-family:var(--fd);font-weight:700;font-size:.85rem;color:var(--tx-3)">${need.role} needed</div><div style="font-size:.7rem;color:var(--tx-3);margin-top:2px">No player in this role</div></div></div>`;
           }
           card+=`</div>`;
           
-          // RIGHT — quick actions
+          // RIGHT — actions + filters combined
           card+=`<div>`;
-          card+=`<div class="tile-l">Quick actions</div>`;
-          card+=`<div style="display:flex;flex-direction:column;gap:8px">`;
-          card+=`<button class="btn btn-ac" style="width:100%;justify-content:center" onclick="scoutForRole('${need.role}','${org.game}','12','')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>Search ${need.role}s on market</button>`;
-          card+=`<button class="btn" style="width:100%;justify-content:center" onclick="scoutTeammates('${need.role}','${org.game}')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>Find ex-teammates (${need.role})</button>`;
-          if(p)card+=`<button class="btn" style="width:100%;justify-content:center" onclick="openPanel('${p.id}')">Open player profile</button>`;
-          card+=`</div></div>`;
+          card+=`<div class="tile-l" style="margin-bottom:8px">Actions</div>`;
+          card+=`<div style="display:flex;flex-direction:column;gap:6px">`;
+          card+=`<button class="btn btn-ac" style="font-size:.7rem;padding:6px 12px;justify-content:center" onclick="scoutForRole('${need.role}','${org.game}','12','')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>Search ${need.role}s</button>`;
+          card+=`<button class="btn" style="font-size:.7rem;padding:6px 12px;justify-content:center" onclick="scoutTeammates('${need.role}','${org.game}')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Ex-teammates</button>`;
+          if(p)card+=`<button class="btn" style="font-size:.7rem;padding:6px 12px;justify-content:center" onclick="openPanel('${p.id}')">View profile</button>`;
+          card+=`</div>`;
+          // Compact filters inline
+          card+=`<div style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap">`;
+          card+=`<select style="font-size:.65rem;padding:4px 8px;background:var(--bg-2);border:1px solid var(--border-0);border-radius:var(--rad);color:var(--tx-2);font-family:var(--fm);outline:none" onchange="this.closest('.tile').dataset.contractFilter=this.value"><option value="12">&lt;12mo</option><option value="6">&lt;6mo</option><option value="0">FA</option><option value="99">Any</option></select>`;
+          card+=`<select style="font-size:.65rem;padding:4px 8px;background:var(--bg-2);border:1px solid var(--border-0);border-radius:var(--rad);color:var(--tx-2);font-family:var(--fm);outline:none" onchange="this.closest('.tile').dataset.regionFilter=this.value"><option value="">All regions</option>${c.regions.map(r=>'<option value="'+r+'">'+r+'</option>').join('')}</select>`;
+          card+=`<button class="btn" style="font-size:.6rem;padding:3px 8px;margin-left:auto" onclick="scoutForRole('${need.role}','${org.game}',this.closest('.tile').dataset.contractFilter||'12',this.closest('.tile').dataset.regionFilter||'')">Go</button>`;
+          card+=`</div>`;
+          card+=`</div>`;
           
           card+=`</div>`; // end grid
-          
-          // Advanced filters
-          card+=`<div style="padding-top:16px;border-top:1px solid var(--border-0);margin-top:16px"><div class="tile-l">Advanced filters</div><div style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap">`;
-          card+=`<div style="display:flex;flex-direction:column;gap:3px"><span style="font-size:.55rem;font-family:var(--fm);color:var(--tx-3);text-transform:uppercase;letter-spacing:.5px">Contract</span><select class="fs" style="font-size:.75rem;padding:6px 10px;min-width:90px" onchange="this.closest('.tile').dataset.contractFilter=this.value"><option value="12">&lt; 12 mo</option><option value="6">&lt; 6 mo</option><option value="3">&lt; 3 mo</option><option value="0">Free agents</option><option value="99">Any</option></select></div>`;
-          card+=`<div style="display:flex;flex-direction:column;gap:3px"><span style="font-size:.55rem;font-family:var(--fm);color:var(--tx-3);text-transform:uppercase;letter-spacing:.5px">Region</span><select class="fs" style="font-size:.75rem;padding:6px 10px;min-width:90px" onchange="this.closest('.tile').dataset.regionFilter=this.value"><option value="">All</option>${c.regions.map(r=>'<option value="'+r+'">'+r+'</option>').join('')}</select></div>`;
-          card+=`<div style="display:flex;flex-direction:column;gap:3px"><span style="font-size:.55rem;font-family:var(--fm);color:var(--tx-3);text-transform:uppercase;letter-spacing:.5px">Residency</span><select class="fs" style="font-size:.75rem;padding:6px 10px;min-width:90px" onchange="this.closest('.tile').dataset.resFilter=this.value"><option value="">Any</option><option value="res">Residents only</option><option value="imp">Imports OK</option></select></div>`;
-          card+=`<button class="btn btn-ac" style="margin-left:auto" onclick="scoutForRole('${need.role}','${org.game}',this.closest('.tile').dataset.contractFilter||'12',this.closest('.tile').dataset.regionFilter||'')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>Search</button>`;
-          card+=`</div></div>`;
-          
           card+=`</div></div>`; // end body + card
           return card;
         }).join('');
+        h+=`</div>`;
         
         return h;
       })()}
     </div>
     <!-- SCENARIOS -->
     <div class="team-content" id="tt-scenario">
-      <div class="tile"><div class="tile-l">Roster Scenario Builder</div>
-        <div class="tile-sub" style="margin-bottom:14px">Swap players to model hypothetical rosters. See how import slots, total value, and performance change.</div>
-        ${renderScenarioBuilder(org,org.game,roster,c)}
+      <div class="tile" style="position:relative;min-height:200px;display:flex;align-items:center;justify-content:center">
+        <div style="filter:blur(4px);opacity:.3;position:absolute;inset:16px;pointer-events:none">
+          <div class="tile-l">Roster Scenario Builder</div>
+          <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:14px">${roster.slice(0,5).map(p=>`<div style="background:var(--bg-3);border:1px solid var(--border-0);border-radius:var(--rad);padding:12px;text-align:center"><div style="font-size:1rem">${flag(p.co)}</div><div style="font-weight:700;font-size:.8rem;margin-top:4px">${p.ign}</div><div style="font-size:.65rem;color:var(--tx-3)">${p.role}</div></div>`).join('')}</div>
+        </div>
+        <div style="position:relative;z-index:2;text-align:center;padding:20px">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--tx-3)" stroke-width="1.5" style="margin-bottom:8px"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+          <div style="font-family:var(--fd);font-weight:700;font-size:1rem;margin-bottom:4px">Scenario Builder</div>
+          <div style="font-size:.8rem;color:var(--tx-3);max-width:320px;margin:0 auto">Model hypothetical rosters with drag-and-drop player swaps. Coming in a future update.</div>
+        </div>
       </div>
     </div>
   </div>`;
