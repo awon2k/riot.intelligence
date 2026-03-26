@@ -2922,84 +2922,70 @@ function renderTeamDashboard(el){
         const expiring=roster.filter(p=>moU(p.ce)<=12);
         expiring.forEach(p=>{ if(!needs.find(n=>n.role===p.role))needs.push({role:p.role,reason:'replace',player:p,mo:moU(p.ce)}) });
         missR.forEach(r=>{ if(!needs.find(n=>n.role===r))needs.push({role:r,reason:'gap',player:null,mo:null}) });
+        const gapCount=needs.filter(n=>n.reason==='gap').length;
         
-        if(!needs.length)return'<div style="padding:40px;text-align:center"><div style="font-size:1.15rem;color:var(--r-low);margin-bottom:8px">All clear</div><div style="font-size:.875rem;color:var(--tx-3)">Full role coverage, no contracts expiring within 12 months</div></div>';
+        let h='';
         
-        return`<div style="display:flex;flex-direction:column;gap:20px">${needs.map(need=>{
+        // Summary cards
+        h+=`<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px">`;
+        h+=`<div class="tile"><div class="tile-l">Scouting needs</div><div class="tile-big" style="color:${needs.length?'var(--r-med)':'var(--r-low)'}">${needs.length}</div><div class="tile-sub">Positions to address</div></div>`;
+        h+=`<div class="tile"><div class="tile-l">Expiring &lt;12mo</div><div class="tile-big" style="color:${expiring.length?'var(--r-high)':'var(--r-low)'}">${expiring.length}</div><div class="tile-sub">Contracts at risk</div></div>`;
+        h+=`<div class="tile"><div class="tile-l">Role gaps</div><div class="tile-big" style="color:${gapCount?'var(--r-crit)':'var(--tx-3)'}">${gapCount}</div><div class="tile-sub">${gapCount?gapCount+' missing':'Full coverage'}</div></div>`;
+        h+=`</div>`;
+        
+        if(!needs.length){
+          h+=`<div class="tile" style="text-align:center;padding:40px 20px"><div style="font-size:1.1rem;color:var(--r-low);margin-bottom:6px">All clear</div><div style="font-size:.85rem;color:var(--tx-3)">Full role coverage, no contracts expiring within 12 months.</div></div>`;
+          return h;
+        }
+        
+        h+=needs.map(need=>{
           const p=need.player;
           const cc=p?cCol(need.mo):'var(--r-crit)';
+          const urgLabel=need.reason==='gap'?'Role gap — no '+need.role+' on roster':need.mo<=6?'Urgent — '+need.mo+' months remaining':'Monitor — '+need.mo+' months remaining';
+          const isLol=org.game==='lol';
           
-          return`<div class="tile" style="padding:0;overflow:hidden">
-            <!-- Header bar -->
-            <div style="padding:4px 20px;background:${cc}15;border-bottom:1px solid ${cc}20;display:flex;align-items:center;gap:8px">
-              <span style="width:6px;height:6px;border-radius:50%;background:${cc}"></span>
-              <span style="font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:${cc}">${need.reason==='gap'?'Role gap — no '+need.role+' on roster':'Contract expiring — '+need.mo+' months remaining'}</span>
-            </div>
-            
-            <div style="padding:20px">
-              ${p?`
-              <!-- Current player card -->
-              <div style="display:flex;align-items:center;gap:16px;margin-bottom:16px">
-                <div style="width:56px;height:56px;border-radius:var(--rad-lg);background:var(--bg-4);display:flex;align-items:center;justify-content:center;font-size:1.5rem;border:2px solid ${cc}30">${flag(p.co)}</div>
-                <div style="flex:1">
-                  <div style="display:flex;align-items:center;gap:8px">
-                    <span style="font-family:var(--fd);font-weight:700;font-size:1.15rem">${p.ign}</span>
-                    <span class="badge b-role">${p.role}</span>
-                    ${p.res==='Non-Resident'?'<span class="res-badge res-import">IMP</span>':''}
-                  </div>
-                  <div style="font-size:.875rem;color:var(--tx-3);margin-top:2px">${p.rn} · ${p.team}</div>
-                  <div style="display:flex;gap:16px;margin-top:8px">
-                    <div style="font-size:.75rem"><span style="color:var(--tx-3)">KDA </span><span style="font-family:var(--fm);font-weight:600">${p.kda}</span></div>
-                    <div style="font-size:.75rem"><span style="color:var(--tx-3)">Win% </span><span style="font-family:var(--fm);font-weight:600;color:${(p.win_rate||0)>=55?'var(--r-low)':'var(--r-med)'}">${p.win_rate}%</span></div>
-                    <div style="font-size:.75rem"><span style="color:var(--tx-3)">Expires </span><span style="font-family:var(--fm);font-weight:600;color:${cc}">${p.ce}</span></div>
-                  </div>
-                </div>
-                <button class="btn" onclick="openPanel('${p.id}')">View</button>
-              </div>
-              `:`
-              <!-- Empty role card -->
-              <div style="display:flex;align-items:center;gap:16px;margin-bottom:16px">
-                <div style="width:56px;height:56px;border-radius:var(--rad-lg);background:var(--bg-4);display:flex;align-items:center;justify-content:center;font-size:1.3rem;border:2px dashed var(--border-2);color:var(--tx-3)">?</div>
-                <div style="flex:1">
-                  <div style="font-family:var(--fd);font-weight:700;font-size:1.15rem;color:var(--tx-3)">${need.role} needed</div>
-                  <div style="font-size:.875rem;color:var(--tx-3);margin-top:2px">No player in this role on your roster</div>
-                </div>
-              </div>
-              `}
-              
-              <!-- Scout controls -->
-              <div style="display:flex;flex-direction:column;gap:10px;margin-top:14px;padding-top:14px;border-top:1px solid var(--border-0)">
-                <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
-                  <div><div style="font-size:.65rem;color:var(--tx-3);margin-bottom:3px;text-transform:uppercase;letter-spacing:.5px">Contract</div><select class="fs" style="font-size:.75rem;padding:6px 10px" onchange="this.closest('.tile').dataset.contractFilter=this.value">
-                    <option value="12">< 12 mo</option>
-                    <option value="6">< 6 mo</option>
-                    <option value="3">< 3 mo</option>
-                    <option value="0">Free agents</option>
-                    <option value="24">< 24 mo</option>
-                    <option value="99">Any</option>
-                  </select></div>
-                  <div><div style="font-size:.65rem;color:var(--tx-3);margin-bottom:3px;text-transform:uppercase;letter-spacing:.5px">Region</div><select class="fs" style="font-size:.75rem;padding:6px 10px" onchange="this.closest('.tile').dataset.regionFilter=this.value">
-                    <option value="">All regions</option>
-                    <option value="EMEA">EMEA</option>
-                    <option value="Korea">Korea</option>
-                    <option value="China">China</option>
-                    <option value="Americas">Americas</option>
-                  </select></div>
-                  <div style="margin-left:auto;display:flex;gap:6px;align-self:flex-end">
-                    <button class="btn btn-ac" onclick="scoutForRole('${need.role}','${org.game}',this.closest('.tile').dataset.contractFilter||'12',this.closest('.tile').dataset.regionFilter||'')">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-                      Search market
-                    </button>
-                    <button class="btn btn-purple" onclick="scoutTeammates('${need.role}','${org.game}')" title="Find ${need.role}s who played with your current roster">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
-                      Ex-teammates
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>`;
-        }).join('')}</div>`;
+          let card=`<div class="tile" style="padding:0;overflow:hidden">`;
+          // Header
+          card+=`<div style="padding:10px 18px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--border-0);background:${cc}05"><span style="width:7px;height:7px;border-radius:50%;background:${cc};flex-shrink:0"></span><span style="font-size:.7rem;font-family:var(--fm);font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:${cc}">${urgLabel}</span></div>`;
+          
+          card+=`<div style="padding:18px">`;
+          // Two columns
+          card+=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">`;
+          
+          // LEFT — player card
+          card+=`<div>`;
+          card+=`<div class="tile-l">Current player</div>`;
+          if(p){
+            card+=`<div style="display:flex;align-items:center;gap:14px"><div style="width:48px;height:48px;border-radius:10px;background:var(--bg-3);display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;border:2px solid ${cc}30">${flag(p.co)}</div><div style="flex:1;min-width:0"><div style="display:flex;align-items:center;gap:8px"><span style="font-family:var(--fd);font-weight:700;font-size:.95rem">${p.ign}</span><span style="font-family:var(--fm);font-size:.55rem;padding:2px 7px;border-radius:4px;background:var(--bg-3);border:1px solid var(--border-0);color:var(--tx-3)">${p.role}</span>${p.res==='Non-Resident'?'<span style="font-family:var(--fm);font-size:.5rem;padding:1px 5px;border-radius:3px;background:var(--r-high)10;color:var(--r-high)">IMP</span>':''}</div><div style="font-size:.75rem;color:var(--tx-3);margin-top:2px">${p.rn} · ${p.team}</div><div style="display:flex;gap:14px;margin-top:8px"><div style="text-align:center"><div style="font-family:var(--fm);font-size:.9rem;font-weight:700">${p.kda||'—'}</div><div style="font-size:.5rem;font-family:var(--fm);color:var(--tx-3);text-transform:uppercase;margin-top:1px">${isLol?'KDA':'K/D'}</div></div><div style="text-align:center"><div style="font-family:var(--fm);font-size:.9rem;font-weight:700;color:${(p.win_rate||0)>=55?'var(--r-low)':'var(--r-med)'}">${p.win_rate?p.win_rate+'%':'—'}</div><div style="font-size:.5rem;font-family:var(--fm);color:var(--tx-3);text-transform:uppercase;margin-top:1px">Win</div></div><div style="text-align:center"><div style="font-family:var(--fm);font-size:.9rem;font-weight:700;color:${cc}">${need.mo}mo</div><div style="font-size:.5rem;font-family:var(--fm);color:var(--tx-3);text-transform:uppercase;margin-top:1px">Left</div></div></div></div></div>`;
+          } else {
+            card+=`<div style="display:flex;align-items:center;gap:14px"><div style="width:48px;height:48px;border-radius:10px;background:var(--bg-3);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;border:2px dashed var(--border-2);color:var(--tx-3)">?</div><div style="flex:1"><div style="font-family:var(--fd);font-weight:700;font-size:.95rem;color:var(--tx-3)">${need.role} needed</div><div style="font-size:.75rem;color:var(--tx-3);margin-top:2px">No player in this role on your roster</div></div></div>`;
+          }
+          card+=`</div>`;
+          
+          // RIGHT — quick actions
+          card+=`<div>`;
+          card+=`<div class="tile-l">Quick actions</div>`;
+          card+=`<div style="display:flex;flex-direction:column;gap:8px">`;
+          card+=`<button class="btn btn-ac" style="width:100%;justify-content:center" onclick="scoutForRole('${need.role}','${org.game}','12','')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>Search ${need.role}s on market</button>`;
+          card+=`<button class="btn" style="width:100%;justify-content:center;background:var(--blue)08;border-color:var(--blue)20;color:var(--blue)" onclick="scoutTeammates('${need.role}','${org.game}')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>Find ex-teammates (${need.role})</button>`;
+          if(p)card+=`<button class="btn" style="width:100%;justify-content:center" onclick="openPanel('${p.id}')">Open player profile</button>`;
+          card+=`</div></div>`;
+          
+          card+=`</div>`; // end grid
+          
+          // Advanced filters
+          card+=`<div style="padding-top:16px;border-top:1px solid var(--border-0);margin-top:16px"><div class="tile-l">Advanced filters</div><div style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap">`;
+          card+=`<div style="display:flex;flex-direction:column;gap:3px"><span style="font-size:.55rem;font-family:var(--fm);color:var(--tx-3);text-transform:uppercase;letter-spacing:.5px">Contract</span><select class="fs" style="font-size:.75rem;padding:6px 10px;min-width:90px" onchange="this.closest('.tile').dataset.contractFilter=this.value"><option value="12">&lt; 12 mo</option><option value="6">&lt; 6 mo</option><option value="3">&lt; 3 mo</option><option value="0">Free agents</option><option value="99">Any</option></select></div>`;
+          card+=`<div style="display:flex;flex-direction:column;gap:3px"><span style="font-size:.55rem;font-family:var(--fm);color:var(--tx-3);text-transform:uppercase;letter-spacing:.5px">Region</span><select class="fs" style="font-size:.75rem;padding:6px 10px;min-width:90px" onchange="this.closest('.tile').dataset.regionFilter=this.value"><option value="">All</option>${c.regions.map(r=>'<option value="'+r+'">'+r+'</option>').join('')}</select></div>`;
+          card+=`<div style="display:flex;flex-direction:column;gap:3px"><span style="font-size:.55rem;font-family:var(--fm);color:var(--tx-3);text-transform:uppercase;letter-spacing:.5px">Residency</span><select class="fs" style="font-size:.75rem;padding:6px 10px;min-width:90px" onchange="this.closest('.tile').dataset.resFilter=this.value"><option value="">Any</option><option value="res">Residents only</option><option value="imp">Imports OK</option></select></div>`;
+          card+=`<button class="btn btn-ac" style="margin-left:auto" onclick="scoutForRole('${need.role}','${org.game}',this.closest('.tile').dataset.contractFilter||'12',this.closest('.tile').dataset.regionFilter||'')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>Search</button>`;
+          card+=`</div></div>`;
+          
+          card+=`</div></div>`; // end body + card
+          return card;
+        }).join('');
+        
+        return h;
       })()}
     </div>
     <!-- SCENARIOS -->
