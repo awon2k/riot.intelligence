@@ -324,13 +324,28 @@ body.privacy-mode .blur-private{filter:blur(6px)!important;user-select:none;poin
 .onboard-opt p{font-size:.875rem;color:var(--tx-3);margin-bottom:0}
 
 .org-title-section.hidden{display:none}
-.org-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;animation:fadeIn .3s ease;max-width:960px;margin-left:auto;margin-right:auto}
-.org-card{background:var(--bg-2);border:1px solid var(--border-0);border-radius:var(--rad-lg);padding:20px 16px;text-align:center;cursor:pointer;transition:all var(--tr);position:relative;overflow:hidden}
-.org-card:hover{border-color:var(--blue);background:var(--bg-3);transform:translateY(-2px)}
-.org-card::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--blue)20,transparent)}
-.org-logo{width:48px;height:48px;border-radius:50%;background:var(--bg-4);border:2px solid var(--border-1);margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:.875rem;font-weight:800;color:var(--blue);letter-spacing:.5px}
+.org-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;animation:fadeIn .3s ease;max-width:960px;margin-left:auto;margin-right:auto}
+.org-card{background:var(--bg-2);border:1px solid var(--border-0);border-radius:var(--rad-lg);padding:0;cursor:pointer;transition:all var(--tr);position:relative;overflow:hidden;display:flex;flex-direction:column}
+.org-card:hover{border-color:var(--border-2)}
+.org-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.03),transparent)}
+.org-heat{position:absolute;left:0;top:0;bottom:0;width:3px;border-radius:0}
+.org-card-top{display:flex;align-items:center;gap:12px;padding:14px 16px 10px}
+.org-logo{width:40px;height:40px;border-radius:10px;background:var(--bg-3);border:1px solid var(--border-1);display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:.7rem;font-weight:800;color:var(--tx-2);flex-shrink:0;margin:0}
 .org-card h5{font-size:.875rem;font-weight:700;margin-bottom:2px}
-.org-card .org-league{font-size:.875rem;font-family:var(--fm);color:var(--tx-3)}
+.org-card .org-league{font-size:.7rem;font-family:var(--fm);color:var(--tx-3);display:flex;gap:6px;align-items:center}
+.org-heat-pill{font-size:.6rem;font-family:var(--fm);font-weight:700;padding:2px 7px;border-radius:4px;margin-left:auto;flex-shrink:0}
+.ohp-hot{background:rgba(248,113,113,.1);color:var(--r-crit);border:1px solid rgba(248,113,113,.2)}
+.ohp-warm{background:rgba(251,191,36,.1);color:var(--r-med);border:1px solid rgba(251,191,36,.2)}
+.ohp-cool{background:rgba(107,122,148,.08);color:var(--tx-3);border:1px solid rgba(107,122,148,.15)}
+.org-card-stats{display:flex;border-top:1px solid var(--border-0)}
+.ocs{flex:1;padding:8px 12px;text-align:center;border-right:1px solid var(--border-0)}
+.ocs:last-child{border-right:none}
+.ocs-v{font-size:.85rem;font-weight:700;font-family:var(--fm)}
+.ocs-l{font-size:.55rem;font-family:var(--fm);color:var(--tx-3);text-transform:uppercase;letter-spacing:.5px;margin-top:1px}
+.org-signals{padding:8px 14px;border-top:1px solid var(--border-0);display:flex;gap:5px;flex-wrap:wrap}
+.osig{font-size:.6rem;font-family:var(--fm);padding:2px 7px;border-radius:4px;background:var(--bg-3);border:1px solid var(--border-1);color:var(--tx-3)}
+.osig-urgent{color:var(--r-crit);border-color:rgba(248,113,113,.2);background:rgba(248,113,113,.04)}
+.osig-warn{color:var(--r-med);border-color:rgba(251,191,36,.2);background:rgba(251,191,36,.04)}
 
 /* Team Dashboard */
 .team-dash{animation:fadeIn .4s ease;max-width:960px;margin:0 auto}
@@ -570,7 +585,7 @@ body.privacy-mode .blur-private{filter:blur(6px)!important;user-select:none;poin
   .feed-list{max-width:100%}
   .team-overview-grid{grid-template-columns:1fr 1fr}
   .roster-grid-legacy{display:none}
-  .org-grid{grid-template-columns:repeat(auto-fill,minmax(100px,1fr))}
+  .org-grid{grid-template-columns:1fr}
   .t2{grid-template-columns:1fr}
   .wl-hub-grid{grid-template-columns:1fr}
   /* Team tabs horizontal scroll */
@@ -1106,38 +1121,87 @@ function showOrgsPage(){
 function renderOrgsPage(){
   const page=document.getElementById('page-orgs');
   const allOrgsRaw=[...ORGS.lol.map(o=>({...o,game:'lol'})),...ORGS.val.map(o=>({...o,game:'val'}))];
-  // Deduplicate by org name (multi-game orgs appear in both lists)
   const seen=new Set();
-  const allOrgs=allOrgsRaw.filter(o=>{
-    if(seen.has(o.name))return false;
-    seen.add(o.name);return true;
+  const allOrgs=allOrgsRaw.filter(o=>{if(seen.has(o.name))return false;seen.add(o.name);return true});
+  
+  // Compute heat + signals for each org
+  allOrgs.forEach(o=>{
+    const players=(o.game==='lol'?DL:DV).filter(p=>p.team===o.name);
+    const spons=SPONSORS[o.id]||[];
+    const deep=ORG_DEEP[o.id]||{};
+    const sigs=[];
+    let heat=0;
+    // Expiring contracts
+    const exp3=players.filter(p=>moU(p.ce)<=3&&moU(p.ce)>0);
+    const exp6=players.filter(p=>moU(p.ce)>3&&moU(p.ce)<=6);
+    const exp12=players.filter(p=>moU(p.ce)>6&&moU(p.ce)<=12);
+    if(exp3.length){heat+=exp3.length*3;sigs.push({t:exp3.length+' contract'+(exp3.length>1?'s':'')+' <3mo',c:'urgent'})}
+    if(exp6.length){heat+=exp6.length*2;sigs.push({t:exp6.length+' contract'+(exp6.length>1?'s':'')+' <6mo',c:'warn'})}
+    // Feed events for this org
+    const orgFeed=DEMO_FEED.filter(e=>{const t=e.title+' '+e.body;return t.includes(o.name)||players.some(p=>t.includes(p.ign))});
+    const rosterMoves=orgFeed.filter(e=>e.type==='roster');
+    if(rosterMoves.length){heat+=rosterMoves.length*2;rosterMoves.forEach(e=>{const m=e.title.match(/— (\w+)/);sigs.push({t:(m?m[1]:'Player')+' '+({roster:'roster move',contract:'contract change'}[e.type]||'update'),c:'urgent'})})}
+    // Watched players
+    const watched=players.filter(p=>getWLsFor(p.id).length>0);
+    if(watched.length){heat+=watched.length;sigs.push({t:watched.length+' player'+(watched.length>1?'s':'')+' watched',c:'info'})}
+    // Sponsor count as minor signal
+    if(spons.length>=8)sigs.push({t:spons.length+' sponsors',c:'info'});
+    
+    o._players=players;o._spons=spons;o._deep=deep;o._heat=heat;o._sigs=sigs;
+    o._expCount=exp3.length+exp6.length+exp12.length;
+    // Multi-game detection
+    const otherGame=o.game==='lol'?'val':'lol';
+    const otherList=otherGame==='lol'?ORGS.lol:ORGS.val;
+    o._multiGame=otherList.some(x=>x.name===o.name);
   });
-  // Sort by prestige
-  const prestige={'T1':1,'Gen.G':2,'G2 Esports':3,'Fnatic':4,'Team Liquid':5,'Cloud9':6,'Natus Vincere':7,'Hanwha Life':8,'Sentinels':9,'Paper Rex':10,'100 Thieves':11,'DRX':12,'Kiwoom DRX':12,'Vitality':13,'LOUD':14,'Karmine Corp':15,'Bilibili Gaming':16,'FlyQuest':17,'FURIA':18,'Team Heretics':19,'Evil Geniuses':20,'EDward Gaming':21,'Leviatan':22};
-  allOrgs.sort((a,b)=>(prestige[a.name]||99)-(prestige[b.name]||99));
+  
+  // Sort by heat (hottest first)
+  allOrgs.sort((a,b)=>b._heat-a._heat);
+  
+  // Summary stats
+  const hotOrgs=allOrgs.filter(o=>o._heat>=6).length;
+  const totalExp=allOrgs.reduce((s,o)=>s+o._expCount,0);
   
   page.innerHTML=`
     <header class="hd">
       <div class="hd-l"><div class="hd-brand" onclick="togglePrivacy()" title="Toggle privacy blur" style="cursor:pointer"><img src="https://awon2k.github.io/riot.intelligence/1nsight-logo-transparent.png" alt="1NSIGHT"></div></div><div class="hd-center"><div class="hd-title">ORGANIZATIONS</div><div class="hd-sub">Competitor Intelligence</div></div>
     </header>
-    <div style="padding:20px 28px">
-      <div class="filters" style="border:none;padding:0;margin-bottom:16px">
-        <input type="text" class="fi" id="org-search" placeholder="Search organization..." oninput="filterOrgs()" style="max-width:300px">
+    <div style="padding:20px 28px;overflow-y:auto;flex:1">
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px;max-width:960px;margin-left:auto;margin-right:auto">
+        <div class="tile"><div class="tile-l">Organizations</div><div class="tile-big">${allOrgs.length}</div><div class="tile-sub">Across LoL + VAL</div></div>
+        <div class="tile"><div class="tile-l">High activity</div><div class="tile-big" style="color:var(--r-crit)">${hotOrgs}</div><div class="tile-sub">Orgs with 3+ signals</div></div>
+        <div class="tile"><div class="tile-l">Contracts expiring</div><div class="tile-big" style="color:var(--r-med)">${totalExp}</div><div class="tile-sub">Within 12 months</div></div>
+        <div class="tile"><div class="tile-l">Your watchlist</div><div class="tile-big">${Object.values(S.watchlists).reduce((s,ids)=>s+ids.length,0)}</div><div class="tile-sub">Players tracked</div></div>
+      </div>
+      <div class="filters" style="border:none;padding:0;margin-bottom:16px;max-width:960px;margin-left:auto;margin-right:auto">
+        <input type="text" class="fi" id="org-search" placeholder="Search organization..." oninput="filterOrgs()" style="max-width:240px">
         <select class="fs" id="org-game-filter" onchange="filterOrgs()"><option value="">All Games</option><option value="lol">League of Legends</option><option value="val">VALORANT</option></select>
         <select class="fs" id="org-region-filter" onchange="filterOrgs()"><option value="">All Regions</option><option>EMEA</option><option>Korea</option><option>China</option><option>Americas</option></select>
       </div>
       <div class="org-grid" id="orgs-page-grid">${allOrgs.map(o=>{
-        const players=(o.game==='lol'?DL:DV).filter(p=>p.team===o.name);
-        const spons=SPONSORS[o.id]||[];
-        const avgKda=players.length?(players.reduce((s,p)=>s+(p.kda||0),0)/players.length).toFixed(1):'—';
-        return `<div class="org-card" data-game="${o.game}" data-region="${o.region}" data-name="${o.name.toLowerCase()}" onclick="openOrgBreakdown('${o.id}','${o.game}')" style="cursor:pointer">
-          <div class="org-logo">${o.abbr}</div>
-          <h5>${o.name}</h5>
-          <div class="org-league">${o.league} · ${o.region}</div>
-          <div style="margin-top:8px;display:flex;gap:12px;font-family:var(--fm);font-size:.65rem;color:var(--tx-3)">
-            <span>${players.length} players</span>
-            <span>${spons.length} sponsors</span>
+        const heatLvl=o._heat>=6?'hot':o._heat>=3?'warm':'cool';
+        const heatColor=heatLvl==='hot'?'var(--r-crit)':heatLvl==='warm'?'var(--r-med)':'var(--tx-3)';
+        const heatLabel=o._sigs.length+' signal'+(o._sigs.length!==1?'s':'');
+        const val=o._deep.valuation||'—';
+        const gameBadges=(o.game==='lol'?'<span style="font-size:.55rem;padding:1px 5px;border-radius:3px;background:rgba(200,169,84,.1);color:#c8a954;border:1px solid rgba(200,169,84,.2);font-family:var(--fm);font-weight:700">LoL</span>':'<span style="font-size:.55rem;padding:1px 5px;border-radius:3px;background:rgba(255,70,85,.1);color:#ff4655;border:1px solid rgba(255,70,85,.2);font-family:var(--fm);font-weight:700">VAL</span>')+(o._multiGame?(' '+(o.game==='lol'?'<span style="font-size:.55rem;padding:1px 5px;border-radius:3px;background:rgba(255,70,85,.1);color:#ff4655;border:1px solid rgba(255,70,85,.2);font-family:var(--fm);font-weight:700">VAL</span>':'<span style="font-size:.55rem;padding:1px 5px;border-radius:3px;background:rgba(200,169,84,.1);color:#c8a954;border:1px solid rgba(200,169,84,.2);font-family:var(--fm);font-weight:700">LoL</span>')):'');
+        
+        return `<div class="org-card" data-game="${o.game}" data-region="${o.region}" data-name="${o.name.toLowerCase()}" data-heat="${o._heat}" onclick="openOrgBreakdown('${o.id}','${o.game}')">
+          <div class="org-heat" style="background:${heatColor}"></div>
+          <div class="org-card-top">
+            <div class="org-logo">${o.abbr}</div>
+            <div style="flex:1;min-width:0">
+              <h5>${o.name}</h5>
+              <div class="org-league">${gameBadges} ${o.league} · ${o.region}</div>
+            </div>
+            ${o._sigs.length?`<div class="org-heat-pill ohp-${heatLvl}">${heatLabel}</div>`:''}
           </div>
+          <div class="org-card-stats">
+            <div class="ocs"><div class="ocs-v">${o._players.length}</div><div class="ocs-l">Players</div></div>
+            <div class="ocs"><div class="ocs-v" style="color:${o._expCount?'var(--r-med)':'var(--tx-2)'}">${o._expCount}</div><div class="ocs-l">Expiring</div></div>
+            <div class="ocs"><div class="ocs-v">${o._spons.length}</div><div class="ocs-l">Sponsors</div></div>
+            <div class="ocs"><div class="ocs-v">${val}</div><div class="ocs-l">Valuation</div></div>
+          </div>
+          ${o._sigs.length?`<div class="org-signals">${o._sigs.slice(0,5).map(s=>`<span class="osig${s.c==='urgent'?' osig-urgent':s.c==='warn'?' osig-warn':''}">${s.t}</span>`).join('')}</div>`:''}
         </div>`;
       }).join('')}</div>
     </div>`;
