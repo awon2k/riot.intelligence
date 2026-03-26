@@ -1957,7 +1957,8 @@ function findPlayer(id){return DL.find(x=>x.id===id)||DV.find(x=>x.id===id)}
 function getPlayerGame(id){return DL.find(x=>x.id===id)?'lol':'val'}
 
 function openPanel(id){
-  const p=findPlayer(id);if(!p)return;
+  try{
+  const p=findPlayer(id);if(!p){console.error('openPanel: player not found:',id);return;}
   S.openId=id;
   const pGame=getPlayerGame(id);
   const c=G[pGame];
@@ -2083,6 +2084,7 @@ function openPanel(id){
   document.getElementById('panel').classList.add('open');document.getElementById('main-area').classList.add('pn-open');
   if(S.currentPage==='market')render();
   drawRadar('radar-cv',p,pR,pGame);
+  }catch(err){console.error('openPanel error:',err);toast('Panel error: '+err.message,'err');}
 }
 
 function closePanel(){document.getElementById('panel').classList.remove('open');document.getElementById('main-area').classList.remove('pn-open');S.openId=null;if(S.currentPage==='market')render()}
