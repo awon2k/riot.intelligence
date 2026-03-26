@@ -1166,7 +1166,7 @@ function openOrgBreakdown(orgId,game){
   if(orgSoc.tw)socialsHtml+='<a href="'+orgSoc.tw+'" target="_blank" class="pn-social"><svg viewBox="0 0 24 24"><path d="M4 4l6.5 8L4 20h2l5.5-6.8L16 20h4l-6.8-8.3L19.5 4H18l-5 6.2L9 4H4z"/></svg></a>';
   function pCard(p){const mo=moU(p.ce);const cc=cCol(mo);return `<div class="rc" style="padding:10px 14px" onclick="openPanel('${p.id}')"><div class="rc-photo" style="width:36px;height:36px;font-size:1rem">${flag(p.co)}</div><div class="rc-info"><div class="rc-r1"><span class="rc-ign" style="font-size:.8rem">${p.ign}</span><span class="rc-role">${p.role}</span>${p.res==='Non-Resident'?'<span class="rc-badge rc-badge-imp">IMP</span>':''}</div></div><div class="rc-ct" style="min-width:50px"><div class="rc-ct-mo" style="color:${cc};font-size:.85rem">${mo<=0?'EXP':mo+'mo'}</div></div></div>`;}
   function rosterSection(players,label){if(!players.length)return'';return `<div style="margin-top:10px"><div class="tile-l">${label}</div><div class="roster-list" style="gap:6px">${players.map(p=>pCard(p)).join('')}</div></div>`;}
-  function ctBar(p){const mo=moU(p.ce),cc=cCol(mo);return `<div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border-0);cursor:pointer" onclick="openPanel('${p.id}')"><span style="width:80px;font-weight:600;font-size:.85rem">${p.ign}</span><span style="font-size:.7rem;color:var(--tx-3);width:55px">${p.role}</span><div style="flex:1;height:7px;background:var(--bg-4);border-radius:4px;overflow:hidden"><div style="width:${Math.min(Math.max(mo/24*100,5),100)}%;height:100%;background:${cc};border-radius:4px"></div></div><span style="font-family:var(--fm);font-size:.75rem;color:${cc};min-width:45px;text-align:right">${mo<=0?'EXP':mo+'mo'}</span><span style="font-family:var(--fm);font-size:.6rem;color:var(--tx-3);min-width:70px;text-align:right">${p.ce}</span></div>`;}
+  function ctBar(p){const mo=moU(p.ce),cc=cCol(mo);const pGame=DL.find(x=>x.id===p.id)?'LoL':'VAL';const gameColor=pGame==='LoL'?'var(--lol-1)':'var(--val-1)';const gameBg=pGame==='LoL'?'var(--lol-3)':'var(--val-3)';const currentStint=p.history?.find(h=>h.to==='present');const startYear=currentStint?currentStint.from.substring(0,4):'—';const startDate=currentStint?currentStint.from+'-01':'2024-01-01';const start=new Date(startDate);const end=new Date(p.ce);const now=new Date();const totalDays=Math.max(1,(end-start)/(864e5));const elapsedDays=Math.max(0,(now-start)/(864e5));const elapsedPct=Math.min(100,Math.round(elapsedDays/totalDays*100));return `<div class="rc" onclick="openPanel('${p.id}')"><div class="rc-photo">${flag(p.co)}</div><div class="rc-info"><div class="rc-r1"><span class="rc-ign">${p.ign}</span><span class="rc-role">${p.role}</span><span class="rc-badge" style="background:${gameBg};color:${gameColor}">${pGame}</span>${p.res==='Non-Resident'?'<span class="rc-badge rc-badge-imp">IMP</span>':''}</div><div class="rc-r2">${p.rn} · Signed ${startYear}</div></div><div style="flex:0 0 180px;min-width:0"><div style="height:18px;background:var(--bg-3);border-radius:4px;position:relative;overflow:hidden"><div style="position:absolute;left:0;top:0;bottom:0;width:${elapsedPct}%;background:${cc}20;border-radius:4px 0 0 4px"></div><div style="position:absolute;left:${elapsedPct}%;top:0;bottom:0;width:2px;background:var(--tx-1);z-index:2"></div><div style="position:absolute;left:5px;top:50%;transform:translateY(-50%);font-size:.55rem;font-family:var(--fm);color:var(--tx-3);z-index:3">${startYear}</div><div style="position:absolute;right:5px;top:50%;transform:translateY(-50%);font-size:.55rem;font-family:var(--fm);font-weight:700;color:${cc};z-index:3">${p.ce.substring(0,7)}</div></div></div><div class="rc-ct"><div class="rc-ct-mo" style="color:${cc}">${mo<=0?'EXP':mo+'mo'}</div><div class="rc-ct-date">${p.ce}</div></div></div>`;}
   const hasAttention=expiring.length||allImports.length>=2;
 
   const page=document.getElementById('page-orgs');
@@ -1224,7 +1224,14 @@ function openOrgBreakdown(orgId,game){
 
       <!-- 3. CONTRACTS -->
       <div class="org-tab-content" id="ot-ct" style="display:none">
-        ${(()=>{function ctS(players,label,color){if(!players.length)return'';const sorted=[...players].sort((a,b)=>new Date(a.ce)-new Date(b.ce));return `<div style="margin-bottom:20px"><div style="font-weight:700;font-size:.8rem;color:${color};margin-bottom:10px">${label}</div>${sorted.map(p=>ctBar(p)).join('')}</div>`;}return ctS(lolP,'League of Legends','var(--ac)')+ctS(valP,'VALORANT','var(--blue)')||'<div style="color:var(--tx-3)">No contract data.</div>';})()}
+        ${(()=>{
+          const allCtPlayers=[...lolP,...valP].sort((a,b)=>new Date(a.ce)-new Date(b.ce));
+          const ctUrgent=allCtPlayers.filter(p=>moU(p.ce)<=6);
+          const ctMonitor=allCtPlayers.filter(p=>moU(p.ce)>6&&moU(p.ce)<=12);
+          const ctSecured=allCtPlayers.filter(p=>moU(p.ce)>12);
+          function ctGroup(players,label,color){if(!players.length)return'';return`<div style="margin-bottom:20px"><div style="display:flex;align-items:center;gap:8px;margin-bottom:10px"><span style="width:7px;height:7px;border-radius:50%;background:${color};flex-shrink:0"></span><span style="font-size:.7rem;font-family:var(--fm);font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:${color}">${label} (${players.length})</span></div><div class="roster-list">${players.map(p=>ctBar(p)).join('')}</div></div>`;}
+          return`<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px"><div class="tile"><div class="tile-l">Urgent</div><div class="tile-big" style="color:var(--r-crit)">${ctUrgent.length}</div><div class="tile-sub">Within 6 months</div></div><div class="tile"><div class="tile-l">Monitor</div><div class="tile-big" style="color:var(--r-med)">${ctMonitor.length}</div><div class="tile-sub">6–12 months</div></div><div class="tile"><div class="tile-l">Secured</div><div class="tile-big" style="color:var(--r-low)">${ctSecured.length}</div><div class="tile-sub">12+ months</div></div></div>`+ctGroup(ctUrgent,'Urgent — expiring within 6 months','var(--r-crit)')+ctGroup(ctMonitor,'Monitor — 6 to 12 months','var(--r-med)')+ctGroup(ctSecured,'Secured — 12+ months','var(--r-low)')||'<div style="color:var(--tx-3)">No contract data.</div>';
+        })()}
       </div>
 
       <!-- 4. SPONSORS -->
@@ -2394,51 +2401,41 @@ function renderTeamDashboard(el){
         
         function renderGroup(players,label,color){
           if(!players.length)return'';
-          return`<div style="margin-bottom:24px">
-            <div style="font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:${color};margin-bottom:12px;display:flex;align-items:center;gap:8px"><span style="width:8px;height:8px;border-radius:50%;background:${color};display:inline-block"></span>${label} (${players.length})</div>
-            ${players.map(p=>{
+          return`<div style="margin-bottom:20px">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px"><span style="width:7px;height:7px;border-radius:50%;background:${color};flex-shrink:0"></span><span style="font-size:.7rem;font-family:var(--fm);font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:${color}">${label} (${players.length})</span></div>
+            <div class="roster-list">${players.map(p=>{
               const mo=moU(p.ce);const cc=cCol(mo);
               const pGame=DL.find(x=>x.id===p.id)?'LoL':'VAL';
-              const gameColor=pGame==='LoL'?'var(--ac)':'var(--blue)';
-              // Calculate elapsed vs total contract
+              const gameColor=pGame==='LoL'?'var(--lol-1)':'var(--val-1)';
+              const gameBg=pGame==='LoL'?'var(--lol-3)':'var(--val-3)';
               const currentStint=p.history?.find(h=>h.to==='present');
               const startDate=currentStint?currentStint.from+'-01':'2024-01-01';
               const start=new Date(startDate);const end=new Date(p.ce);const now=new Date();
-              const totalDays=Math.max(1,(end-start)/(1000*60*60*24));
-              const elapsedDays=Math.max(0,(now-start)/(1000*60*60*24));
+              const totalDays=Math.max(1,(end-start)/(864e5));
+              const elapsedDays=Math.max(0,(now-start)/(864e5));
               const elapsedPct=Math.min(100,Math.round(elapsedDays/totalDays*100));
-              const remainPct=100-elapsedPct;
-              const lastRenewal=currentStint?.contracts?currentStint.contracts[currentStint.contracts.length-1]:null;
-              const renewalText=lastRenewal?(lastRenewal.renewed?'Renewed '+lastRenewal.renewed:'Signed '+lastRenewal.signed):'';
-              
-              return`<div class="tile" style="padding:16px 20px;cursor:pointer;margin-bottom:8px" onclick="openPanel('${p.id}')">
-                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
-                  <div style="display:flex;align-items:center;gap:10px">
-                    <span style="font-size:1.15rem">${flag(p.co)}</span>
-                    <div>
-                      <div style="display:flex;align-items:center;gap:8px"><span style="font-family:var(--fd);font-weight:700;font-size:1rem">${p.ign}</span><span class="badge b-role">${p.role}</span><span style="font-family:var(--fm);font-size:.55rem;padding:2px 6px;border-radius:4px;background:${gameColor}15;color:${gameColor}">${pGame}</span>${p.res==='Non-Resident'?'<span class="res-badge res-import">IMP</span>':''}</div>
-                      <div style="font-size:.75rem;color:var(--tx-3);margin-top:2px">${p.rn}${renewalText?' · <span style="color:var(--tx-2)">'+renewalText+'</span>':''}</div>
-                    </div>
-                  </div>
-                  <div style="text-align:right">
-                    <div style="font-family:var(--fm);font-size:1rem;font-weight:700;color:${cc}">${mo<=0?'EXPIRED':mo+' mo'}</div>
-                  </div>
+              const startYear=currentStint?currentStint.from.substring(0,4):'—';
+              return`<div class="rc" onclick="openPanel('${p.id}')">
+                <div class="rc-photo">${flag(p.co)}</div>
+                <div class="rc-info">
+                  <div class="rc-r1"><span class="rc-ign">${p.ign}</span><span class="rc-role">${p.role}</span><span class="rc-badge" style="background:${gameBg};color:${gameColor}">${pGame}</span>${p.res==='Non-Resident'?'<span class="rc-badge rc-badge-imp">IMP</span>':''}</div>
+                  <div class="rc-r2">${p.rn} · Signed ${startYear}</div>
                 </div>
-                <div style="position:relative;height:28px;background:var(--bg-4);border-radius:6px;overflow:hidden">
-                  <div style="position:absolute;left:0;top:0;bottom:0;width:${elapsedPct}%;background:${cc}30;border-radius:6px 0 0 6px"></div>
-                  <div style="position:absolute;right:0;top:0;bottom:0;width:${remainPct}%;background:linear-gradient(90deg,${cc}50,${cc}20);border-radius:0 6px 6px 0;border-left:2px solid ${cc}"></div>
-                  <div style="position:absolute;left:8px;top:50%;transform:translateY(-50%);font-size:.75rem;font-family:var(--fm);color:var(--tx-2)">${currentStint?currentStint.from:''}</div>
-                  <div style="position:absolute;left:${elapsedPct}%;top:0;bottom:0;width:2px;background:var(--tx-1);z-index:1"></div>
-                  <div style="position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:.75rem;font-family:var(--fm);color:var(--tx-1);font-weight:600">${p.ce}</div>
-                </div>
+                <div style="flex:0 0 180px;min-width:0"><div style="height:18px;background:var(--bg-3);border-radius:4px;position:relative;overflow:hidden"><div style="position:absolute;left:0;top:0;bottom:0;width:${elapsedPct}%;background:${cc}20;border-radius:4px 0 0 4px"></div><div style="position:absolute;left:${elapsedPct}%;top:0;bottom:0;width:2px;background:var(--tx-1);z-index:2"></div><div style="position:absolute;left:5px;top:50%;transform:translateY(-50%);font-size:.55rem;font-family:var(--fm);color:var(--tx-3);z-index:3">${startYear}</div><div style="position:absolute;right:5px;top:50%;transform:translateY(-50%);font-size:.55rem;font-family:var(--fm);font-weight:700;color:${cc};z-index:3">${p.ce.substring(0,7)}</div></div></div>
+                <div class="rc-ct"><div class="rc-ct-mo" style="color:${cc}">${mo<=0?'EXP':mo+'mo'}</div><div class="rc-ct-date">${p.ce}</div></div>
               </div>`;
-            }).join('')}
+            }).join('')}</div>
           </div>`;
         }
         
-        return renderGroup(urgent,'Urgent — Expiring within 6 months','var(--r-crit)')
-          +renderGroup(monitor,'Monitor — Expiring 6-12 months','var(--r-med)')
-          +renderGroup(secured,'Secured — 12+ months remaining','var(--r-low)')
+        return`<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px">
+          <div class="tile"><div class="tile-l">Urgent</div><div class="tile-big" style="color:var(--r-crit)">${urgent.length}</div><div class="tile-sub">Expiring within 6 months</div></div>
+          <div class="tile"><div class="tile-l">Monitor</div><div class="tile-big" style="color:var(--r-med)">${monitor.length}</div><div class="tile-sub">Expiring 6–12 months</div></div>
+          <div class="tile"><div class="tile-l">Secured</div><div class="tile-big" style="color:var(--r-low)">${secured.length}</div><div class="tile-sub">12+ months remaining</div></div>
+        </div>`
+          +renderGroup(urgent,'Urgent — expiring within 6 months','var(--r-crit)')
+          +renderGroup(monitor,'Monitor — 6 to 12 months','var(--r-med)')
+          +renderGroup(secured,'Secured — 12+ months','var(--r-low)')
           ||'<div style="color:var(--tx-3);padding:20px">No players in roster</div>';
       })()}
     </div>
