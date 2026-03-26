@@ -645,7 +645,7 @@ body.privacy-mode .blur-private{filter:blur(6px)!important;user-select:none;poin
 <body>
 
 <nav class="nav">
-  <div class="nav-logo"><img src="https://awon2k.github.io/riot.intelligence/1nsight-logo-transparent.png" alt="1NSIGHT"></div>
+  <div class="nav-logo"><img src="https://awon2k.github.io/riot.intelligence/1nsight-icon-512.png" alt="1NSIGHT"></div>
   <div class="nav-div"></div>
   <div class="nav-lbl">Hub</div>
   <div class="ni" id="nav-team" onclick="showTeamPage()" title="My Org"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg><span class="ni-t">My Org</span></div>
@@ -3484,10 +3484,15 @@ document.addEventListener('DOMContentLoaded',()=>{
   S.game='lol';S.players=DL;
   const c=G.lol,r=document.documentElement;
   r.style.setProperty('--game-1',c.colors[0]);r.style.setProperty('--game-3',c.colors[1]);r.style.setProperty('--game-glow',c.colors[2]);
-  // Show feed as homepage
+  // Show My Org as homepage
   updateAlertBadge();
-  document.getElementById('nav-home').classList.add('on');
-  renderFeed();
+  if(S.myTeam){
+    document.getElementById('nav-team').classList.add('on');
+    showPage('team');renderTeamPage();
+  } else {
+    document.getElementById('nav-home').classList.add('on');
+    renderFeed();
+  }
   // Seed demo private sponsor for G2 (always reset to Mercedes demo)
   localStorage.setItem('1n_priv_sponsors_g2',JSON.stringify([
     {brand:'Mercedes-Benz',cat:'Automotive',since:'2026',value:'€100K/yr',renewal:'Dec 2027',notes:'Demo private deal — only your org can see this. Add your own intel via the form above.'}
